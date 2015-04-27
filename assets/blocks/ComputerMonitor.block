@@ -1,0 +1,7 @@
+{
+    "hardness" : 18,
+    "translucent": true,
+    "entity": {
+            "prefab": "ComputerMonitors:ComputerMonitor"
+        }
+}
