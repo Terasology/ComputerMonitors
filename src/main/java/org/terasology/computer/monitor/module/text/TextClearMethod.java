@@ -28,6 +28,13 @@ import java.util.List;
 import java.util.Map;
 
 public class TextClearMethod implements ModuleMethodExecutable<Object> {
+
+    private final String methodName;
+
+    public TextClearMethod(String methodName) {
+        this.methodName = methodName;
+    }
+
     @Override
     public int getCpuCycleDuration() {
         return 50;
@@ -35,7 +42,7 @@ public class TextClearMethod implements ModuleMethodExecutable<Object> {
 
     @Override
     public int getMinimumExecutionTime(int line, ComputerCallback computer, Map<String, Variable> parameters) throws ExecutionException {
-        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", "drawText");
+        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", methodName);
         return renderCommandSink.isInstantRendering() ? 0 : 30;
     }
 
@@ -46,7 +53,7 @@ public class TextClearMethod implements ModuleMethodExecutable<Object> {
 
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
-        TextRenderCommandSink renderCommandSink = TextRenderBindingValidator.validateTextRenderBinding(line, computer, parameters, "renderBinding", "setCharacters");
+        TextRenderCommandSink renderCommandSink = TextRenderBindingValidator.validateTextRenderBinding(line, computer, parameters, "renderBinding", methodName);
 
         Vector2i maxCharacters = renderCommandSink.getMaxCharacters();
 

@@ -26,10 +26,12 @@ import org.terasology.multiBlock2.MultiBlockRegistry;
 import java.util.Map;
 
 public class GraphicsRenderBindingMethod implements ModuleMethodExecutable<Object> {
+    private final String methodName;
     private MultiBlockRegistry multiBlockRegistry;
 
-    public GraphicsRenderBindingMethod(MultiBlockRegistry multiBlockRegistry) {
+    public GraphicsRenderBindingMethod(String methodName, MultiBlockRegistry multiBlockRegistry) {
         this.multiBlockRegistry = multiBlockRegistry;
+        this.methodName = methodName;
     }
 
     @Override
@@ -45,10 +47,10 @@ public class GraphicsRenderBindingMethod implements ModuleMethodExecutable<Objec
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
         Direction direction = FunctionParamValidationUtil.validateDirectionParameter(line, parameters,
-                "direction", "getRenderBinding");
+                "direction", methodName);
 
-        int width = FunctionParamValidationUtil.validateIntParameter(line, parameters, "width", "getRenderBinding");
-        int height = FunctionParamValidationUtil.validateIntParameter(line, parameters, "height", "getRenderBinding");
+        int width = FunctionParamValidationUtil.validateIntParameter(line, parameters, "width", methodName);
+        int height = FunctionParamValidationUtil.validateIntParameter(line, parameters, "height", methodName);
 
 
         return new RelativeLiveGraphicsRenderBindingCustomObject(multiBlockRegistry, direction, "Graphics:", width, height);

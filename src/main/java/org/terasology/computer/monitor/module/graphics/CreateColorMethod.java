@@ -27,6 +27,13 @@ import java.util.Collections;
 import java.util.Map;
 
 public class CreateColorMethod implements ModuleMethodExecutable<Object> {
+
+    private final String methodName;
+
+    public CreateColorMethod(String methodName) {
+        this.methodName = methodName;
+    }
+
     @Override
     public int getCpuCycleDuration() {
         return 50;
@@ -39,7 +46,7 @@ public class CreateColorMethod implements ModuleMethodExecutable<Object> {
 
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
-        String hex = FunctionParamValidationUtil.validateStringParameter(line, parameters, "hex", "createColor");
+        String hex = FunctionParamValidationUtil.validateStringParameter(line, parameters, "hex", methodName);
 
         int hexParsed;
         try {

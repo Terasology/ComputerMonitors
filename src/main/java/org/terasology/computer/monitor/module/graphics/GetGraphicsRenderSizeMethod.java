@@ -18,8 +18,6 @@ package org.terasology.computer.monitor.module.graphics;
 import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
 import org.terasology.computer.context.ComputerCallback;
-import org.terasology.computer.monitor.module.text.TextRenderBindingValidator;
-import org.terasology.computer.monitor.module.text.TextRenderCommandSink;
 import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 import org.terasology.math.Vector2i;
 
@@ -27,6 +25,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GetGraphicsRenderSizeMethod implements ModuleMethodExecutable<Object> {
+
+    private final String methodName;
+
+    public GetGraphicsRenderSizeMethod(String methodName) {
+        this.methodName = methodName;
+    }
+
     @Override
     public int getCpuCycleDuration() {
         return 50;
@@ -39,7 +44,7 @@ public class GetGraphicsRenderSizeMethod implements ModuleMethodExecutable<Objec
 
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
-        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", "setCharacters");
+        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", methodName);
 
         Vector2i resolution = renderCommandSink.getResolution();
 

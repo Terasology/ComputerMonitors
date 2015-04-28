@@ -32,10 +32,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GetGraphicsMaximumResolutionMethod implements ModuleMethodExecutable<Object> {
+    private final String methodName;
     private MultiBlockRegistry multiBlockRegistry;
 
-    public GetGraphicsMaximumResolutionMethod(MultiBlockRegistry multiBlockRegistry) {
+    public GetGraphicsMaximumResolutionMethod(String methodName, MultiBlockRegistry multiBlockRegistry) {
         this.multiBlockRegistry = multiBlockRegistry;
+        this.methodName = methodName;
     }
 
     @Override
@@ -51,7 +53,7 @@ public class GetGraphicsMaximumResolutionMethod implements ModuleMethodExecutabl
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
         Direction direction = FunctionParamValidationUtil.validateDirectionParameter(line, parameters,
-                "direction", "getMaximumResolution");
+                "direction", methodName);
 
         Vector3f computerLocation = computer.getComputerLocation();
         Vector3i directionVector = direction.getVector3i();

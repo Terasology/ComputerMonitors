@@ -55,27 +55,27 @@ public class GraphicsCardComputerModule implements ComputerModule {
     @Override
     public ModuleMethodExecutable getFunctionByName(String name) {
         if (name.equals("getRenderBinding"))
-            return new GraphicsRenderBindingMethod(multiBlockRegistry);
+            return new GraphicsRenderBindingMethod("getRenderBinding", multiBlockRegistry);
         if (name.equals("clear"))
-            return new GraphicsClearMethod();
+            return new GraphicsClearMethod("clear");
         if (name.equals("createOffScreenBuffer"))
-            return new GraphicsCreateOffScreenBuffer();
+            return new GraphicsCreateOffScreenBufferMethod("createOffScreenBuffer");
         if (name.equals("renderBuffer"))
-            return new GraphicsRenderBuffer();
+            return new GraphicsRenderBufferMethod("renderBuffer");
         if (name.equals("createColor"))
-            return new CreateColorMethod();
+            return new CreateColorMethod("createColor");
         if (name.equals("createGradient"))
-            return new CreateGradientMethod();
+            return new CreateGradientMethod("createGradient");
         if (name.equals("drawText"))
-            return new DrawTextMethod();
+            return new DrawTextMethod("drawText");
         if (name.equals("drawRectangle"))
-            return new DrawRectangleMethod();
+            return new DrawRectangleMethod("drawRectangle");
         if (name.equals("drawRoundedRectangle"))
-            return new DrawRoundedRectangleMethod();
+            return new DrawRoundedRectangleMethod("drawRoundedRectangle");
         if (name.equals("getRenderSize"))
-            return new GetGraphicsRenderSizeMethod();
+            return new GetGraphicsRenderSizeMethod("getRenderSize");
         if (name.equals("getMaximumResolution"))
-            return new GetGraphicsMaximumResolutionMethod(multiBlockRegistry);
+            return new GetGraphicsMaximumResolutionMethod("getMaximumResolution", multiBlockRegistry);
         return null;
     }
 }

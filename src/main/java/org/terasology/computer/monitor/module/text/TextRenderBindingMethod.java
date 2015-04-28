@@ -26,10 +26,12 @@ import org.terasology.multiBlock2.MultiBlockRegistry;
 import java.util.Map;
 
 public class TextRenderBindingMethod implements ModuleMethodExecutable<Object> {
+    private final String methodName;
     private MultiBlockRegistry multiBlockRegistry;
 
-    public TextRenderBindingMethod(MultiBlockRegistry multiBlockRegistry) {
+    public TextRenderBindingMethod(String methodName, MultiBlockRegistry multiBlockRegistry) {
         this.multiBlockRegistry = multiBlockRegistry;
+        this.methodName = methodName;
     }
 
     @Override
@@ -45,7 +47,7 @@ public class TextRenderBindingMethod implements ModuleMethodExecutable<Object> {
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
         Direction direction = FunctionParamValidationUtil.validateDirectionParameter(line, parameters,
-                "direction", "getRenderBinding");
+                "direction", methodName);
 
         return new RelativeLiveTextRenderBindingCustomObject(multiBlockRegistry, direction, "Text:");
     }

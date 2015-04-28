@@ -26,6 +26,13 @@ import java.util.List;
 import java.util.Map;
 
 public class DrawTextMethod implements ModuleMethodExecutable<Object> {
+
+    private final String methodName;
+
+    public DrawTextMethod(String methodName) {
+        this.methodName = methodName;
+    }
+
     @Override
     public int getCpuCycleDuration() {
         return 50;
@@ -33,7 +40,7 @@ public class DrawTextMethod implements ModuleMethodExecutable<Object> {
 
     @Override
     public int getMinimumExecutionTime(int line, ComputerCallback computer, Map<String, Variable> parameters) throws ExecutionException {
-        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", "drawText");
+        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", methodName);
         return renderCommandSink.isInstantRendering() ? 0 : 50;
     }
 
@@ -44,13 +51,13 @@ public class DrawTextMethod implements ModuleMethodExecutable<Object> {
 
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
-        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", "drawText");
-        String text = FunctionParamValidationUtil.validateStringParameter(line, parameters, "text", "drawText");
-        int x = FunctionParamValidationUtil.validateIntParameter(line, parameters, "x", "drawText");
-        int y = FunctionParamValidationUtil.validateIntParameter(line, parameters, "y", "drawText");
-        String font = FunctionParamValidationUtil.validateStringParameter(line, parameters, "font", "drawText");
-        int fontSize = FunctionParamValidationUtil.validateIntParameter(line, parameters, "fontSize", "drawText");
-        String paint = GraphicsRenderBindingValidator.validatePaint(line, parameters, "paint", "drawText");
+        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", methodName);
+        String text = FunctionParamValidationUtil.validateStringParameter(line, parameters, "text", methodName);
+        int x = FunctionParamValidationUtil.validateIntParameter(line, parameters, "x", methodName);
+        int y = FunctionParamValidationUtil.validateIntParameter(line, parameters, "y", methodName);
+        String font = FunctionParamValidationUtil.validateStringParameter(line, parameters, "font", methodName);
+        int fontSize = FunctionParamValidationUtil.validateIntParameter(line, parameters, "fontSize", methodName);
+        String paint = GraphicsRenderBindingValidator.validatePaint(line, parameters, "paint", methodName);
 
         List<String> existingData = renderCommandSink.getExistingData(line);
 

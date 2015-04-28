@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.module.text;
+package org.terasology.computer.monitor.module.graphics;
 
 import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
@@ -24,7 +24,14 @@ import org.terasology.math.Vector2i;
 
 import java.util.Map;
 
-public class TextCreateOffScreenBuffer implements ModuleMethodExecutable<Object> {
+public class GraphicsCreateOffScreenBufferMethod implements ModuleMethodExecutable<Object> {
+
+    private final String methodName;
+
+    public GraphicsCreateOffScreenBufferMethod(String methodName) {
+        this.methodName = methodName;
+    }
+
     @Override
     public int getCpuCycleDuration() {
         return 200;
@@ -37,9 +44,9 @@ public class TextCreateOffScreenBuffer implements ModuleMethodExecutable<Object>
 
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
-        int width = FunctionParamValidationUtil.validateIntParameter(line, parameters, "width", "createOffScreenBuffer");
-        int height = FunctionParamValidationUtil.validateIntParameter(line, parameters, "height", "createOffScreenBuffer");
+        int width = FunctionParamValidationUtil.validateIntParameter(line, parameters, "width", methodName);
+        int height = FunctionParamValidationUtil.validateIntParameter(line, parameters, "height", methodName);
 
-        return new TextOffScreenBuffer(new Vector2i(width, height));
+        return new GraphicsOffScreenBuffer(new Vector2i(width, height));
     }
 }

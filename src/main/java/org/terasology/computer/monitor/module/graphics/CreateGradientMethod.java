@@ -27,6 +27,13 @@ import java.util.Collections;
 import java.util.Map;
 
 public class CreateGradientMethod implements ModuleMethodExecutable<Object> {
+
+    private final String methodName;
+
+    public CreateGradientMethod(String methodName) {
+        this.methodName = methodName;
+    }
+
     @Override
     public int getCpuCycleDuration() {
         return 50;
@@ -39,16 +46,16 @@ public class CreateGradientMethod implements ModuleMethodExecutable<Object> {
 
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
-        String hex1 = FunctionParamValidationUtil.validateStringParameter(line, parameters, "hex1", "createGradient");
-        String hex2 = FunctionParamValidationUtil.validateStringParameter(line, parameters, "hex2", "createGradient");
+        String hex1 = FunctionParamValidationUtil.validateStringParameter(line, parameters, "hex1", methodName);
+        String hex2 = FunctionParamValidationUtil.validateStringParameter(line, parameters, "hex2", methodName);
 
-        int x1 = FunctionParamValidationUtil.validateIntParameter(line, parameters, "x1", "createGradient");
-        int y1 = FunctionParamValidationUtil.validateIntParameter(line, parameters, "y1", "createGradient");
+        int x1 = FunctionParamValidationUtil.validateIntParameter(line, parameters, "x1", methodName);
+        int y1 = FunctionParamValidationUtil.validateIntParameter(line, parameters, "y1", methodName);
 
-        int x2 = FunctionParamValidationUtil.validateIntParameter(line, parameters, "x2", "createGradient");
-        int y2 = FunctionParamValidationUtil.validateIntParameter(line, parameters, "y2", "createGradient");
+        int x2 = FunctionParamValidationUtil.validateIntParameter(line, parameters, "x2", methodName);
+        int y2 = FunctionParamValidationUtil.validateIntParameter(line, parameters, "y2", methodName);
 
-        boolean cyclic = FunctionParamValidationUtil.validateBooleanParameter(line, parameters, "cyclic", "createGradient");
+        boolean cyclic = FunctionParamValidationUtil.validateBooleanParameter(line, parameters, "cyclic", methodName);
 
         int hexParsed1;
         int hexParsed2;

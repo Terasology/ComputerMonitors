@@ -26,6 +26,13 @@ import java.util.List;
 import java.util.Map;
 
 public class DrawRoundedRectangleMethod implements ModuleMethodExecutable<Object> {
+
+    private final String methodName;
+
+    public DrawRoundedRectangleMethod(String methodName) {
+        this.methodName = methodName;
+    }
+
     @Override
     public int getCpuCycleDuration() {
         return 50;
@@ -33,7 +40,7 @@ public class DrawRoundedRectangleMethod implements ModuleMethodExecutable<Object
 
     @Override
     public int getMinimumExecutionTime(int line, ComputerCallback computer, Map<String, Variable> parameters) throws ExecutionException {
-        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", "drawText");
+        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", methodName);
         return renderCommandSink.isInstantRendering() ? 0 : 100;
     }
 
@@ -44,15 +51,15 @@ public class DrawRoundedRectangleMethod implements ModuleMethodExecutable<Object
 
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
-        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "drawRoundedRectangle", "drawText");
-        int x = FunctionParamValidationUtil.validateIntParameter(line, parameters, "x", "drawRoundedRectangle");
-        int y = FunctionParamValidationUtil.validateIntParameter(line, parameters, "y", "drawRoundedRectangle");
-        int width = FunctionParamValidationUtil.validateIntParameter(line, parameters, "width", "drawRoundedRectangle");
-        int height = FunctionParamValidationUtil.validateIntParameter(line, parameters, "height", "drawRoundedRectangle");
-        int arcWidth = FunctionParamValidationUtil.validateIntParameter(line, parameters, "arcWidth", "drawRoundedRectangle");
-        int arcHeight = FunctionParamValidationUtil.validateIntParameter(line, parameters, "arcHeight", "drawRoundedRectangle");
-        String paint = GraphicsRenderBindingValidator.validatePaint(line, parameters, "paint", "drawRoundedRectangle");
-        boolean fill = FunctionParamValidationUtil.validateBooleanParameter(line, parameters, "fill", "drawRoundedRectangle");
+        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", methodName);
+        int x = FunctionParamValidationUtil.validateIntParameter(line, parameters, "x", methodName);
+        int y = FunctionParamValidationUtil.validateIntParameter(line, parameters, "y", methodName);
+        int width = FunctionParamValidationUtil.validateIntParameter(line, parameters, "width", methodName);
+        int height = FunctionParamValidationUtil.validateIntParameter(line, parameters, "height", methodName);
+        int arcWidth = FunctionParamValidationUtil.validateIntParameter(line, parameters, "arcWidth", methodName);
+        int arcHeight = FunctionParamValidationUtil.validateIntParameter(line, parameters, "arcHeight", methodName);
+        String paint = GraphicsRenderBindingValidator.validatePaint(line, parameters, "paint", methodName);
+        boolean fill = FunctionParamValidationUtil.validateBooleanParameter(line, parameters, "fill", methodName);
 
         List<String> existingData = renderCommandSink.getExistingData(line);
 

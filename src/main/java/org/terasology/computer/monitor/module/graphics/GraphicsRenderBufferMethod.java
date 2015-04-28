@@ -23,7 +23,14 @@ import org.terasology.math.Vector2i;
 
 import java.util.Map;
 
-public class GraphicsRenderBuffer implements ModuleMethodExecutable<Object> {
+public class GraphicsRenderBufferMethod implements ModuleMethodExecutable<Object> {
+
+    private final String methodName;
+
+    public GraphicsRenderBufferMethod(String methodName) {
+        this.methodName = methodName;
+    }
+
     @Override
     public int getCpuCycleDuration() {
         return 50;
@@ -31,7 +38,7 @@ public class GraphicsRenderBuffer implements ModuleMethodExecutable<Object> {
 
     @Override
     public int getMinimumExecutionTime(int line, ComputerCallback computer, Map<String, Variable> parameters) throws ExecutionException {
-        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", "drawText");
+        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", methodName);
         return renderCommandSink.isInstantRendering() ? 0 : 300;
     }
 
@@ -42,8 +49,8 @@ public class GraphicsRenderBuffer implements ModuleMethodExecutable<Object> {
 
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
-        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", "setCharacters");
-        GraphicsBuffer graphicsBuffer = GraphicsRenderBindingValidator.validateGraphicsBuffer(line, parameters, "offScreenBuffer", "renderBuffer");
+        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", methodName);
+        GraphicsBuffer graphicsBuffer = GraphicsRenderBindingValidator.validateGraphicsBuffer(line, parameters, "offScreenBuffer", methodName);
 
         Vector2i size = graphicsBuffer.getResolution();
         Vector2i maxCharacters = renderCommandSink.getResolution();

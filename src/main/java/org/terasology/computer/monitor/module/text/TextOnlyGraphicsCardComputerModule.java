@@ -55,17 +55,17 @@ public class TextOnlyGraphicsCardComputerModule implements ComputerModule {
     @Override
     public ModuleMethodExecutable getFunctionByName(String name) {
         if (name.equals("getRenderBinding"))
-            return new TextRenderBindingMethod(multiBlockRegistry);
+            return new TextRenderBindingMethod("getRenderBinding", multiBlockRegistry);
         if (name.equals("setCharacters"))
-            return new TextSetCharactersMethod();
+            return new TextSetCharactersMethod("setCharacters");
         if (name.equals("clear"))
-            return new TextClearMethod();
+            return new TextClearMethod("clear");
         if (name.equals("createOffScreenBuffer"))
-            return new TextCreateOffScreenBuffer();
+            return new TextCreateOffScreenBufferMethod("createOffScreenBuffer");
         if (name.equals("renderBuffer"))
-            return new TextRenderBuffer();
+            return new TextRenderBufferMethod("renderBuffer");
         if (name.equals("getRenderSize"))
-            return new GetTextRenderSizeMethod();
+            return new GetTextRenderSizeMethod("getRenderSize");
         return null;
     }
 }
