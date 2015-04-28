@@ -26,6 +26,7 @@ import org.terasology.world.BlockEntityRegistry;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -48,10 +49,51 @@ public class TextOnlyGraphicsCardModuleCommonSystem extends BaseComponentSystem 
                 "This module allows computer to render text on displays.",
                 null,
                 new TreeMap<String, String>() {{
+                    put("getRenderBinding", "Creates a Text Render Binding that allows to render text on a display.");
+                    put("setCharacters", "Sets characters on a Text Render Binding at the specified coordinates.");
+                    put("clear", "Clear the display of Text Render Binding.");
+                    put("createOffScreenBuffer", "Creates a Text Off Screen Buffer that allows faster rendering and buffering.");
+                    put("renderBuffer", "Renders a Text Off Screen Buffer to the display.");
+                    put("getRenderSize", "Returns the size of the bound display in characters.");
                 }},
                 new HashMap<String, Map<String, String>>() {{
+                    put("getRenderBinding",
+                            new LinkedHashMap<String, String>() {{
+                                put("direction", "Specifies direction of the display relative to computer.");
+                            }});
+                    put("setCharacters",
+                            new LinkedHashMap<String, String>() {{
+                                put("textRenderBinding", "Text render binding to render on.");
+                                put("x", "X coordinate of the rendered text - number of characters from the left.");
+                                put("y", "Y coordinate of the rendered text - line number.");
+                                put("text", "Text to display. Please note, that the sum of x and text length cannot exceed display width.");
+                            }});
+                    put("clear",
+                            new LinkedHashMap<String, String>() {{
+                                put("textRenderBinding", "Text render binding to clear.");
+                            }});
+                    put("createOffScreenBuffer",
+                            new LinkedHashMap<String, String>() {{
+                                put("width", "Width of the off screen buffer in characters.");
+                                put("height", "Height of the off screen buffer in characters.");
+                            }});
+                    put("renderBuffer",
+                            new LinkedHashMap<String, String>() {{
+                                put("textRenderBinding", "Text Render Binding to render on.");
+                                put("offScreenBuffer", "Off screen buffer to render.");
+                            }});
+                    put("getRenderSize",
+                            new LinkedHashMap<String, String>() {{
+                                put("textRenderBinding", "Text Render Binding to get size of.");
+                            }});
                 }},
                 new HashMap<String, String>() {{
+                    put("getRenderBinding", "[Text Render Binding] Binding that can be used to render text on.");
+                    put("creteOffScreenBuffer", "[Text Off Screen Buffer] Buffer that can be used to render text on and " +
+                            "later displayed.");
+                    put("getRenderSize", "[Map] Returns a map with two keys - " +
+                            "\"width\" that has a value type of Number and contains width in characters and " +
+                            "\"height\" that has a value type of Number and contains height in characters.");
                 }},
                 new HashMap<String, Collection<ParagraphData>>() {{
                 }});
