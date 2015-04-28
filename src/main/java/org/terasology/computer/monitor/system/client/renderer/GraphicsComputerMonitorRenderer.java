@@ -49,7 +49,11 @@ public class GraphicsComputerMonitorRenderer implements ComputerMonitorRenderer 
             if (data != null) {
                 for (String renderable : data) {
                     if (renderable.startsWith("text:")) {
-                        renderText(gr, renderable);
+                        renderText(gr, renderable.substring(5));
+                    } else if (renderable.startsWith("drawRect:")) {
+                        renderDrawRect(gr, renderable.substring(9));
+                    } else if (renderable.startsWith("drawRoundRect:")) {
+                        renderDrawRoundRect(gr, renderable.substring(14));
                     }
                 }
             }
@@ -69,17 +73,53 @@ public class GraphicsComputerMonitorRenderer implements ComputerMonitorRenderer 
     }
 
     private void renderText(Graphics2D gr, String renderable) {
-        String[] split = renderable.split(":", 7);
-        int x = Integer.parseInt(split[1]);
-        int y = Integer.parseInt(split[2]);
-        String paintStr = split[3];
-        String font = split[4];
-        int fontSize = Integer.parseInt(split[5]);
-        String text = split[6];
+        String[] split = renderable.split(":", 6);
+        int x = Integer.parseInt(split[0]);
+        int y = Integer.parseInt(split[1]);
+        String paintStr = split[2];
+        String font = split[3];
+        int fontSize = Integer.parseInt(split[4]);
+        String text = split[5];
 
         gr.setPaint(createPaint(paintStr));
         gr.setFont(new Font(font, Font.PLAIN, fontSize));
         gr.drawString(text, x, y);
+    }
+
+    private void renderDrawRect(Graphics2D gr, String renderable) {
+        String[] split = renderable.split(":", 6);
+        int x = Integer.parseInt(split[0]);
+        int y = Integer.parseInt(split[1]);
+        int width = Integer.parseInt(split[2]);
+        int height = Integer.parseInt(split[3]);
+        String paintStr = split[4];
+        boolean fill = Boolean.parseBoolean(split[5]);
+
+        gr.setPaint(createPaint(paintStr));
+        if (fill) {
+            gr.fillRect(x, y, width, height);
+        } else {
+            gr.drawRect(x, y, width, height);
+        }
+    }
+
+    private void renderDrawRoundRect(Graphics2D gr, String renderable) {
+        String[] split = renderable.split(":", 8);
+        int x = Integer.parseInt(split[0]);
+        int y = Integer.parseInt(split[1]);
+        int width = Integer.parseInt(split[2]);
+        int height = Integer.parseInt(split[3]);
+        int arcWidth = Integer.parseInt(split[4]);
+        int arcHeight = Integer.parseInt(split[5]);
+        String paintStr = split[6];
+        boolean fill = Boolean.parseBoolean(split[7]);
+
+        gr.setPaint(createPaint(paintStr));
+        if (fill) {
+            gr.fillRoundRect(x, y, width, height, arcWidth, arcHeight);
+        } else {
+            gr.drawRoundRect(x, y, width, height, arcWidth, arcHeight);
+        }
     }
 
     private Paint createPaint(String paintStr) {

@@ -68,6 +68,10 @@ public class GraphicsCardComputerModule implements ComputerModule {
             return new CreateGradientMethod();
         if (name.equals("drawText"))
             return new DrawTextMethod();
+        if (name.equals("drawRectangle"))
+            return new DrawRectangleMethod();
+        if (name.equals("drawRoundedRectangle"))
+            return new DrawRoundedRectangleMethod();
         return null;
     }
 }

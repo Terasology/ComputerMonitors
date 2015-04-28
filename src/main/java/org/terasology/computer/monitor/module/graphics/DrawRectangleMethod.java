@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DrawTextMethod implements ModuleMethodExecutable<Object> {
+public class DrawRectangleMethod implements ModuleMethodExecutable<Object> {
     @Override
     public int getCpuCycleDuration() {
         return 50;
@@ -38,23 +38,23 @@ public class DrawTextMethod implements ModuleMethodExecutable<Object> {
 
     @Override
     public String[] getParameterNames() {
-        return new String[]{"renderBinding", "text", "x", "y", "font", "fontSize", "paint"};
+        return new String[]{"renderBinding", "x", "y", "width", "height", "paint", "fill"};
     }
 
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
         GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", "drawText");
-        String text = FunctionParamValidationUtil.validateStringParameter(line, parameters, "text", "drawText");
-        int x = FunctionParamValidationUtil.validateIntParameter(line, parameters, "x", "drawText");
-        int y = FunctionParamValidationUtil.validateIntParameter(line, parameters, "y", "drawText");
-        String font = FunctionParamValidationUtil.validateStringParameter(line, parameters, "font", "drawText");
-        int fontSize = FunctionParamValidationUtil.validateIntParameter(line, parameters, "fontSize", "drawText");
-        String paint = GraphicsRenderBindingValidator.validatePaint(line, parameters, "paint", "drawText");
+        int x = FunctionParamValidationUtil.validateIntParameter(line, parameters, "x", "drawRectangle");
+        int y = FunctionParamValidationUtil.validateIntParameter(line, parameters, "y", "drawRectangle");
+        int width = FunctionParamValidationUtil.validateIntParameter(line, parameters, "width", "drawRectangle");
+        int height = FunctionParamValidationUtil.validateIntParameter(line, parameters, "height", "drawRectangle");
+        String paint = GraphicsRenderBindingValidator.validatePaint(line, parameters, "paint", "drawRectangle");
+        boolean fill = FunctionParamValidationUtil.validateBooleanParameter(line, parameters, "fill", "drawRectangle");
 
         List<String> existingData = renderCommandSink.getExistingData();
 
         List<String> newData = new ArrayList<>(existingData);
-        newData.add("text:" + x + ":" + y + ":" + paint + ":" + font + ":" + fontSize + ":" + text);
+        newData.add("drawRect:" + x + ":" + y + ":" + width + ":" + height + ":" + paint + ":" + fill);
 
         renderCommandSink.setData(newData);
 
