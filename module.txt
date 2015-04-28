@@ -1,0 +1,17 @@
+{
+    "id" : "ComputerMonitors",
+    "version" : "0.1.0",
+    "author" : "Marcin Sciesinski <marcins78@gmail.com>",
+    "displayName" : "ComputerMonitors",
+    "description" : "",
+    "dependencies" : [
+        {
+            "id" : "MultiBlock",
+            "minVersion" : "0.1.0"
+        },
+        {
+            "id" : "ModularComputers",
+            "minVersion" : "0.1.0"
+        }],
+    "isServerSideOnly" : false
+}
