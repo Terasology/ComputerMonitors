@@ -2,8 +2,8 @@
     "id" : "ComputerMonitors",
     "version" : "0.1.0",
     "author" : "Marcin Sciesinski <marcins78@gmail.com>",
-    "displayName" : "ComputerMonitors",
-    "description" : "",
+    "displayName" : "Computer Monitors",
+    "description" : "Adds computer monitors that can display any information using computers.",
     "dependencies" : [
         {
             "id" : "MultiBlock",
