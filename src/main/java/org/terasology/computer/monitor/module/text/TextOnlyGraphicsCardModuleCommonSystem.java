@@ -52,39 +52,40 @@ public class TextOnlyGraphicsCardModuleCommonSystem extends BaseComponentSystem 
                     put("getRenderBinding", "Creates a Text Render Binding that allows to render text on a display.");
                     put("setCharacters", "Sets characters on a Text Render Binding at the specified coordinates.");
                     put("clear", "Clear the display of Text Render Binding.");
-                    put("createOffScreenBuffer", "Creates a Text Off Screen Buffer that allows faster rendering and buffering.");
+                    put("createOffScreenBuffer", "Creates a Text Off Screen Buffer that allows faster rendering and buffering. " +
+                            "Please note that this off screen buffer also acts as a Text Render Binding.");
                     put("renderBuffer", "Renders a Text Off Screen Buffer to the display.");
                     put("getRenderSize", "Returns the size of the bound display in characters.");
                 }},
                 new HashMap<String, Map<String, String>>() {{
                     put("getRenderBinding",
                             new LinkedHashMap<String, String>() {{
-                                put("direction", "Specifies direction of the display relative to computer.");
+                                put("direction", "[String] Specifies direction of the display relative to computer.");
                             }});
                     put("setCharacters",
                             new LinkedHashMap<String, String>() {{
-                                put("textRenderBinding", "Text render binding to render on.");
-                                put("x", "X coordinate of the rendered text - number of characters from the left.");
-                                put("y", "Y coordinate of the rendered text - line number.");
-                                put("text", "Text to display. Please note, that the sum of x and text length cannot exceed display width.");
+                                put("textRenderBinding", "[Text Render Binding] Binding to render on.");
+                                put("x", "[Number] X coordinate of the rendered text - number of characters from the left.");
+                                put("y", "[Number] Y coordinate of the rendered text - line number.");
+                                put("text", "[String] Text to display. Please note, that the sum of x and text length cannot exceed display width.");
                             }});
                     put("clear",
                             new LinkedHashMap<String, String>() {{
-                                put("textRenderBinding", "Text render binding to clear.");
+                                put("textRenderBinding", "[Text Render Binding] Binding to clear.");
                             }});
                     put("createOffScreenBuffer",
                             new LinkedHashMap<String, String>() {{
-                                put("width", "Width of the off screen buffer in characters.");
-                                put("height", "Height of the off screen buffer in characters.");
+                                put("width", "[Number] Width of the off screen buffer in characters.");
+                                put("height", "[Number] Height of the off screen buffer in characters.");
                             }});
                     put("renderBuffer",
                             new LinkedHashMap<String, String>() {{
-                                put("textRenderBinding", "Text Render Binding to render on.");
-                                put("offScreenBuffer", "Off screen buffer to render.");
+                                put("textRenderBinding", "[Text Render Binding] Binding to render on.");
+                                put("offScreenBuffer", "[Text Off Screen Buffer] Off screen buffer to render.");
                             }});
                     put("getRenderSize",
                             new LinkedHashMap<String, String>() {{
-                                put("textRenderBinding", "Text Render Binding to get size of.");
+                                put("textRenderBinding", "[Text Render Binding] Binding to get size of.");
                             }});
                 }},
                 new HashMap<String, String>() {{
