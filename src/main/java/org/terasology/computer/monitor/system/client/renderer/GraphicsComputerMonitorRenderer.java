@@ -54,6 +54,8 @@ public class GraphicsComputerMonitorRenderer implements ComputerMonitorRenderer 
                         renderDrawRect(gr, renderable.substring(9));
                     } else if (renderable.startsWith("drawRoundRect:")) {
                         renderDrawRoundRect(gr, renderable.substring(14));
+                    } else if (renderable.startsWith("drawOval:")) {
+                        renderDrawOval(gr, renderable.substring(9));
                     }
                 }
             }
@@ -100,6 +102,23 @@ public class GraphicsComputerMonitorRenderer implements ComputerMonitorRenderer 
             gr.fillRect(x, y, width, height);
         } else {
             gr.drawRect(x, y, width, height);
+        }
+    }
+
+    private void renderDrawOval(Graphics2D gr, String renderable) {
+        String[] split = renderable.split(":", 6);
+        int x = Integer.parseInt(split[0]);
+        int y = Integer.parseInt(split[1]);
+        int width = Integer.parseInt(split[2]);
+        int height = Integer.parseInt(split[3]);
+        String paintStr = split[4];
+        boolean fill = Boolean.parseBoolean(split[5]);
+
+        gr.setPaint(createPaint(paintStr));
+        if (fill) {
+            gr.fillOval(x, y, width, height);
+        } else {
+            gr.drawOval(x, y, width, height);
         }
     }
 
