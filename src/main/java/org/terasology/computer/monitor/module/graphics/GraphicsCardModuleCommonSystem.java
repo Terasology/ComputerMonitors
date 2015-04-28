@@ -32,6 +32,8 @@ import java.util.TreeMap;
 @RegisterSystem(RegisterMode.ALWAYS)
 public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
     public static final String GRAPHICS_CARD_MODULE_TYPE = "Graphics";
+    public static final int MAXIMUM_WIDTH_PIXEL_DENSITY_PER_BLOCK = 128;
+    public static final int MAXIMUM_HEIGHT_PIXEL_DENSITY_PER_BLOCK = 128;
 
     @In
     private ComputerModuleRegistry computerModuleRegistry;

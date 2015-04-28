@@ -72,6 +72,10 @@ public class GraphicsCardComputerModule implements ComputerModule {
             return new DrawRectangleMethod();
         if (name.equals("drawRoundedRectangle"))
             return new DrawRoundedRectangleMethod();
+        if (name.equals("getRenderSize"))
+            return new GetGraphicsRenderSizeMethod();
+        if (name.equals("getMaximumResolution"))
+            return new GetGraphicsMaximumResolutionMethod(multiBlockRegistry);
         return null;
     }
 }

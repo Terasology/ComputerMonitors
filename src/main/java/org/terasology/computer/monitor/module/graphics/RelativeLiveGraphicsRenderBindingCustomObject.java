@@ -93,10 +93,11 @@ public class RelativeLiveGraphicsRenderBindingCustomObject implements CustomObje
 
             Vector2i resolution = getResolution();
 
-            int height = monitorSize.y;
             int width = Math.max(monitorSize.x, monitorSize.z);
+            int height = monitorSize.y;
 
-            if (width * 128 < resolution.x || height * 128 < resolution.y)
+            if (width * GraphicsCardModuleCommonSystem.MAXIMUM_WIDTH_PIXEL_DENSITY_PER_BLOCK < resolution.x
+                    || height * GraphicsCardModuleCommonSystem.MAXIMUM_HEIGHT_PIXEL_DENSITY_PER_BLOCK < resolution.y)
                 throw new ExecutionException(line, "Graphics mode exceeds the maximum display resolution");
 
             return modePrefix + resolution.x + "," + resolution.y;

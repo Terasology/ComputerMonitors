@@ -64,6 +64,8 @@ public class TextOnlyGraphicsCardComputerModule implements ComputerModule {
             return new TextCreateOffScreenBuffer();
         if (name.equals("renderBuffer"))
             return new TextRenderBuffer();
+        if (name.equals("getRenderSize"))
+            return new GetTextRenderSizeMethod();
         return null;
     }
 }
