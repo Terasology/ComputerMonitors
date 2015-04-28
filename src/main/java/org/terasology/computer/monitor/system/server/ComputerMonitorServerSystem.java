@@ -107,6 +107,11 @@ public class ComputerMonitorServerSystem extends BaseComponentSystem {
                 front = Side.LEFT;
             }
 
+            List<String> lines = new ArrayList<>(lineCount);
+            for (int i=0; i<lineCount; i++) {
+                lines.add("");
+            }
+
             ComputerMonitorComponent component = new ComputerMonitorComponent(size, front, charsInLine, lineCount, new ArrayList<>(lineCount));
             multiBlockEntity.addComponent(component);
         }
@@ -131,9 +136,15 @@ public class ComputerMonitorServerSystem extends BaseComponentSystem {
             EntityRef mainBlockEntity = event.getMainBlockEntity();
             ComputerMonitorDataHolderComponent component = mainBlockEntity.getComponent(ComputerMonitorDataHolderComponent.class);
 
+            int lineCount = component.getLineCount();
+
+            List<String> lines = new ArrayList<>(lineCount);
+            for (int i=0; i<lineCount; i++) {
+                lines.add("");
+            }
+
             ComputerMonitorComponent monitor = new ComputerMonitorComponent(
-                    component.getMonitorSize(), component.getFront(), component.getCharactersInLineCount(), component.getColumnCount(),
-                    new ArrayList<>(component.getColumnCount()));
+                    component.getMonitorSize(), component.getFront(), component.getCharactersInLineCount(), lineCount, lines);
             multiBlockEntity.addComponent(monitor);
 
             mainBlockEntity.removeComponent(ComputerMonitorDataHolderComponent.class);

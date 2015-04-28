@@ -26,16 +26,16 @@ public class ComputerMonitorDataHolderComponent implements Component {
     private Vector3i monitorSize;
     private Side front;
     private int charactersInLineCount;
-    private int columnCount;
+    private int lineCount;
 
     public ComputerMonitorDataHolderComponent() {
     }
 
-    public ComputerMonitorDataHolderComponent(Vector3i monitorSize, Side front, int charactersInLineCount, int columnCount) {
+    public ComputerMonitorDataHolderComponent(Vector3i monitorSize, Side front, int charactersInLineCount, int lineCount) {
         this.monitorSize = monitorSize;
         this.front = front;
         this.charactersInLineCount = charactersInLineCount;
-        this.columnCount = columnCount;
+        this.lineCount = lineCount;
     }
 
     public Vector3i getMonitorSize() {
@@ -50,7 +50,7 @@ public class ComputerMonitorDataHolderComponent implements Component {
         return charactersInLineCount;
     }
 
-    public int getColumnCount() {
-        return columnCount;
+    public int getLineCount() {
+        return lineCount;
     }
 }
