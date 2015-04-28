@@ -31,12 +31,12 @@ import org.terasology.multiBlock2.MultiBlockRegistry;
 import java.util.Collection;
 import java.util.Collections;
 
-public class RelativeLiveTextTextRenderBindingCustomObject implements CustomObject, TextRenderBinding {
+public class RelativeLiveTextRenderBindingCustomObject implements CustomObject, TextRenderBinding {
     private MultiBlockRegistry multiBlockRegistry;
     private Direction direction;
     private String mode;
 
-    public RelativeLiveTextTextRenderBindingCustomObject(MultiBlockRegistry multiBlockRegistry, Direction direction, String mode) {
+    public RelativeLiveTextRenderBindingCustomObject(MultiBlockRegistry multiBlockRegistry, Direction direction, String mode) {
         this.multiBlockRegistry = multiBlockRegistry;
         this.direction = direction;
         this.mode = mode;

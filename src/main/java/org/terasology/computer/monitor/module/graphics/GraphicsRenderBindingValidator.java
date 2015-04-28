@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.module.text;
+package org.terasology.computer.monitor.module.graphics;
 
 import com.gempukku.lang.CustomObject;
 import com.gempukku.lang.ExecutionException;
@@ -23,29 +23,40 @@ import org.terasology.computer.context.ComputerCallback;
 
 import java.util.Map;
 
-public class TextRenderBindingValidator {
-    private TextRenderBindingValidator() {
+public class GraphicsRenderBindingValidator {
+    private GraphicsRenderBindingValidator() {
     }
 
-    public static TextRenderCommandSink validateTextRenderBinding(
+    public static GraphicsRenderCommandSink validateGraphicsRenderBinding(
             int line, ComputerCallback computer, Map<String, Variable> parameters,
             String parameterName, String functionName) throws ExecutionException {
         Variable inventoryBinding = FunctionParamValidationUtil.validateParameter(line, parameters, parameterName, functionName, Variable.Type.CUSTOM_OBJECT);
         CustomObject customObject = (CustomObject) inventoryBinding.getValue();
-        if (!customObject.getType().contains("TEXT_RENDER_BINDING"))
+        if (!customObject.getType().contains("GRAPHICS_RENDER_BINDING"))
             throw new ExecutionException(line, "Invalid " + parameterName + " in " + functionName + "()");
 
-        TextRenderBinding binding = (TextRenderBinding) inventoryBinding.getValue();
-        return binding.getTextRenderCommandSink(line, computer);
+        GraphicsRenderBinding binding = (GraphicsRenderBinding) inventoryBinding.getValue();
+        return binding.getGraphicsRenderCommandSink(line, computer);
     }
 
-    public static TextBuffer validateTextBuffer(int line, Map<String, Variable> parameters,
+    public static GraphicsBuffer validateGraphicsBuffer(int line, Map<String, Variable> parameters,
                                                 String parameterName, String functionName) throws ExecutionException {
         Variable inventoryBinding = FunctionParamValidationUtil.validateParameter(line, parameters, parameterName, functionName, Variable.Type.CUSTOM_OBJECT);
         CustomObject customObject = (CustomObject) inventoryBinding.getValue();
-        if (!customObject.getType().contains("TEXT_BUFFER"))
+        if (!customObject.getType().contains("GRAPHICS_BUFFER"))
             throw new ExecutionException(line, "Invalid " + parameterName + " in " + functionName + "()");
 
-        return (TextBuffer) inventoryBinding.getValue();
+        return (GraphicsBuffer) inventoryBinding.getValue();
+    }
+
+    public static String validatePaint(int line, Map<String, Variable> parameters,
+                                       String parameterName, String functionName) throws ExecutionException {
+        Variable inventoryBinding = FunctionParamValidationUtil.validateParameter(line, parameters, parameterName, functionName, Variable.Type.CUSTOM_OBJECT);
+        CustomObject customObject = (CustomObject) inventoryBinding.getValue();
+        if (!customObject.getType().contains("PAINT"))
+            throw new ExecutionException(line, "Invalid " + parameterName + " in " + functionName + "()");
+
+        PaintCustomObject paint = (PaintCustomObject) inventoryBinding.getValue();
+        return paint.getPaintDescription();
     }
 }

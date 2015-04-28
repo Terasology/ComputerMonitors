@@ -13,11 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.module.text;
+package org.terasology.computer.monitor.module.graphics;
 
-import com.gempukku.lang.ExecutionException;
-import org.terasology.computer.context.ComputerCallback;
-
-public interface TextRenderBinding {
-    public TextRenderCommandSink getTextRenderCommandSink(int line, ComputerCallback computerCallback) throws ExecutionException;
+public interface PaintCustomObject {
+    public String getPaintDescription();
 }

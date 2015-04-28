@@ -13,19 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.module.text;
+package org.terasology.computer.monitor.module.graphics;
 
 import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
-import org.terasology.math.Vector2i;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-public class RenderBuffer implements ModuleMethodExecutable<Object> {
+public class GraphicsClearMethod implements ModuleMethodExecutable<Object> {
     @Override
     public int getCpuCycleDuration() {
         return 50;
@@ -33,26 +31,19 @@ public class RenderBuffer implements ModuleMethodExecutable<Object> {
 
     @Override
     public int getMinimumExecutionTime() {
-        return 100;
+        return 30;
     }
 
     @Override
     public String[] getParameterNames() {
-        return new String[]{"renderBinding", "offScreenBuffer"};
+        return new String[]{"renderBinding"};
     }
 
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
-        TextRenderCommandSink renderCommandSink = TextRenderBindingValidator.validateTextRenderBinding(line, computer, parameters, "renderBinding", "setCharacters");
-        TextBuffer textBuffer = TextRenderBindingValidator.validateTextBuffer(line, computer, parameters, "offScreenBuffer", "renderBuffer");
+        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", "setCharacters");
 
-        Vector2i size = textBuffer.getSize();
-        Vector2i maxCharacters = renderCommandSink.getMaxCharacters();
-
-        if (size.x>maxCharacters.x || size.y>maxCharacters.y)
-            throw new ExecutionException(line, "OffScreenBuffer does not fit on the screen");
-
-        renderCommandSink.setData(textBuffer.getData());
+        renderCommandSink.setData(new ArrayList<>());
 
         return null;
     }

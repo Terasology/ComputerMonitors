@@ -19,6 +19,7 @@ import org.terasology.asset.AssetType;
 import org.terasology.asset.Assets;
 import org.terasology.computer.monitor.component.ComputerMonitorComponent;
 import org.terasology.computer.monitor.component.ComputerRenderComponent;
+import org.terasology.computer.monitor.system.client.renderer.GraphicsComputerMonitorRenderer;
 import org.terasology.computer.monitor.system.client.renderer.TextComputerMonitorRenderer;
 import org.terasology.entitySystem.entity.EntityBuilder;
 import org.terasology.entitySystem.entity.EntityManager;
@@ -65,6 +66,7 @@ public class ComputerMonitorClientSystem extends BaseComponentSystem implements 
     @Override
     public void preBegin() {
         registerComputerMonitorRenderer("Text:", new TextComputerMonitorRenderer());
+        registerComputerMonitorRenderer("Graphics:", new GraphicsComputerMonitorRenderer());
     }
 
     @Override

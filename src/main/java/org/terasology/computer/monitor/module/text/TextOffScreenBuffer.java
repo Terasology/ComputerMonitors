@@ -25,11 +25,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class OffScreenBuffer implements CustomObject, TextRenderBinding, TextBuffer, TextRenderCommandSink {
+public class TextOffScreenBuffer implements CustomObject, TextRenderBinding, TextBuffer, TextRenderCommandSink {
     private Vector2i size;
     private List<String> data = new ArrayList<>();
 
-    public OffScreenBuffer(Vector2i size) {
+    public TextOffScreenBuffer(Vector2i size) {
         this.size = size;
     }
 

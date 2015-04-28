@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.module.text;
+package org.terasology.computer.monitor.module.graphics;
 
 import org.terasology.computer.system.server.lang.ComputerModule;
 import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
@@ -21,12 +21,12 @@ import org.terasology.multiBlock2.MultiBlockRegistry;
 
 import java.util.Collection;
 
-public class TextOnlyGraphicsCardComputerModule implements ComputerModule {
+public class GraphicsCardComputerModule implements ComputerModule {
     private MultiBlockRegistry multiBlockRegistry;
     private String moduleType;
     private String moduleName;
 
-    public TextOnlyGraphicsCardComputerModule(MultiBlockRegistry multiBlockRegistry, String moduleType, String moduleName) {
+    public GraphicsCardComputerModule(MultiBlockRegistry multiBlockRegistry, String moduleType, String moduleName) {
         this.multiBlockRegistry = multiBlockRegistry;
         this.moduleType = moduleType;
         this.moduleName = moduleName;
@@ -55,15 +55,17 @@ public class TextOnlyGraphicsCardComputerModule implements ComputerModule {
     @Override
     public ModuleMethodExecutable getFunctionByName(String name) {
         if (name.equals("getRenderBinding"))
-            return new TextRenderBindingMethod(multiBlockRegistry);
-        if (name.equals("setCharacters"))
-            return new TextSetCharactersMethod();
+            return new GraphicsRenderBindingMethod(multiBlockRegistry);
         if (name.equals("clear"))
-            return new TextClearMethod();
+            return new GraphicsClearMethod();
         if (name.equals("createOffScreenBuffer"))
-            return new TextCreateOffScreenBuffer();
+            return new GraphicsCreateOffScreenBuffer();
         if (name.equals("renderBuffer"))
-            return new TextRenderBuffer();
+            return new GraphicsRenderBuffer();
+        if (name.equals("createColor"))
+            return new CreateColorMethod();
+        if (name.equals("drawText"))
+            return new DrawTextMethod();
         return null;
     }
 }

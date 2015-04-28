@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class SetCharactersMethod implements ModuleMethodExecutable<Object> {
+public class TextSetCharactersMethod implements ModuleMethodExecutable<Object> {
     @Override
     public int getCpuCycleDuration() {
         return 50;

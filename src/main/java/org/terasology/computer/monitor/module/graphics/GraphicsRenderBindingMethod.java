@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.module.text;
+package org.terasology.computer.monitor.module.graphics;
 
 import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
@@ -25,10 +25,10 @@ import org.terasology.multiBlock2.MultiBlockRegistry;
 
 import java.util.Map;
 
-public class RenderBindingMethod implements ModuleMethodExecutable<Object> {
+public class GraphicsRenderBindingMethod implements ModuleMethodExecutable<Object> {
     private MultiBlockRegistry multiBlockRegistry;
 
-    public RenderBindingMethod(MultiBlockRegistry multiBlockRegistry) {
+    public GraphicsRenderBindingMethod(MultiBlockRegistry multiBlockRegistry) {
         this.multiBlockRegistry = multiBlockRegistry;
     }
 
@@ -39,7 +39,7 @@ public class RenderBindingMethod implements ModuleMethodExecutable<Object> {
 
     @Override
     public String[] getParameterNames() {
-        return new String[] { "direction" };
+        return new String[] { "direction", "width", "height" };
     }
 
     @Override
@@ -47,6 +47,10 @@ public class RenderBindingMethod implements ModuleMethodExecutable<Object> {
         Direction direction = FunctionParamValidationUtil.validateDirectionParameter(line, parameters,
                 "direction", "getRenderBinding");
 
-        return new RelativeLiveTextTextRenderBindingCustomObject(multiBlockRegistry, direction, "Text:");
+        int width = FunctionParamValidationUtil.validateIntParameter(line, parameters, "width", "getRenderBinding");
+        int height = FunctionParamValidationUtil.validateIntParameter(line, parameters, "height", "getRenderBinding");
+
+
+        return new RelativeLiveGraphicsRenderBindingCustomObject(multiBlockRegistry, direction, "Graphics:", width, height);
     }
 }

@@ -20,28 +20,33 @@ import com.gempukku.lang.Variable;
 import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
-import org.terasology.math.Vector2i;
+import org.terasology.math.Direction;
+import org.terasology.multiBlock2.MultiBlockRegistry;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-public class CreateOffScreenBuffer implements ModuleMethodExecutable<Object> {
+public class TextRenderBindingMethod implements ModuleMethodExecutable<Object> {
+    private MultiBlockRegistry multiBlockRegistry;
+
+    public TextRenderBindingMethod(MultiBlockRegistry multiBlockRegistry) {
+        this.multiBlockRegistry = multiBlockRegistry;
+    }
+
     @Override
     public int getCpuCycleDuration() {
-        return 200;
+        return 10;
     }
 
     @Override
     public String[] getParameterNames() {
-        return new String[]{"width", "height"};
+        return new String[] { "direction" };
     }
 
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
-        int x = FunctionParamValidationUtil.validateIntParameter(line, parameters, "width", "createOffScreenBuffer");
-        int y = FunctionParamValidationUtil.validateIntParameter(line, parameters, "height", "createOffScreenBuffer");
+        Direction direction = FunctionParamValidationUtil.validateDirectionParameter(line, parameters,
+                "direction", "getRenderBinding");
 
-        return new OffScreenBuffer(new Vector2i(x, y));
+        return new RelativeLiveTextRenderBindingCustomObject(multiBlockRegistry, direction, "Text:");
     }
 }

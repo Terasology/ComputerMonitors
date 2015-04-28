@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.module.text;
+package org.terasology.computer.monitor.module.graphics;
 
 import org.terasology.browser.data.ParagraphData;
 import org.terasology.computer.system.common.ComputerModuleRegistry;
@@ -31,7 +31,7 @@ import java.util.TreeMap;
 
 @RegisterSystem(RegisterMode.ALWAYS)
 public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
-    public static final String GRAPHICS_CARD_MODULE_TYPE = "TextGraphics";
+    public static final String GRAPHICS_CARD_MODULE_TYPE = "Graphics";
 
     @In
     private ComputerModuleRegistry computerModuleRegistry;
@@ -44,8 +44,8 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
     public void preBegin() {
         computerModuleRegistry.registerComputerModule(
                 GRAPHICS_CARD_MODULE_TYPE,
-                new TextOnlyGraphicsCardComputerModule(multiBlockRegistry, GRAPHICS_CARD_MODULE_TYPE, "Graphics card"),
-                "This module allows computer to manipulate displays.",
+                new GraphicsCardComputerModule(multiBlockRegistry, GRAPHICS_CARD_MODULE_TYPE, "Graphics card"),
+                "This module allows computer to render graphics on displays.",
                 null,
                 new TreeMap<String, String>() {{
                 }},

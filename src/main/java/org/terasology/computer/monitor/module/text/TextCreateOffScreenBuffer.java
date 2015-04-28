@@ -17,45 +17,29 @@ package org.terasology.computer.monitor.module.text;
 
 import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
+import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 import org.terasology.math.Vector2i;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-public class ClearMethod implements ModuleMethodExecutable<Object> {
+public class TextCreateOffScreenBuffer implements ModuleMethodExecutable<Object> {
     @Override
     public int getCpuCycleDuration() {
-        return 50;
-    }
-
-    @Override
-    public int getMinimumExecutionTime() {
-        return 100;
+        return 200;
     }
 
     @Override
     public String[] getParameterNames() {
-        return new String[]{"renderBinding"};
+        return new String[]{"width", "height"};
     }
 
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
-        TextRenderCommandSink renderCommandSink = TextRenderBindingValidator.validateTextRenderBinding(line, computer, parameters, "renderBinding", "setCharacters");
+        int width = FunctionParamValidationUtil.validateIntParameter(line, parameters, "width", "createOffScreenBuffer");
+        int height = FunctionParamValidationUtil.validateIntParameter(line, parameters, "height", "createOffScreenBuffer");
 
-        Vector2i maxCharacters = renderCommandSink.getMaxCharacters();
-
-        int lineCount = maxCharacters.y;
-
-        List<String> result = new ArrayList<>(lineCount);
-        for (int i = 0; i < lineCount; i++) {
-            result.add("");
-        }
-
-        renderCommandSink.setData(result);
-
-        return null;
+        return new TextOffScreenBuffer(new Vector2i(width, height));
     }
 }

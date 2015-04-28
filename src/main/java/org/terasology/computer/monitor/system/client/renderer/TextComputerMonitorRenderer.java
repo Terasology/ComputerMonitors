@@ -32,8 +32,6 @@ import java.nio.ByteBuffer;
 import java.util.List;
 
 public class TextComputerMonitorRenderer implements ComputerMonitorRenderer {
-    private int counter = 0;
-
     private Font font = Assets.getFont("ModularComputers:November");
     private BufferedImage fontImage = TextureUtil.convertToImage(font.getCharacterData(' ').getPage());
     private int fontImageWidth = fontImage.getWidth();
