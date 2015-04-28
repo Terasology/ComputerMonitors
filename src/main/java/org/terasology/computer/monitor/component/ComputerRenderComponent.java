@@ -21,4 +21,5 @@ import org.terasology.entitySystem.entity.EntityRef;
 public class ComputerRenderComponent implements Component {
     public EntityRef monitorChassis;
     public EntityRef screenBackground;
+    public EntityRef screenForeground;
 }

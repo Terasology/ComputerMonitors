@@ -16,7 +16,6 @@
 package org.terasology.computer.monitor.system.server;
 
 import com.google.common.base.Predicate;
-import org.terasology.computer.component.ComputerModuleComponent;
 import org.terasology.computer.monitor.component.ComputerMonitorComponent;
 import org.terasology.computer.monitor.component.ComputerMonitorDataHolderComponent;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -93,8 +92,8 @@ public class ComputerMonitorServerSystem extends BaseComponentSystem {
             int height = region.sizeY();
             int width = Math.max(region.sizeX(), region.sizeZ());
 
-            int columns = height * 5;
-            int charsInLine = width * 5;
+            int lineCount = height * 5;
+            int charsInLine = width * 8;
 
             int x = region.sizeX();
             int z = region.sizeZ();
@@ -108,7 +107,7 @@ public class ComputerMonitorServerSystem extends BaseComponentSystem {
                 front = Side.LEFT;
             }
 
-            ComputerMonitorComponent component = new ComputerMonitorComponent(size, front, charsInLine, columns, new ArrayList<>(columns));
+            ComputerMonitorComponent component = new ComputerMonitorComponent(size, front, charsInLine, lineCount, new ArrayList<>(lineCount));
             multiBlockEntity.addComponent(component);
         }
     }
@@ -121,7 +120,7 @@ public class ComputerMonitorServerSystem extends BaseComponentSystem {
             ComputerMonitorComponent monitor = multiBlockEntity.getComponent(ComputerMonitorComponent.class);
 
             ComputerMonitorDataHolderComponent component = new ComputerMonitorDataHolderComponent(
-                    monitor.getMonitorSize(), monitor.getFront(), monitor.getCharactersInLineCount(), monitor.getColumnCount());
+                    monitor.getMonitorSize(), monitor.getFront(), monitor.getCharactersInLineCount(), monitor.getLineCount());
             mainBlockEntity.addComponent(component);
         }
     }

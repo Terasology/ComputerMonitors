@@ -27,18 +27,18 @@ public class ComputerMonitorComponent implements Component {
     private Vector3i monitorSize;
     private Side front;
     private int charactersInLineCount;
-    private int columnCount;
+    private int lineCount;
 
     private List<String> lines;
 
     public ComputerMonitorComponent() {
     }
 
-    public ComputerMonitorComponent(Vector3i monitorSize, Side front, int charactersInLineCount, int columnCount, List<String> lines) {
+    public ComputerMonitorComponent(Vector3i monitorSize, Side front, int charactersInLineCount, int lineCount, List<String> lines) {
         this.monitorSize = monitorSize;
         this.front = front;
         this.charactersInLineCount = charactersInLineCount;
-        this.columnCount = columnCount;
+        this.lineCount = lineCount;
         this.lines = lines;
     }
 
@@ -54,8 +54,8 @@ public class ComputerMonitorComponent implements Component {
         return charactersInLineCount;
     }
 
-    public int getColumnCount() {
-        return columnCount;
+    public int getLineCount() {
+        return lineCount;
     }
 
     public List<String> getLines() {
