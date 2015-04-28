@@ -53,7 +53,7 @@ public class TextRenderBuffer implements ModuleMethodExecutable<Object> {
         if (size.x>maxCharacters.x || size.y>maxCharacters.y)
             throw new ExecutionException(line, "OffScreenBuffer does not fit on the screen");
 
-        renderCommandSink.setData(textBuffer.getData());
+        renderCommandSink.setData(line, textBuffer.getData());
 
         return null;
     }

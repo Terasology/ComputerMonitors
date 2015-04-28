@@ -52,12 +52,12 @@ public class DrawTextMethod implements ModuleMethodExecutable<Object> {
         int fontSize = FunctionParamValidationUtil.validateIntParameter(line, parameters, "fontSize", "drawText");
         String paint = GraphicsRenderBindingValidator.validatePaint(line, parameters, "paint", "drawText");
 
-        List<String> existingData = renderCommandSink.getExistingData();
+        List<String> existingData = renderCommandSink.getExistingData(line);
 
         List<String> newData = new ArrayList<>(existingData);
         newData.add("text:" + x + ":" + y + ":" + paint + ":" + font + ":" + fontSize + ":" + text);
 
-        renderCommandSink.setData(newData);
+        renderCommandSink.setData(line, newData);
 
         return null;
     }

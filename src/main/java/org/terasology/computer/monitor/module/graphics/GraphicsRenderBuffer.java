@@ -51,7 +51,7 @@ public class GraphicsRenderBuffer implements ModuleMethodExecutable<Object> {
         if (size.x>maxCharacters.x || size.y>maxCharacters.y)
             throw new ExecutionException(line, "OffScreenBuffer does not fit on the screen");
 
-        renderCommandSink.setData(graphicsBuffer.getData());
+        renderCommandSink.setData(line, graphicsBuffer.getData());
 
         return null;
     }

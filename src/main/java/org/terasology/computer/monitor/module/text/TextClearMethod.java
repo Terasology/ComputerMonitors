@@ -57,7 +57,7 @@ public class TextClearMethod implements ModuleMethodExecutable<Object> {
             result.add("");
         }
 
-        renderCommandSink.setData(result);
+        renderCommandSink.setData(line, result);
 
         return null;
     }

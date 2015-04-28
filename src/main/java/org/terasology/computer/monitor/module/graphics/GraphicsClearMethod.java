@@ -44,7 +44,7 @@ public class GraphicsClearMethod implements ModuleMethodExecutable<Object> {
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
         GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", "setCharacters");
 
-        renderCommandSink.setData(new ArrayList<>());
+        renderCommandSink.setData(line, new ArrayList<>());
 
         return null;
     }

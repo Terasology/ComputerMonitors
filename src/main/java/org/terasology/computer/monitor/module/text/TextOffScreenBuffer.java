@@ -69,12 +69,12 @@ public class TextOffScreenBuffer implements CustomObject, TextRenderBinding, Tex
     }
 
     @Override
-    public List<String> getExistingData() {
+    public List<String> getExistingData(int line) {
         return data;
     }
 
     @Override
-    public void setData(List<String> data) {
+    public void setData(int line, List<String> data) {
         this.data = data;
     }
 }

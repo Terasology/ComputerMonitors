@@ -55,12 +55,7 @@ public class GraphicsOffScreenBuffer implements CustomObject, GraphicsRenderBind
 
     @Override
     public int sizeOf() {
-        int size = 4;
-        for (String s : data) {
-            size+=2*s.length();
-        }
-
-        return size;
+        return 4 + (resolution.x * resolution.y) / 100;
     }
 
     @Override
@@ -69,12 +64,12 @@ public class GraphicsOffScreenBuffer implements CustomObject, GraphicsRenderBind
     }
 
     @Override
-    public List<String> getExistingData() {
+    public List<String> getExistingData(int line) {
         return data;
     }
 
     @Override
-    public void setData(List<String> data) {
+    public void setData(int line, List<String> data) {
         this.data = data;
     }
 }

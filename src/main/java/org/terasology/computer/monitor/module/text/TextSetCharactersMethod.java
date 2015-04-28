@@ -63,7 +63,7 @@ public class TextSetCharactersMethod implements ModuleMethodExecutable<Object> {
         if (y >= lineCount)
             throw new ExecutionException(line, "Line index out of bounds " + y + ">=" + lineCount);
 
-        List<String> oldLines = renderCommandSink.getExistingData();
+        List<String> oldLines = renderCommandSink.getExistingData(line);
 
         List<String> result = new ArrayList<>(lineCount);
         for (int i = 0; i < lineCount; i++) {
@@ -77,7 +77,7 @@ public class TextSetCharactersMethod implements ModuleMethodExecutable<Object> {
             }
         }
 
-        renderCommandSink.setData(result);
+        renderCommandSink.setData(line, result);
 
         return null;
     }

@@ -52,12 +52,12 @@ public class DrawRectangleMethod implements ModuleMethodExecutable<Object> {
         String paint = GraphicsRenderBindingValidator.validatePaint(line, parameters, "paint", "drawRectangle");
         boolean fill = FunctionParamValidationUtil.validateBooleanParameter(line, parameters, "fill", "drawRectangle");
 
-        List<String> existingData = renderCommandSink.getExistingData();
+        List<String> existingData = renderCommandSink.getExistingData(line);
 
         List<String> newData = new ArrayList<>(existingData);
         newData.add("drawRect:" + x + ":" + y + ":" + width + ":" + height + ":" + paint + ":" + fill);
 
-        renderCommandSink.setData(newData);
+        renderCommandSink.setData(line, newData);
 
         return null;
     }

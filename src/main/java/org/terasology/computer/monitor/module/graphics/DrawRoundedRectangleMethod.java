@@ -54,12 +54,12 @@ public class DrawRoundedRectangleMethod implements ModuleMethodExecutable<Object
         String paint = GraphicsRenderBindingValidator.validatePaint(line, parameters, "paint", "drawRoundedRectangle");
         boolean fill = FunctionParamValidationUtil.validateBooleanParameter(line, parameters, "fill", "drawRoundedRectangle");
 
-        List<String> existingData = renderCommandSink.getExistingData();
+        List<String> existingData = renderCommandSink.getExistingData(line);
 
         List<String> newData = new ArrayList<>(existingData);
         newData.add("drawRoundRect:" + x + ":" + y + ":" + width + ":" + height + ":" + arcWidth + ":" + arcHeight + ":" + paint + ":" + fill);
 
-        renderCommandSink.setData(newData);
+        renderCommandSink.setData(line, newData);
 
         return null;
     }

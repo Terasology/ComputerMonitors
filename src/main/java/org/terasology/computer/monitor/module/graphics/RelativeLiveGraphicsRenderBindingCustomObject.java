@@ -18,6 +18,7 @@ package org.terasology.computer.monitor.module.graphics;
 import com.gempukku.lang.CustomObject;
 import com.gempukku.lang.ExecutionException;
 import org.terasology.computer.context.ComputerCallback;
+import org.terasology.computer.monitor.component.ComputerMonitorComponent;
 import org.terasology.computer.monitor.module.EntityRenderCommandSink;
 import org.terasology.computer.monitor.system.server.ComputerMonitorServerSystem;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -71,10 +72,12 @@ public class RelativeLiveGraphicsRenderBindingCustomObject implements CustomObje
     }
 
     private class EntityGraphicsRenderCommandSink extends EntityRenderCommandSink implements GraphicsRenderCommandSink {
+        private EntityRef entityRef;
         private String modePrefix;
 
         private EntityGraphicsRenderCommandSink(EntityRef entityRef, String modePrefix) {
             super(entityRef);
+            this.entityRef = entityRef;
             this.modePrefix = modePrefix;
         }
 
@@ -84,9 +87,19 @@ public class RelativeLiveGraphicsRenderBindingCustomObject implements CustomObje
         }
 
         @Override
-        protected String getRequiredMode() {
-            Vector2i maxCharacters = getResolution();
-            return modePrefix + maxCharacters.x + "," + maxCharacters.y;
+        protected String getRequiredMode(int line) throws ExecutionException {
+            ComputerMonitorComponent monitor = entityRef.getComponent(ComputerMonitorComponent.class);
+            Vector3i monitorSize = monitor.getMonitorSize();
+
+            Vector2i resolution = getResolution();
+
+            int height = monitorSize.y;
+            int width = Math.max(monitorSize.x, monitorSize.z);
+
+            if (width * 128 < resolution.x || height * 128 < resolution.y)
+                throw new ExecutionException(line, "Graphics mode exceeds the maximum display resolution");
+
+            return modePrefix + resolution.x + "," + resolution.y;
         }
 
         @Override
