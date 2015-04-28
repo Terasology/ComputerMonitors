@@ -79,6 +79,11 @@ public class RelativeLiveGraphicsRenderBindingCustomObject implements CustomObje
         }
 
         @Override
+        public boolean isInstantRendering() {
+            return false;
+        }
+
+        @Override
         protected String getRequiredMode() {
             Vector2i maxCharacters = getResolution();
             return modePrefix + maxCharacters.x + "," + maxCharacters.y;

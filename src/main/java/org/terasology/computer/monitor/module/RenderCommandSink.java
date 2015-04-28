@@ -20,4 +20,5 @@ import java.util.List;
 public interface RenderCommandSink {
     public List<String> getExistingData();
     public void setData(List<String> data);
+    public boolean isInstantRendering();
 }

@@ -19,6 +19,8 @@ import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
 import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
+import org.terasology.computer.monitor.module.graphics.GraphicsRenderBindingValidator;
+import org.terasology.computer.monitor.module.graphics.GraphicsRenderCommandSink;
 import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 import org.terasology.math.Vector2i;
 
@@ -33,8 +35,9 @@ public class TextSetCharactersMethod implements ModuleMethodExecutable<Object> {
     }
 
     @Override
-    public int getMinimumExecutionTime() {
-        return 100;
+    public int getMinimumExecutionTime(int line, ComputerCallback computer, Map<String, Variable> parameters) throws ExecutionException {
+        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", "drawText");
+        return renderCommandSink.isInstantRendering() ? 0 : 30;
     }
 
     @Override

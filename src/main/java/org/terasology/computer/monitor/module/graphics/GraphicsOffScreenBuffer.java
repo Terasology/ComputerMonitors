@@ -34,6 +34,11 @@ public class GraphicsOffScreenBuffer implements CustomObject, GraphicsRenderBind
     }
 
     @Override
+    public boolean isInstantRendering() {
+        return true;
+    }
+
+    @Override
     public Vector2i getResolution() {
         return resolution;
     }

@@ -30,8 +30,9 @@ public class GraphicsRenderBuffer implements ModuleMethodExecutable<Object> {
     }
 
     @Override
-    public int getMinimumExecutionTime() {
-        return 30;
+    public int getMinimumExecutionTime(int line, ComputerCallback computer, Map<String, Variable> parameters) throws ExecutionException {
+        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", "drawText");
+        return renderCommandSink.isInstantRendering() ? 0 : 300;
     }
 
     @Override

@@ -79,6 +79,11 @@ public class RelativeLiveTextRenderBindingCustomObject implements CustomObject, 
         }
 
         @Override
+        public boolean isInstantRendering() {
+            return false;
+        }
+
+        @Override
         protected String getRequiredMode() {
             Vector2i maxCharacters = getMaxCharacters();
             return modePrefix + maxCharacters.x + "," + maxCharacters.y;

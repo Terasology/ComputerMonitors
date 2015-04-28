@@ -34,6 +34,11 @@ public class TextOffScreenBuffer implements CustomObject, TextRenderBinding, Tex
     }
 
     @Override
+    public boolean isInstantRendering() {
+        return true;
+    }
+
+    @Override
     public TextRenderCommandSink getTextRenderCommandSink(int line, ComputerCallback computerCallback) throws ExecutionException {
         return this;
     }
