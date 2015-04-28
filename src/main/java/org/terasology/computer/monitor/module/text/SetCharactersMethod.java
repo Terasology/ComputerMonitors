@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.module;
+package org.terasology.computer.monitor.module.text;
 
 import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
 import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
-import org.terasology.computer.monitor.component.ComputerMonitorComponent;
 import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
-import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.math.Vector2i;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,39 +44,37 @@ public class SetCharactersMethod implements ModuleMethodExecutable<Object> {
 
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
-        EntityRef displayEntity = RenderBindingValidator.validateRenderBinding(line, computer, parameters, "renderBinding", "setCharacters");
+        TextRenderCommandSink renderCommandSink = TextRenderBindingValidator.validateTextRenderBinding(line, computer, parameters, "renderBinding", "setCharacters");
 
         int x = FunctionParamValidationUtil.validateIntParameter(line, parameters, "x", "setCharacters");
         int y = FunctionParamValidationUtil.validateIntParameter(line, parameters, "y", "setCharacters");
 
         String text = FunctionParamValidationUtil.validateStringParameter(line, parameters, "text", "setCharacters");
 
-        ComputerMonitorComponent monitor = displayEntity.getComponent(ComputerMonitorComponent.class);
+        Vector2i maxCharacters = renderCommandSink.getMaxCharacters();
 
-        if (x + text.length() >= monitor.getCharactersInLineCount())
+        if (x + text.length() >= maxCharacters.x)
             throw new ExecutionException(line, "Text will not fit in the display horizontally");
 
-        int lineCount = monitor.getLineCount();
+        int lineCount = maxCharacters.y;
         if (y >= lineCount)
             throw new ExecutionException(line, "Line index out of bounds " + y + ">=" + lineCount);
 
-        List<String> oldLines = monitor.getLines();
+        List<String> oldLines = renderCommandSink.getExistingData();
 
         List<String> result = new ArrayList<>(lineCount);
-        for (int i=0; i< lineCount; i++) {
+        for (int i = 0; i < lineCount; i++) {
             String oldLine = getLine(oldLines, i);
-            if (i==y) {
+            if (i == y) {
                 String before = getBefore(oldLine, x);
                 String after = getAfter(oldLine, x + text.length());
-                result.add(before+text+after);
+                result.add(before + text + after);
             } else {
                 result.add(oldLine);
             }
         }
 
-        monitor.setLines(result);
-
-        displayEntity.saveComponent(monitor);
+        renderCommandSink.setData(result);
 
         return null;
     }
@@ -102,7 +99,7 @@ public class SetCharactersMethod implements ModuleMethodExecutable<Object> {
     }
 
     private String getLine(List<String> lines, int y) {
-        if (y<lines.size()) {
+        if (y < lines.size()) {
             String line = lines.get(y);
             if (line == null)
                 return "";

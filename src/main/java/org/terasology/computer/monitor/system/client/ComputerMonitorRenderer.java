@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.component;
+package org.terasology.computer.monitor.system.client;
 
-import org.terasology.entitySystem.Component;
-import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.rendering.assets.material.Material;
 
-public class ComputerRenderComponent implements Component {
-    public EntityRef monitorChassis;
-    public EntityRef screen;
+import java.util.List;
+
+public interface ComputerMonitorRenderer {
+    public Material renderMaterial(String mode, List<String> data);
 }

@@ -13,12 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.module;
+package org.terasology.computer.monitor.system.client;
 
-import com.gempukku.lang.ExecutionException;
-import org.terasology.computer.context.ComputerCallback;
-import org.terasology.entitySystem.entity.EntityRef;
-
-public interface RenderBinding {
-    public EntityRef getComputerMonitorEntity(int line, ComputerCallback computerCallback) throws ExecutionException;
+public interface ComputerMonitorRenderModeRegistry {
+    public void registerComputerMonitorRenderer(String modePrefix, ComputerMonitorRenderer computerMonitorRenderer);
 }

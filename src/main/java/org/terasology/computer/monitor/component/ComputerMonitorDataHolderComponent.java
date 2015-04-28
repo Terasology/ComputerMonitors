@@ -25,17 +25,17 @@ import java.util.List;
 public class ComputerMonitorDataHolderComponent implements Component {
     private Vector3i monitorSize;
     private Side front;
-    private int charactersInLineCount;
-    private int lineCount;
+    private String mode;
+    private List<String> data;
 
     public ComputerMonitorDataHolderComponent() {
     }
 
-    public ComputerMonitorDataHolderComponent(Vector3i monitorSize, Side front, int charactersInLineCount, int lineCount) {
+    public ComputerMonitorDataHolderComponent(Vector3i monitorSize, Side front, String mode, List<String> data) {
         this.monitorSize = monitorSize;
         this.front = front;
-        this.charactersInLineCount = charactersInLineCount;
-        this.lineCount = lineCount;
+        this.mode = mode;
+        this.data = data;
     }
 
     public Vector3i getMonitorSize() {
@@ -46,11 +46,11 @@ public class ComputerMonitorDataHolderComponent implements Component {
         return front;
     }
 
-    public int getCharactersInLineCount() {
-        return charactersInLineCount;
+    public String getMode() {
+        return mode;
     }
 
-    public int getLineCount() {
-        return lineCount;
+    public List<String> getData() {
+        return data;
     }
 }

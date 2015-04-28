@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.component;
+package org.terasology.computer.monitor.module;
 
-import org.terasology.entitySystem.Component;
-import org.terasology.entitySystem.entity.EntityRef;
+import java.util.List;
 
-public class ComputerRenderComponent implements Component {
-    public EntityRef monitorChassis;
-    public EntityRef screen;
+public interface RenderCommandSink {
+    public List<String> getExistingData();
+    public void setData(List<String> data);
 }

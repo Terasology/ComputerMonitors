@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.module;
+package org.terasology.computer.monitor.module.text;
 
 import org.terasology.computer.system.server.lang.ComputerModule;
 import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
@@ -21,12 +21,12 @@ import org.terasology.multiBlock2.MultiBlockRegistry;
 
 import java.util.Collection;
 
-public class GraphicsCardComputerModule implements ComputerModule {
+public class TextOnlyGraphicsCardComputerModule implements ComputerModule {
     private MultiBlockRegistry multiBlockRegistry;
     private String moduleType;
     private String moduleName;
 
-    public GraphicsCardComputerModule(MultiBlockRegistry multiBlockRegistry, String moduleType, String moduleName) {
+    public TextOnlyGraphicsCardComputerModule(MultiBlockRegistry multiBlockRegistry, String moduleType, String moduleName) {
         this.multiBlockRegistry = multiBlockRegistry;
         this.moduleType = moduleType;
         this.moduleName = moduleName;
@@ -58,6 +58,12 @@ public class GraphicsCardComputerModule implements ComputerModule {
             return new RenderBindingMethod(multiBlockRegistry);
         if (name.equals("setCharacters"))
             return new SetCharactersMethod();
+        if (name.equals("clear"))
+            return new ClearMethod();
+        if (name.equals("createOffScreenBuffer"))
+            return new CreateOffScreenBuffer();
+        if (name.equals("renderBuffer"))
+            return new RenderBuffer();
         return null;
     }
 }

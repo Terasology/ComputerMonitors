@@ -13,42 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.module;
+package org.terasology.computer.monitor.module.text;
 
 import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
-import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
-import org.terasology.computer.module.inventory.RelativeInventoryBindingCustomObject;
 import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
-import org.terasology.math.Direction;
-import org.terasology.multiBlock2.MultiBlockRegistry;
-import org.terasology.world.BlockEntityRegistry;
+import org.terasology.math.Vector2i;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-public class RenderBindingMethod implements ModuleMethodExecutable<Object> {
-    private MultiBlockRegistry multiBlockRegistry;
-
-    public RenderBindingMethod(MultiBlockRegistry multiBlockRegistry) {
-        this.multiBlockRegistry = multiBlockRegistry;
+public class RenderBuffer implements ModuleMethodExecutable<Object> {
+    @Override
+    public int getCpuCycleDuration() {
+        return 50;
     }
 
     @Override
-    public int getCpuCycleDuration() {
-        return 10;
+    public int getMinimumExecutionTime() {
+        return 100;
     }
 
     @Override
     public String[] getParameterNames() {
-        return new String[] { "direction" };
+        return new String[]{"renderBinding", "offScreenBuffer"};
     }
 
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
-        Direction direction = FunctionParamValidationUtil.validateDirectionParameter(line, parameters,
-                "direction", "getRenderBinding");
+        TextRenderCommandSink renderCommandSink = TextRenderBindingValidator.validateTextRenderBinding(line, computer, parameters, "renderBinding", "setCharacters");
+        TextBuffer textBuffer = TextRenderBindingValidator.validateTextBuffer(line, computer, parameters, "offScreenBuffer", "renderBuffer");
 
-        return new RelativeRenderBindingCustomObject(multiBlockRegistry, direction);
+        Vector2i size = textBuffer.getSize();
+        Vector2i maxCharacters = renderCommandSink.getMaxCharacters();
+
+        if (size.x>maxCharacters.x || size.y>maxCharacters.y)
+            throw new ExecutionException(line, "OffScreenBuffer does not fit on the screen");
+
+        renderCommandSink.setData(textBuffer.getData());
+
+        return null;
     }
 }

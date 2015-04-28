@@ -19,6 +19,7 @@ import org.terasology.asset.AssetType;
 import org.terasology.asset.Assets;
 import org.terasology.computer.monitor.component.ComputerMonitorComponent;
 import org.terasology.computer.monitor.component.ComputerRenderComponent;
+import org.terasology.computer.monitor.system.client.renderer.TextComputerMonitorRenderer;
 import org.terasology.entitySystem.entity.EntityBuilder;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -34,6 +35,7 @@ import org.terasology.math.Side;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.math.geom.Vector3i;
 import org.terasology.registry.In;
+import org.terasology.registry.Share;
 import org.terasology.rendering.assets.font.Font;
 import org.terasology.rendering.assets.font.FontCharacter;
 import org.terasology.rendering.assets.material.Material;
@@ -46,16 +48,29 @@ import org.terasology.world.block.shapes.BlockMeshPart;
 import org.terasology.world.block.shapes.BlockShape;
 
 import javax.vecmath.Vector2f;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RegisterSystem(RegisterMode.CLIENT)
-public class ComputerMonitorClientSystem extends BaseComponentSystem {
+@Share(ComputerMonitorRenderModeRegistry.class)
+public class ComputerMonitorClientSystem extends BaseComponentSystem implements ComputerMonitorRenderModeRegistry {
     public static final float MONITOR_BACKGROUND_DEPTH = 0.98f;
-    public static final int fontWidth = 10;
-    public static final int fontHeight = 16;
+
+    private Map<String, ComputerMonitorRenderer> computerMonitorRendererMap = new HashMap<>();
 
     @In
     private EntityManager entityManager;
+
+    @Override
+    public void preBegin() {
+        registerComputerMonitorRenderer("Text:", new TextComputerMonitorRenderer());
+    }
+
+    @Override
+    public void registerComputerMonitorRenderer(String modePrefix, ComputerMonitorRenderer computerMonitorRenderer) {
+        computerMonitorRendererMap.put(modePrefix, computerMonitorRenderer);
+    }
 
     @ReceiveEvent
     public void onMonitorAdded(OnAddedComponent event, EntityRef monitorEntity, ComputerMonitorComponent monitor) {
@@ -66,78 +81,29 @@ public class ComputerMonitorClientSystem extends BaseComponentSystem {
         ComputerRenderComponent computerRenderComponent = new ComputerRenderComponent();
 
         computerRenderComponent.monitorChassis = createChassisRenderingEntity(worldPosition, monitorSize, front);
-        computerRenderComponent.screenBackground = createScreenBackgroundRenderingEntity(worldPosition, monitorSize, front);
-        computerRenderComponent.screenForeground = createScreenForegroundRenderingEntity(worldPosition, monitorSize, front, monitor.getCharactersInLineCount(), monitor.getLineCount(), monitor.getLines());
+        computerRenderComponent.screen = createScreenRenderingEntity(worldPosition, monitorSize, front, monitor.getMode(), monitor.getData());
         monitorEntity.addComponent(computerRenderComponent);
     }
 
     @ReceiveEvent
-    public void onMonitorTextUpdated(OnChangedComponent event, EntityRef monitorEntity, ComputerMonitorComponent monitor) {
-        Font font = Assets.getFont("ModularComputers:November");
-
+    public void onMonitorDataUpdated(OnChangedComponent event, EntityRef monitorEntity, ComputerMonitorComponent monitor) {
         ComputerRenderComponent computerRender = monitorEntity.getComponent(ComputerRenderComponent.class);
-        EntityRef screenForeground = computerRender.screenForeground;
-        MeshComponent mesh = screenForeground.getComponent(MeshComponent.class);
-        mesh.mesh.dispose();
-        mesh.mesh = createMeshForMonitor(monitor.getMonitorSize(), monitor.getFront(), monitor.getCharactersInLineCount(), monitor.getLineCount(),
-                monitor.getLines(), font);
-        screenForeground.saveComponent(mesh);
+        EntityRef screen = computerRender.screen;
+        MeshComponent mesh = screen.getComponent(MeshComponent.class);
+        mesh.material.dispose();
+        mesh.material = createMaterial(monitor.getMode(), monitor.getData());
+        screen.saveComponent(mesh);
     }
 
-    private EntityRef createScreenBackgroundRenderingEntity(Vector3f location, Vector3i monitorSize, Side front) {
+    private EntityRef createScreenRenderingEntity(Vector3f location, Vector3i monitorSize, Side front, String mode, List<String> data) {
         MeshBuilder meshBuilder = new MeshBuilder();
+        addNormalizedMeshForSide(meshBuilder, front, monitorSize);
 
-        BlockShape blockShape = (BlockShape) Assets.get(AssetType.SHAPE, "engine:cube");
-        BlockMeshPart meshPart = blockShape.getMeshPart(BlockPart.fromSide(front));
-
-        Vector3f v1 = meshPart.getVertex(0);
-        Vector3f v2 = meshPart.getVertex(1);
-        Vector3f v3 = meshPart.getVertex(2);
-        Vector3f v4 = meshPart.getVertex(3);
-
-        float xMult = (front.getVector3i().x != 0) ? MONITOR_BACKGROUND_DEPTH : 1f;
-        float yMult = (front.getVector3i().y != 0) ? MONITOR_BACKGROUND_DEPTH : 1f;
-        float zMult = (front.getVector3i().z != 0) ? MONITOR_BACKGROUND_DEPTH : 1f;
-
-        meshBuilder.addPoly(
-                new Vector3f(xMult * applySize(v1.x, monitorSize.x), yMult * applySize(v1.y, monitorSize.y), zMult * applySize(v1.z, monitorSize.z)),
-                new Vector3f(xMult * applySize(v4.x, monitorSize.x), yMult * applySize(v4.y, monitorSize.y), zMult * applySize(v4.z, monitorSize.z)),
-                new Vector3f(xMult * applySize(v3.x, monitorSize.x), yMult * applySize(v3.y, monitorSize.y), zMult * applySize(v3.z, monitorSize.z)),
-                new Vector3f(xMult * applySize(v2.x, monitorSize.x), yMult * applySize(v2.y, monitorSize.y), zMult * applySize(v2.z, monitorSize.z)));
-        meshBuilder.addColor(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK);
-        meshBuilder.addTexCoord(0, 0);
-        meshBuilder.addTexCoord(0, 0.0625f);
-        meshBuilder.addTexCoord(0.0625f, 0.0625f);
-        meshBuilder.addTexCoord(0.0625f, 0);
+        Material material = createMaterial(mode, data);
 
         MeshComponent meshComponent = new MeshComponent();
         meshComponent.mesh = meshBuilder.build();
-        meshComponent.material = Assets.getMaterial("ComputerMonitors:ComputerMonitor");
-        meshComponent.translucent = false;
-        meshComponent.hideFromOwner = false;
-        meshComponent.color = Color.BLACK;
-
-        LocationComponent locationComponent = new LocationComponent(location);
-
-        EntityBuilder entityBuilder = entityManager.newBuilder();
-        entityBuilder.setPersistent(false);
-        entityBuilder.addComponent(locationComponent);
-        entityBuilder.addComponent(meshComponent);
-
-        return entityBuilder.build();
-    }
-
-    private EntityRef createScreenForegroundRenderingEntity(Vector3f location, Vector3i monitorSize, Side front, int lineLength, int lineCount, List<String> lines) {
-        Font font = Assets.getFont("ModularComputers:November");
-
-        Material material = font.getCharacterData(' ').getPageMat();
-
-
-        Mesh mesh = createMeshForMonitor(monitorSize, front, lineLength, lineCount, lines, font);
-
-        MeshComponent meshComponent = new MeshComponent();
-        meshComponent.mesh = mesh;
-        meshComponent.material = Assets.getMaterial("ComputerMonitors:ComputerText");
+        meshComponent.material = material;
         meshComponent.translucent = false;
         meshComponent.hideFromOwner = false;
         meshComponent.color = Color.WHITE;
@@ -152,68 +118,23 @@ public class ComputerMonitorClientSystem extends BaseComponentSystem {
         return entityBuilder.build();
     }
 
-    private Mesh createMeshForMonitor(Vector3i monitorSize, Side front, int lineLength, int lineCount, List<String> lines, Font font) {
-        BlockShape blockShape = (BlockShape) Assets.get(AssetType.SHAPE, "engine:cube");
-        BlockMeshPart meshPart = blockShape.getMeshPart(BlockPart.fromSide(front));
+    private Material createMaterial(String mode, List<String> data) {
+        Material material = render(mode, data);
+        if (material == null) {
+            material = Assets.getMaterial("ComputerMonitors:ComputerMonitor");
+        }
+        return material;
+    }
 
-        float xMult = 1f / lineLength;
-        float yMult = 1f / lineCount;
-
-        Vector3f topLeft = getTopLeft(monitorSize, meshPart);
-        Vector3f topRight = getTopRight(monitorSize, meshPart);
-        Vector3f bottomLeft = getBottomLeft(monitorSize, meshPart);
-        Vector3f bottomRight = getBottomRight(monitorSize, meshPart);
-
-        MeshBuilder meshBuilder = new MeshBuilder();
-        int lineNo = 0;
-        for (String line : lines) {
-            if (line != null) {
-                float yAdvance = yMult * lineNo;
-
-                char[] chars = line.toCharArray();
-                for (int i = 0; i < chars.length; i++) {
-                    FontCharacter character = font.getCharacterData(chars[i]);
-
-                    float cH = character.getHeight() * yMult / fontHeight;
-                    float xAdvance = xMult * i;
-
-                    Vector3f charTopLeft = convertToMonitorCoords(new Vector2f(xAdvance, yAdvance + (yMult - cH)), topLeft, topRight, bottomLeft, bottomRight);
-                    Vector3f charTopRight = convertToMonitorCoords(new Vector2f(xAdvance + xMult, yAdvance + (yMult - cH)), topLeft, topRight, bottomLeft, bottomRight);
-                    Vector3f charBottomRight = convertToMonitorCoords(new Vector2f(xAdvance + xMult, yAdvance + yMult), topLeft, topRight, bottomLeft, bottomRight);
-                    Vector3f charBottomLeft = convertToMonitorCoords(new Vector2f(xAdvance, yAdvance + yMult), topLeft, topRight, bottomLeft, bottomRight);
-
-                    meshBuilder.addPoly(charTopLeft, charTopRight, charBottomRight, charBottomLeft);
-                    meshBuilder.addColor(Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE);
-                    float texTop = character.getY();
-                    float texBottom = texTop + character.getTexHeight();
-                    float texLeft = character.getX();
-                    float texRight = texLeft + character.getTexWidth();
-                    meshBuilder.addTexCoord(texLeft, texTop);
-                    meshBuilder.addTexCoord(texRight, texTop);
-                    meshBuilder.addTexCoord(texRight, texBottom);
-                    meshBuilder.addTexCoord(texLeft, texBottom);
+    private Material render(String mode, List<String> data) {
+        if (mode != null) {
+            for (Map.Entry<String, ComputerMonitorRenderer> keyComputerMonitorRenderer : computerMonitorRendererMap.entrySet()) {
+                if (mode.startsWith(keyComputerMonitorRenderer.getKey())) {
+                    return keyComputerMonitorRenderer.getValue().renderMaterial(mode, data);
                 }
             }
-            lineNo++;
         }
-        return meshBuilder.build();
-    }
-
-    private Vector3f convertToMonitorCoords(Vector2f planeCoords, Vector3f bottomRight, Vector3f bottomLeft, Vector3f topRight, Vector3f topLeft) {
-        float xMult = planeCoords.x;
-        float yMult = planeCoords.y;
-
-        Vector3f left = fintPointBetween(topLeft, bottomLeft, yMult);
-        Vector3f right = fintPointBetween(topRight, bottomRight, yMult);
-
-        return fintPointBetween(left, right, xMult);
-    }
-
-    private Vector3f fintPointBetween(Vector3f from, Vector3f to, float yMult) {
-        return new Vector3f(
-                from.x + yMult * (to.x - from.x),
-                from.y + yMult * (to.y - from.y),
-                from.z + yMult * (to.z - from.z));
+        return null;
     }
 
     private EntityRef createChassisRenderingEntity(Vector3f location, Vector3i monitorSize, Side front) {
@@ -243,6 +164,10 @@ public class ComputerMonitorClientSystem extends BaseComponentSystem {
     }
 
     private void addMeshForSide(MeshBuilder meshBuilder, Side side, Vector3i monitorSize) {
+        addMeshForSide(meshBuilder, side, monitorSize, 0, 0.0625f);
+    }
+
+    private void addMeshForSide(MeshBuilder meshBuilder, Side side, Vector3i monitorSize, float textureMin, float textureMax) {
         BlockShape blockShape = (BlockShape) Assets.get(AssetType.SHAPE, "engine:cube");
         BlockMeshPart meshPart = blockShape.getMeshPart(BlockPart.fromSide(side));
 
@@ -252,10 +177,56 @@ public class ComputerMonitorClientSystem extends BaseComponentSystem {
                 getBottomRight(monitorSize, meshPart),
                 getBottomLeft(monitorSize, meshPart));
         meshBuilder.addColor(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK);
+        meshBuilder.addTexCoord(textureMin, textureMin);
+        meshBuilder.addTexCoord(textureMin, textureMax);
+        meshBuilder.addTexCoord(textureMax, textureMax);
+        meshBuilder.addTexCoord(textureMax, textureMin);
+    }
+
+    private void addNormalizedMeshForSide(MeshBuilder meshBuilder, Side side, Vector3i monitorSize) {
+        BlockShape blockShape = (BlockShape) Assets.get(AssetType.SHAPE, "engine:cube");
+        BlockMeshPart meshPart = blockShape.getMeshPart(BlockPart.fromSide(side));
+
+        Vector3f[] sideVectors =new Vector3f[] {
+                getTopLeft(monitorSize, meshPart),
+                getTopRight(monitorSize, meshPart),
+                getBottomRight(monitorSize, meshPart),
+                getBottomLeft(monitorSize, meshPart) };
+
+        int startIndex = findIndexOfTopLeft(sideVectors);
+
+        meshBuilder.addPoly(
+                sideVectors[startIndex],
+                sideVectors[(startIndex+1)%4],
+                sideVectors[(startIndex+2)%4],
+                sideVectors[(startIndex+3)%4]);
+        meshBuilder.addColor(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK);
         meshBuilder.addTexCoord(0, 0);
-        meshBuilder.addTexCoord(0, 0.0625f);
-        meshBuilder.addTexCoord(0.0625f, 0.0625f);
-        meshBuilder.addTexCoord(0.0625f, 0);
+        meshBuilder.addTexCoord(1, 0);
+        meshBuilder.addTexCoord(1, 1);
+        meshBuilder.addTexCoord(0, 1);
+    }
+
+    private int findIndexOfTopLeft(Vector3f[] sideVectors) {
+        float maxY = Float.MIN_VALUE;
+        for (Vector3f sideVector : sideVectors) {
+            maxY = Math.max(maxY, sideVector.y);
+        }
+
+        boolean[] indicesWithValue = new boolean[4];
+        for (int i=0; i<sideVectors.length; i++) {
+            indicesWithValue[i] = (sideVectors[i].y == maxY);
+        }
+
+        if (indicesWithValue[3] && indicesWithValue[0])
+            return 3;
+
+        for (int i=0; i<3; i++) {
+            if (indicesWithValue[i]) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private Vector3f getBottomLeft(Vector3i monitorSize, BlockMeshPart meshPart) {
@@ -291,10 +262,9 @@ public class ComputerMonitorClientSystem extends BaseComponentSystem {
         ComputerRenderComponent renderComponent = monitorEntity.getComponent(ComputerRenderComponent.class);
         renderComponent.monitorChassis.getComponent(MeshComponent.class).mesh.dispose();
         renderComponent.monitorChassis.destroy();
-        renderComponent.screenBackground.getComponent(MeshComponent.class).mesh.dispose();
-        renderComponent.screenBackground.destroy();
-        renderComponent.screenForeground.getComponent(MeshComponent.class).mesh.dispose();
-        renderComponent.screenForeground.destroy();
+        renderComponent.screen.getComponent(MeshComponent.class).mesh.dispose();
+        renderComponent.screen.getComponent(MeshComponent.class).material.dispose();
+        renderComponent.screen.destroy();
         monitorEntity.removeComponent(ComputerRenderComponent.class);
     }
 }

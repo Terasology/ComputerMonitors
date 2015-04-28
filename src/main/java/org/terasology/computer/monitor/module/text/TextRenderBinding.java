@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.component;
+package org.terasology.computer.monitor.module.text;
 
-import org.terasology.entitySystem.Component;
-import org.terasology.entitySystem.entity.EntityRef;
+import com.gempukku.lang.ExecutionException;
+import org.terasology.computer.context.ComputerCallback;
+import org.terasology.computer.monitor.module.RenderCommandSink;
 
-public class ComputerRenderComponent implements Component {
-    public EntityRef monitorChassis;
-    public EntityRef screen;
+public interface TextRenderBinding {
+    public TextRenderCommandSink getTextRenderCommandSink(int line, ComputerCallback computerCallback) throws ExecutionException;
 }

@@ -1,14 +1,14 @@
 {
     "DisplayName" : {
-        "name" : "Graphics Card Module"
+        "name" : "Text Graphics Card Module"
     },
     "Item" : {
         "icon" : "engine:items.coal",
         "renderWithIcon" : true,
-        "stackId" : "graphicsCardModule",
+        "stackId" : "textGraphicsCardModule",
         "maxStackSize": 1
     },
     "ComputerModule" : {
-        "moduleType": "Graphics"
+        "moduleType": "TextGraphics"
     }
 }

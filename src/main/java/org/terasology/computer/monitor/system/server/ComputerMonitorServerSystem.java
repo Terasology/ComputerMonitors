@@ -90,29 +90,19 @@ public class ComputerMonitorServerSystem extends BaseComponentSystem {
             Region3i region = event.getMultiBlockDefinition().getRegion();
 
             int height = region.sizeY();
-            int width = Math.max(region.sizeX(), region.sizeZ());
-
-            int lineCount = height * 5;
-            int charsInLine = width * 8;
-
             int x = region.sizeX();
             int z = region.sizeZ();
 
             Vector3i size = new Vector3i(x, height, z);
 
             Side front;
-            if (x>z) {
+            if (x > z) {
                 front = Side.FRONT;
             } else {
                 front = Side.LEFT;
             }
 
-            List<String> lines = new ArrayList<>(lineCount);
-            for (int i=0; i<lineCount; i++) {
-                lines.add("");
-            }
-
-            ComputerMonitorComponent component = new ComputerMonitorComponent(size, front, charsInLine, lineCount, new ArrayList<>(lineCount));
+            ComputerMonitorComponent component = new ComputerMonitorComponent(size, front, null, new ArrayList<>());
             multiBlockEntity.addComponent(component);
         }
     }
@@ -125,7 +115,7 @@ public class ComputerMonitorServerSystem extends BaseComponentSystem {
             ComputerMonitorComponent monitor = multiBlockEntity.getComponent(ComputerMonitorComponent.class);
 
             ComputerMonitorDataHolderComponent component = new ComputerMonitorDataHolderComponent(
-                    monitor.getMonitorSize(), monitor.getFront(), monitor.getCharactersInLineCount(), monitor.getLineCount());
+                    monitor.getMonitorSize(), monitor.getFront(), monitor.getMode(), monitor.getData());
             mainBlockEntity.addComponent(component);
         }
     }
@@ -136,15 +126,8 @@ public class ComputerMonitorServerSystem extends BaseComponentSystem {
             EntityRef mainBlockEntity = event.getMainBlockEntity();
             ComputerMonitorDataHolderComponent component = mainBlockEntity.getComponent(ComputerMonitorDataHolderComponent.class);
 
-            int lineCount = component.getLineCount();
-
-            List<String> lines = new ArrayList<>(lineCount);
-            for (int i=0; i<lineCount; i++) {
-                lines.add("");
-            }
-
             ComputerMonitorComponent monitor = new ComputerMonitorComponent(
-                    component.getMonitorSize(), component.getFront(), component.getCharactersInLineCount(), lineCount, lines);
+                    component.getMonitorSize(), component.getFront(), component.getMode(), component.getData());
             multiBlockEntity.addComponent(monitor);
 
             mainBlockEntity.removeComponent(ComputerMonitorDataHolderComponent.class);

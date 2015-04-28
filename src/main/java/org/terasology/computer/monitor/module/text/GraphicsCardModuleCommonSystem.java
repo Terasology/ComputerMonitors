@@ -13,30 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.module;
+package org.terasology.computer.monitor.module.text;
 
 import org.terasology.browser.data.ParagraphData;
-import org.terasology.computer.module.inventory.InventoryComputerModule;
-import org.terasology.computer.module.inventory.InventoryModuleConditionsRegister;
 import org.terasology.computer.system.common.ComputerModuleRegistry;
-import org.terasology.computer.ui.documentation.DocumentationBuilder;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.logic.inventory.InventoryManager;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 import org.terasology.registry.In;
 import org.terasology.world.BlockEntityRegistry;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 @RegisterSystem(RegisterMode.ALWAYS)
 public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
-    public static final String GRAPHICS_CARD_MODULE_TYPE = "Graphics";
+    public static final String GRAPHICS_CARD_MODULE_TYPE = "TextGraphics";
 
     @In
     private ComputerModuleRegistry computerModuleRegistry;
@@ -49,7 +44,7 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
     public void preBegin() {
         computerModuleRegistry.registerComputerModule(
                 GRAPHICS_CARD_MODULE_TYPE,
-                new GraphicsCardComputerModule(multiBlockRegistry, GRAPHICS_CARD_MODULE_TYPE, "Graphics card"),
+                new TextOnlyGraphicsCardComputerModule(multiBlockRegistry, GRAPHICS_CARD_MODULE_TYPE, "Graphics card"),
                 "This module allows computer to manipulate displays.",
                 null,
                 new TreeMap<String, String>() {{
