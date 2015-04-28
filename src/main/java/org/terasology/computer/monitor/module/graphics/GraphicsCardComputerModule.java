@@ -64,6 +64,8 @@ public class GraphicsCardComputerModule implements ComputerModule {
             return new GraphicsRenderBuffer();
         if (name.equals("createColor"))
             return new CreateColorMethod();
+        if (name.equals("createGradient"))
+            return new CreateGradientMethod();
         if (name.equals("drawText"))
             return new DrawTextMethod();
         return null;

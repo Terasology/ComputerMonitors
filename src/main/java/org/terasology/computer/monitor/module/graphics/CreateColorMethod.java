@@ -22,7 +22,6 @@ import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -35,28 +34,24 @@ public class CreateColorMethod implements ModuleMethodExecutable<Object> {
 
     @Override
     public String[] getParameterNames() {
-        return new String[]{"r", "g", "b", "a"};
+        return new String[]{"hex"};
     }
 
     @Override
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
-        int r = FunctionParamValidationUtil.validateIntParameter(line, parameters, "r", "createColor");
-        int g = FunctionParamValidationUtil.validateIntParameter(line, parameters, "g", "createColor");
-        int b = FunctionParamValidationUtil.validateIntParameter(line, parameters, "b", "createColor");
-        int a = FunctionParamValidationUtil.validateIntParameter(line, parameters, "a", "createColor");
+        String hex = FunctionParamValidationUtil.validateStringParameter(line, parameters, "hex", "createColor");
 
-        if (r < 0 || r > 255) {
-            throw new ExecutionException(line, "Invalid value for red component");
+        int hexParsed;
+        try {
+            hexParsed = Integer.parseInt(hex, 16);
+        } catch (NumberFormatException exp) {
+            throw new ExecutionException(line, "Invalid format of the RGBA hex color.");
         }
-        if (g < 0 || g > 255) {
-            throw new ExecutionException(line, "Invalid value for green component");
-        }
-        if (b < 0 || b > 255) {
-            throw new ExecutionException(line, "Invalid value for blue component");
-        }
-        if (a < 0 || a > 255) {
-            throw new ExecutionException(line, "Invalid value for alpha component");
-        }
+
+        int r = (hexParsed & 0xff000000) >> 24;
+        int g = (hexParsed & 0x00ff0000) >> 16;
+        int b = (hexParsed & 0x0000ff00) >> 8;
+        int a = (hexParsed & 0x000000ff);
 
         return new ColorCustomObject(r, g, b, a);
     }

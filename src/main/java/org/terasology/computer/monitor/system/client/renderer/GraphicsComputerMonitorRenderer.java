@@ -49,17 +49,7 @@ public class GraphicsComputerMonitorRenderer implements ComputerMonitorRenderer 
             if (data != null) {
                 for (String renderable : data) {
                     if (renderable.startsWith("text:")) {
-                        String[] split = renderable.split(":", 7);
-                        int x = Integer.parseInt(split[1]);
-                        int y = Integer.parseInt(split[2]);
-                        String paintStr = split[3];
-                        String font = split[4];
-                        int fontSize = Integer.parseInt(split[5]);
-                        String text = split[6];
-
-                        gr.setPaint(createPaint(paintStr));
-                        gr.setFont(new Font(font, Font.PLAIN, fontSize));
-                        gr.drawString(text, x, y);
+                        renderText(gr, renderable);
                     }
                 }
             }
@@ -78,6 +68,20 @@ public class GraphicsComputerMonitorRenderer implements ComputerMonitorRenderer 
         return Assets.generateAsset(AssetType.MATERIAL, terrainMatData, Material.class);
     }
 
+    private void renderText(Graphics2D gr, String renderable) {
+        String[] split = renderable.split(":", 7);
+        int x = Integer.parseInt(split[1]);
+        int y = Integer.parseInt(split[2]);
+        String paintStr = split[3];
+        String font = split[4];
+        int fontSize = Integer.parseInt(split[5]);
+        String text = split[6];
+
+        gr.setPaint(createPaint(paintStr));
+        gr.setFont(new Font(font, Font.PLAIN, fontSize));
+        gr.drawString(text, x, y);
+    }
+
     private Paint createPaint(String paintStr) {
         if (paintStr.startsWith("color(")) {
             String[] split = paintStr.substring(6, paintStr.length() - 1).split(",");
@@ -87,6 +91,23 @@ public class GraphicsComputerMonitorRenderer implements ComputerMonitorRenderer 
             int a = Integer.parseInt(split[3]);
 
             return new Color(r, g, b, a);
+        } else if (paintStr.startsWith("gradient(")) {
+            String[] split = paintStr.substring(9, paintStr.length() - 1).split(",");
+            int r1 = Integer.parseInt(split[0]);
+            int g1 = Integer.parseInt(split[1]);
+            int b1 = Integer.parseInt(split[2]);
+            int a1 = Integer.parseInt(split[3]);
+            int x1 = Integer.parseInt(split[4]);
+            int y1 = Integer.parseInt(split[5]);
+            int r2 = Integer.parseInt(split[6]);
+            int g2 = Integer.parseInt(split[7]);
+            int b2 = Integer.parseInt(split[8]);
+            int a2 = Integer.parseInt(split[9]);
+            int x2 = Integer.parseInt(split[10]);
+            int y2 = Integer.parseInt(split[11]);
+            boolean cyclic = Boolean.parseBoolean(split[12]);
+
+            return new GradientPaint(x1, y1, new Color(r1, g1, b1, a1), x2, y2, new Color(r2, g2, b2, a2), cyclic);
         }
         return null;
     }
