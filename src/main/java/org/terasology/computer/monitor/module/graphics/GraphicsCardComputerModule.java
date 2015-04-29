@@ -78,6 +78,8 @@ public class GraphicsCardComputerModule implements ComputerModule {
             return new GetGraphicsMaximumResolutionMethod("getMaximumResolution", multiBlockRegistry);
         if (name.equals("drawOval"))
             return new DrawOvalMethod("drawOval");
+        if (name.equals("drawLine"))
+            return new DrawLineMethod("drawLine");
         return null;
     }
 }

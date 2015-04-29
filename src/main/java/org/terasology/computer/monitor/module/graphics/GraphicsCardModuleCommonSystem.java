@@ -73,6 +73,7 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
                     put("getRenderSize", "Returns the size of the Graphics Render Binding.");
                     put("getMaximumResolution", "Returns the maximum resolution possible for the display.");
                     put("drawOval", "Draws or fills an oval with the specified bounds with specified Paint.");
+                    put("drawLine", "Draws a line between two points with the specified Paint and width.");
                 }},
                 new HashMap<String, Map<String, String>>() {{
                     put("getRenderBinding",
@@ -159,6 +160,16 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
                                 put("height", "[Number] Height of the bounding rectangle.");
                                 put("paint", "[Paint] Paint to use to draw the oval.");
                                 put("fill", "[Boolean] If the oval should also be filled with the paint.");
+                            }});
+                    put("drawRectangle",
+                            new LinkedHashMap<String, String>() {{
+                                put("graphicsRenderBinding", "[Graphics Render Binding] Binding to draw rectangle on.");
+                                put("x1", "[Number] X coordinate of the first point.");
+                                put("y1", "[Number] Y coordinate of the first point.");
+                                put("x2", "[Number] X coordinate of the second point.");
+                                put("y2", "[Number] Y coordinate of the second point.");
+                                put("paint", "[Paint] Paint to use to draw the line.");
+                                put("width", "[Number] Width of the line to draw.");
                             }});
                 }},
                 new HashMap<String, String>() {{

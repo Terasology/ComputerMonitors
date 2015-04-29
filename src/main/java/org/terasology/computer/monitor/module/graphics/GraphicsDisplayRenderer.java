@@ -56,6 +56,8 @@ public class GraphicsDisplayRenderer implements DisplayRenderer {
                         renderDrawRoundRect(gr, renderable.substring(14));
                     } else if (renderable.startsWith("drawOval:")) {
                         renderDrawOval(gr, renderable.substring(9));
+                    } else if (renderable.startsWith("drawLine:")) {
+                        renderDrawLine(gr, renderable.substring(9));
                     }
                 }
             }
@@ -97,12 +99,27 @@ public class GraphicsDisplayRenderer implements DisplayRenderer {
         String paintStr = split[4];
         boolean fill = Boolean.parseBoolean(split[5]);
 
+        gr.setStroke(new BasicStroke(1));
         gr.setPaint(createPaint(paintStr));
         if (fill) {
             gr.fillRect(x, y, width, height);
         } else {
             gr.drawRect(x, y, width, height);
         }
+    }
+
+    private void renderDrawLine(Graphics2D gr, String renderable) {
+        String[] split = renderable.split(":", 6);
+        int x1 = Integer.parseInt(split[0]);
+        int y1 = Integer.parseInt(split[1]);
+        int x2 = Integer.parseInt(split[2]);
+        int y2 = Integer.parseInt(split[3]);
+        String paintStr = split[4];
+        int lineWidth = Integer.parseInt(split[5]);
+
+        gr.setStroke(new BasicStroke(lineWidth));
+        gr.setPaint(createPaint(paintStr));
+        gr.drawLine(x1, y1, x2, y2);
     }
 
     private void renderDrawOval(Graphics2D gr, String renderable) {
@@ -114,6 +131,7 @@ public class GraphicsDisplayRenderer implements DisplayRenderer {
         String paintStr = split[4];
         boolean fill = Boolean.parseBoolean(split[5]);
 
+        gr.setStroke(new BasicStroke(1));
         gr.setPaint(createPaint(paintStr));
         if (fill) {
             gr.fillOval(x, y, width, height);
@@ -133,6 +151,7 @@ public class GraphicsDisplayRenderer implements DisplayRenderer {
         String paintStr = split[6];
         boolean fill = Boolean.parseBoolean(split[7]);
 
+        gr.setStroke(new BasicStroke(1));
         gr.setPaint(createPaint(paintStr));
         if (fill) {
             gr.fillRoundRect(x, y, width, height, arcWidth, arcHeight);
