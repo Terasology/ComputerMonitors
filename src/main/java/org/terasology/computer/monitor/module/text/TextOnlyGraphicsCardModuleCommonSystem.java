@@ -16,6 +16,7 @@
 package org.terasology.computer.monitor.module.text;
 
 import org.terasology.browser.data.ParagraphData;
+import org.terasology.computer.display.system.client.DisplayRenderModeRegistry;
 import org.terasology.computer.system.common.ComputerModuleRegistry;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
@@ -40,9 +41,15 @@ public class TextOnlyGraphicsCardModuleCommonSystem extends BaseComponentSystem 
     private BlockEntityRegistry blockEntityRegistry;
     @In
     private MultiBlockRegistry multiBlockRegistry;
+    @In
+    private DisplayRenderModeRegistry displayRenderModeRegistry;
 
     @Override
     public void preBegin() {
+        if (displayRenderModeRegistry != null) {
+            displayRenderModeRegistry.registerComputerMonitorRenderer("Text:", new TextDisplayRenderer());
+        }
+
         computerModuleRegistry.registerComputerModule(
                 TEXT_GRAPHICS_CARD_MODULE_TYPE,
                 new TextOnlyGraphicsCardComputerModule(multiBlockRegistry, TEXT_GRAPHICS_CARD_MODULE_TYPE, "Text Graphics card"),

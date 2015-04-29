@@ -13,8 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.system.client;
+package org.terasology.computer.display.component;
 
-public interface ComputerMonitorRenderModeRegistry {
-    public void registerComputerMonitorRenderer(String modePrefix, ComputerMonitorRenderer computerMonitorRenderer);
+import org.terasology.entitySystem.Component;
+import org.terasology.entitySystem.entity.EntityRef;
+
+public class DisplayRenderComponent implements Component {
+    public EntityRef monitorChassis;
+    public EntityRef screen;
 }

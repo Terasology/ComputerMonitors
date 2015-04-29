@@ -18,9 +18,9 @@ package org.terasology.computer.monitor.module.text;
 import com.gempukku.lang.CustomObject;
 import com.gempukku.lang.ExecutionException;
 import org.terasology.computer.context.ComputerCallback;
-import org.terasology.computer.monitor.component.ComputerMonitorComponent;
+import org.terasology.computer.display.component.DisplayComponent;
 import org.terasology.computer.monitor.module.EntityRenderCommandSink;
-import org.terasology.computer.monitor.system.server.ComputerMonitorServerSystem;
+import org.terasology.computer.display.system.server.DisplayServerSystem;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.math.Direction;
 import org.terasology.math.Vector2i;
@@ -60,7 +60,7 @@ public class RelativeLiveTextRenderBindingCustomObject implements CustomObject, 
                 computerLocation.x + directionVector.x,
                 computerLocation.y + directionVector.y,
                 computerLocation.z + directionVector.z);
-        EntityRef monitorEntity = multiBlockRegistry.getMultiBlockAtLocation(monitorLocation, ComputerMonitorServerSystem.MONITOR_MULTI_BLOCK_TYPE);
+        EntityRef monitorEntity = multiBlockRegistry.getMultiBlockAtLocation(monitorLocation, DisplayServerSystem.MONITOR_MULTI_BLOCK_TYPE);
 
         if (monitorEntity == null)
             throw new ExecutionException(line, "Unable to locate device that could be rendered on");
@@ -91,7 +91,7 @@ public class RelativeLiveTextRenderBindingCustomObject implements CustomObject, 
 
         @Override
         public Vector2i getMaxCharacters() {
-            ComputerMonitorComponent monitor = entityRef.getComponent(ComputerMonitorComponent.class);
+            DisplayComponent monitor = entityRef.getComponent(DisplayComponent.class);
 
             Vector3i monitorSize = monitor.getMonitorSize();
 

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.system.client.renderer;
+package org.terasology.computer.monitor.module.graphics;
 
 import org.terasology.asset.AssetType;
 import org.terasology.asset.Assets;
-import org.terasology.computer.monitor.system.client.ComputerMonitorRenderer;
+import org.terasology.computer.display.system.client.DisplayRenderer;
 import org.terasology.rendering.assets.material.Material;
 import org.terasology.rendering.assets.material.MaterialData;
 import org.terasology.rendering.assets.texture.Texture;
@@ -29,7 +29,7 @@ import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.util.List;
 
-public class GraphicsComputerMonitorRenderer implements ComputerMonitorRenderer {
+public class GraphicsDisplayRenderer implements DisplayRenderer {
     @Override
     public Material renderMaterial(String mode, List<String> data) {
         String[] size = mode.split(":")[1].split(",");

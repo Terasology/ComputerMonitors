@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.system.server;
+package org.terasology.computer.display.system.server;
 
 import com.google.common.base.Predicate;
-import org.terasology.computer.monitor.component.ComputerMonitorComponent;
-import org.terasology.computer.monitor.component.ComputerMonitorDataHolderComponent;
+import org.terasology.computer.display.component.DisplayComponent;
+import org.terasology.computer.display.component.DisplayDataHolderComponent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
@@ -41,9 +41,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RegisterSystem(RegisterMode.AUTHORITY)
-public class ComputerMonitorServerSystem extends BaseComponentSystem {
-    public static final String MONITOR_MULTI_BLOCK_CANDIDATE_KEY = "ComputerMonitors:monitor";
-    public static final String MONITOR_MULTI_BLOCK_TYPE = "ComputerMonitors:monitor";
+public class DisplayServerSystem extends BaseComponentSystem {
+    public static final String MONITOR_MULTI_BLOCK_CANDIDATE_KEY = "ComputerMonitors:display";
+    public static final String MONITOR_MULTI_BLOCK_TYPE = "ComputerMonitors:display";
     public static final int MAX_MONITOR_DIMENSION = 5;
     @In
     private MultiBlockRegistry multiBlockRegistry;
@@ -102,7 +102,7 @@ public class ComputerMonitorServerSystem extends BaseComponentSystem {
                 front = Side.LEFT;
             }
 
-            ComputerMonitorComponent component = new ComputerMonitorComponent(size, front, null, new ArrayList<>());
+            DisplayComponent component = new DisplayComponent(size, front, null, new ArrayList<>());
             multiBlockEntity.addComponent(component);
         }
     }
@@ -112,9 +112,9 @@ public class ComputerMonitorServerSystem extends BaseComponentSystem {
         if (event.getType().equals(MONITOR_MULTI_BLOCK_TYPE)) {
             EntityRef mainBlockEntity = event.getMainBlockEntity();
 
-            ComputerMonitorComponent monitor = multiBlockEntity.getComponent(ComputerMonitorComponent.class);
+            DisplayComponent monitor = multiBlockEntity.getComponent(DisplayComponent.class);
 
-            ComputerMonitorDataHolderComponent component = new ComputerMonitorDataHolderComponent(
+            DisplayDataHolderComponent component = new DisplayDataHolderComponent(
                     monitor.getMonitorSize(), monitor.getFront(), monitor.getMode(), monitor.getData());
             mainBlockEntity.addComponent(component);
         }
@@ -124,13 +124,13 @@ public class ComputerMonitorServerSystem extends BaseComponentSystem {
     public void computerMonitorMultiBlockLoaded(MultiBlockLoaded event, EntityRef multiBlockEntity) {
         if (event.getType().equals(MONITOR_MULTI_BLOCK_TYPE)) {
             EntityRef mainBlockEntity = event.getMainBlockEntity();
-            ComputerMonitorDataHolderComponent component = mainBlockEntity.getComponent(ComputerMonitorDataHolderComponent.class);
+            DisplayDataHolderComponent component = mainBlockEntity.getComponent(DisplayDataHolderComponent.class);
 
-            ComputerMonitorComponent monitor = new ComputerMonitorComponent(
+            DisplayComponent monitor = new DisplayComponent(
                     component.getMonitorSize(), component.getFront(), component.getMode(), component.getData());
             multiBlockEntity.addComponent(monitor);
 
-            mainBlockEntity.removeComponent(ComputerMonitorDataHolderComponent.class);
+            mainBlockEntity.removeComponent(DisplayDataHolderComponent.class);
         }
     }
 }

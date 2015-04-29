@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.system.client;
+package org.terasology.computer.display.system.client;
 
 import org.terasology.asset.AssetType;
 import org.terasology.asset.Assets;
-import org.terasology.computer.monitor.component.ComputerMonitorComponent;
-import org.terasology.computer.monitor.component.ComputerRenderComponent;
-import org.terasology.computer.monitor.system.client.renderer.GraphicsComputerMonitorRenderer;
-import org.terasology.computer.monitor.system.client.renderer.TextComputerMonitorRenderer;
+import org.terasology.computer.display.component.DisplayComponent;
+import org.terasology.computer.display.component.DisplayRenderComponent;
 import org.terasology.entitySystem.entity.EntityBuilder;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -37,10 +35,7 @@ import org.terasology.math.geom.Vector3f;
 import org.terasology.math.geom.Vector3i;
 import org.terasology.registry.In;
 import org.terasology.registry.Share;
-import org.terasology.rendering.assets.font.Font;
-import org.terasology.rendering.assets.font.FontCharacter;
 import org.terasology.rendering.assets.material.Material;
-import org.terasology.rendering.assets.mesh.Mesh;
 import org.terasology.rendering.assets.mesh.MeshBuilder;
 import org.terasology.rendering.logic.MeshComponent;
 import org.terasology.rendering.nui.Color;
@@ -48,39 +43,30 @@ import org.terasology.world.block.BlockPart;
 import org.terasology.world.block.shapes.BlockMeshPart;
 import org.terasology.world.block.shapes.BlockShape;
 
-import javax.vecmath.Vector2f;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RegisterSystem(RegisterMode.CLIENT)
-@Share(ComputerMonitorRenderModeRegistry.class)
-public class ComputerMonitorClientSystem extends BaseComponentSystem implements ComputerMonitorRenderModeRegistry {
-    public static final float MONITOR_BACKGROUND_DEPTH = 0.98f;
-
-    private Map<String, ComputerMonitorRenderer> computerMonitorRendererMap = new HashMap<>();
+@Share(DisplayRenderModeRegistry.class)
+public class DisplayClientSystem extends BaseComponentSystem implements DisplayRenderModeRegistry {
+    private Map<String, DisplayRenderer> computerMonitorRendererMap = new HashMap<>();
 
     @In
     private EntityManager entityManager;
 
     @Override
-    public void preBegin() {
-        registerComputerMonitorRenderer("Text:", new TextComputerMonitorRenderer());
-        registerComputerMonitorRenderer("Graphics:", new GraphicsComputerMonitorRenderer());
-    }
-
-    @Override
-    public void registerComputerMonitorRenderer(String modePrefix, ComputerMonitorRenderer computerMonitorRenderer) {
-        computerMonitorRendererMap.put(modePrefix, computerMonitorRenderer);
+    public void registerComputerMonitorRenderer(String modePrefix, DisplayRenderer displayRenderer) {
+        computerMonitorRendererMap.put(modePrefix, displayRenderer);
     }
 
     @ReceiveEvent
-    public void onMonitorAdded(OnAddedComponent event, EntityRef monitorEntity, ComputerMonitorComponent monitor) {
+    public void onMonitorAdded(OnAddedComponent event, EntityRef monitorEntity, DisplayComponent monitor) {
         Vector3i monitorSize = monitor.getMonitorSize();
         Side front = monitor.getFront();
         Vector3f worldPosition = monitorEntity.getComponent(LocationComponent.class).getWorldPosition();
 
-        ComputerRenderComponent computerRenderComponent = new ComputerRenderComponent();
+        DisplayRenderComponent computerRenderComponent = new DisplayRenderComponent();
 
         computerRenderComponent.monitorChassis = createChassisRenderingEntity(worldPosition, monitorSize, front);
         computerRenderComponent.screen = createScreenRenderingEntity(worldPosition, monitorSize, front, monitor.getMode(), monitor.getData());
@@ -88,8 +74,8 @@ public class ComputerMonitorClientSystem extends BaseComponentSystem implements 
     }
 
     @ReceiveEvent
-    public void onMonitorDataUpdated(OnChangedComponent event, EntityRef monitorEntity, ComputerMonitorComponent monitor) {
-        ComputerRenderComponent computerRender = monitorEntity.getComponent(ComputerRenderComponent.class);
+    public void onMonitorDataUpdated(OnChangedComponent event, EntityRef monitorEntity, DisplayComponent monitor) {
+        DisplayRenderComponent computerRender = monitorEntity.getComponent(DisplayRenderComponent.class);
         EntityRef screen = computerRender.screen;
         MeshComponent mesh = screen.getComponent(MeshComponent.class);
         mesh.material.dispose();
@@ -130,7 +116,7 @@ public class ComputerMonitorClientSystem extends BaseComponentSystem implements 
 
     private Material render(String mode, List<String> data) {
         if (mode != null) {
-            for (Map.Entry<String, ComputerMonitorRenderer> keyComputerMonitorRenderer : computerMonitorRendererMap.entrySet()) {
+            for (Map.Entry<String, DisplayRenderer> keyComputerMonitorRenderer : computerMonitorRendererMap.entrySet()) {
                 if (mode.startsWith(keyComputerMonitorRenderer.getKey())) {
                     return keyComputerMonitorRenderer.getValue().renderMaterial(mode, data);
                 }
@@ -260,13 +246,13 @@ public class ComputerMonitorClientSystem extends BaseComponentSystem implements 
     }
 
     @ReceiveEvent
-    public void onMonitorRemoved(BeforeRemoveComponent event, EntityRef monitorEntity, ComputerMonitorComponent monitor) {
-        ComputerRenderComponent renderComponent = monitorEntity.getComponent(ComputerRenderComponent.class);
+    public void onMonitorRemoved(BeforeRemoveComponent event, EntityRef monitorEntity, DisplayComponent monitor) {
+        DisplayRenderComponent renderComponent = monitorEntity.getComponent(DisplayRenderComponent.class);
         renderComponent.monitorChassis.getComponent(MeshComponent.class).mesh.dispose();
         renderComponent.monitorChassis.destroy();
         renderComponent.screen.getComponent(MeshComponent.class).mesh.dispose();
         renderComponent.screen.getComponent(MeshComponent.class).material.dispose();
         renderComponent.screen.destroy();
-        monitorEntity.removeComponent(ComputerRenderComponent.class);
+        monitorEntity.removeComponent(DisplayRenderComponent.class);
     }
 }

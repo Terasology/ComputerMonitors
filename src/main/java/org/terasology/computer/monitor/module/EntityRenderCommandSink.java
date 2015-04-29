@@ -16,7 +16,7 @@
 package org.terasology.computer.monitor.module;
 
 import com.gempukku.lang.ExecutionException;
-import org.terasology.computer.monitor.component.ComputerMonitorComponent;
+import org.terasology.computer.display.component.DisplayComponent;
 import org.terasology.entitySystem.entity.EntityRef;
 
 import java.util.ArrayList;
@@ -33,20 +33,20 @@ public abstract class EntityRenderCommandSink implements RenderCommandSink {
 
     @Override
     public List<String> getExistingData(int line) throws ExecutionException {
-        ComputerMonitorComponent monitor = entityRef.getComponent(ComputerMonitorComponent.class);
+        DisplayComponent monitor = entityRef.getComponent(DisplayComponent.class);
         ensureMonitorInCorrectMode(line, monitor);
         return monitor.getData();
     }
 
     @Override
     public void setData(int line, List<String> data) throws ExecutionException {
-        ComputerMonitorComponent monitor = entityRef.getComponent(ComputerMonitorComponent.class);
+        DisplayComponent monitor = entityRef.getComponent(DisplayComponent.class);
         ensureMonitorInCorrectMode(line, monitor);
         monitor.setData(data);
         entityRef.saveComponent(monitor);
     }
 
-    private void ensureMonitorInCorrectMode(int line, ComputerMonitorComponent monitor) throws ExecutionException {
+    private void ensureMonitorInCorrectMode(int line, DisplayComponent monitor) throws ExecutionException {
         String mode = getRequiredMode(line);
         if (monitor.getMode() == null || !monitor.getMode().equals(mode)) {
             monitor.setMode(mode);

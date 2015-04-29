@@ -13,12 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.system.client;
+package org.terasology.computer.display.system.client;
 
-import org.terasology.rendering.assets.material.Material;
-
-import java.util.List;
-
-public interface ComputerMonitorRenderer {
-    public Material renderMaterial(String mode, List<String> data);
+public interface DisplayRenderModeRegistry {
+    public void registerComputerMonitorRenderer(String modePrefix, DisplayRenderer displayRenderer);
 }

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.system.client.renderer;
+package org.terasology.computer.monitor.module.text;
 
 import org.terasology.asset.AssetType;
 import org.terasology.asset.Assets;
-import org.terasology.computer.monitor.system.client.ComputerMonitorRenderer;
+import org.terasology.computer.display.system.client.DisplayRenderer;
 import org.terasology.rendering.assets.font.Font;
 import org.terasology.rendering.assets.font.FontCharacter;
 import org.terasology.rendering.assets.material.Material;
@@ -31,7 +31,7 @@ import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.util.List;
 
-public class TextComputerMonitorRenderer implements ComputerMonitorRenderer {
+public class TextDisplayRenderer implements DisplayRenderer {
     private Font font = Assets.getFont("ModularComputers:November");
     private BufferedImage fontImage = TextureUtil.convertToImage(font.getCharacterData(' ').getPage());
     private int fontImageWidth = fontImage.getWidth();

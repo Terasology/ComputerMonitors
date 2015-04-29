@@ -1,5 +1,5 @@
 {
     "MultiBlockCandidate": {
-        "type": ["ComputerMonitors:monitor"]
+        "type": ["ComputerMonitors:display"]
     }
 }

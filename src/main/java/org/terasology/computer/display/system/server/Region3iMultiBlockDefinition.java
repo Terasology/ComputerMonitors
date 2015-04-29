@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.computer.monitor.system.server;
+package org.terasology.computer.display.system.server;
 
 import org.terasology.math.Region3i;
 import org.terasology.math.geom.Vector3i;
