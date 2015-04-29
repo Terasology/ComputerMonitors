@@ -1,6 +1,6 @@
 {
     "hardness" : 18,
-    "translucent": true,
+    "rotation": "invisibleInMultiBlock",
     "entity": {
             "prefab": "ComputerMonitors:ComputerMonitor"
         }
