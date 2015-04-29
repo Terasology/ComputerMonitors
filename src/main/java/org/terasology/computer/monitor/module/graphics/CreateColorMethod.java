@@ -20,6 +20,7 @@ import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
 import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
+import org.terasology.computer.monitor.module.ColorUtils;
 import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 
 import java.util.Collection;
@@ -48,19 +49,9 @@ public class CreateColorMethod implements ModuleMethodExecutable<Object> {
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
         String hex = FunctionParamValidationUtil.validateStringParameter(line, parameters, "hex", methodName);
 
-        int hexParsed;
-        try {
-            hexParsed = Integer.parseInt(hex, 16);
-        } catch (NumberFormatException exp) {
-            throw new ExecutionException(line, "Invalid format of the RGBA hex color.");
-        }
+        int[] c = ColorUtils.parseColor(line, hex);
 
-        int r = (hexParsed & 0xff000000) >> 24;
-        int g = (hexParsed & 0x00ff0000) >> 16;
-        int b = (hexParsed & 0x0000ff00) >> 8;
-        int a = (hexParsed & 0x000000ff);
-
-        return new ColorCustomObject(r, g, b, a);
+        return new ColorCustomObject(c[0], c[1], c[2], c[3]);
     }
 
     private static class ColorCustomObject implements CustomObject, PaintCustomObject {

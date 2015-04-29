@@ -20,6 +20,7 @@ import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
 import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
+import org.terasology.computer.monitor.module.ColorUtils;
 import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 
 import java.util.Collection;
@@ -57,56 +58,26 @@ public class CreateGradientMethod implements ModuleMethodExecutable<Object> {
 
         boolean cyclic = FunctionParamValidationUtil.validateBooleanParameter(line, parameters, "cyclic", methodName);
 
-        int hexParsed1;
-        int hexParsed2;
-        try {
-            hexParsed1 = Integer.parseInt(hex1, 16);
-            hexParsed2 = Integer.parseInt(hex2, 16);
-        } catch (NumberFormatException exp) {
-            throw new ExecutionException(line, "Invalid format of the RGBA hex color.");
-        }
+        int[] c1 = ColorUtils.parseColor(line, hex1);
+        int[] c2 = ColorUtils.parseColor(line, hex2);
 
-        int r1 = (hexParsed1 & 0xff000000) >> 24;
-        int g1 = (hexParsed1 & 0x00ff0000) >> 16;
-        int b1 = (hexParsed1 & 0x0000ff00) >> 8;
-        int a1 = (hexParsed1 & 0x000000ff);
-
-        int r2 = (hexParsed2 & 0xff000000) >> 24;
-        int g2 = (hexParsed2 & 0x00ff0000) >> 16;
-        int b2 = (hexParsed2 & 0x0000ff00) >> 8;
-        int a2 = (hexParsed2 & 0x000000ff);
-
-        return new GradientCustomObject(r1, g1, b1, a1, x1, y1, r2, g2, b2, a2, x2, y2, cyclic);
+        return new GradientCustomObject(c1, x1, y1, c2, x2, y2, cyclic);
     }
 
     private static class GradientCustomObject implements CustomObject, PaintCustomObject {
-        private final int r1;
-        private final int g1;
-        private final int b1;
-        private final int a1;
+        private final int[] c1;
         private final int x1;
         private final int y1;
-        private final int r2;
-        private final int g2;
-        private final int b2;
-        private final int a2;
+        private final int[] c2;
         private final int x2;
         private final int y2;
         private final boolean cyclic;
 
-        private GradientCustomObject(int r1, int g1, int b1, int a1, int x1, int y1,
-                                     int r2, int g2, int b2, int a2, int x2, int y2,
-                                     boolean cyclic) {
-            this.r1 = r1;
-            this.g1 = g1;
-            this.b1 = b1;
-            this.a1 = a1;
+        private GradientCustomObject(int[] c1, int x1, int y1, int[] c2, int x2, int y2, boolean cyclic) {
+            this.c1 = c1;
             this.x1 = x1;
             this.y1 = y1;
-            this.r2 = r2;
-            this.g2 = g2;
-            this.b2 = b2;
-            this.a2 = a2;
+            this.c2 = c2;
             this.x2 = x2;
             this.y2 = y2;
             this.cyclic = cyclic;
@@ -125,8 +96,8 @@ public class CreateGradientMethod implements ModuleMethodExecutable<Object> {
         @Override
         public String getPaintDescription() {
             return "gradient(" +
-                    r1 + "," + g1 + "," + b1 + "," + a1 + "," + x1 + "," + y1 + "," +
-                    r2 + "," + g2 + "," + b2 + "," + a2 + "," + x2 + "," + y2 + "," + cyclic + ")";
+                    c1[0] + "," + c1[1] + "," + c1[2] + "," + c1[3] + "," + x1 + "," + y1 + "," +
+                    c2[0] + "," + c2[1] + "," + c2[2] + "," + c2[3] + "," + x2 + "," + y2 + "," + cyclic + ")";
         }
     }
 }

@@ -73,9 +73,9 @@ public class GetGraphicsMaximumResolutionMethod implements ModuleMethodExecutabl
         int width = Math.max(monitorSize.x, monitorSize.z);
         int height = monitorSize.y;
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("width", GraphicsCardModuleCommonSystem.MAXIMUM_WIDTH_PIXEL_DENSITY_PER_BLOCK * width);
-        result.put("height", GraphicsCardModuleCommonSystem.MAXIMUM_HEIGHT_PIXEL_DENSITY_PER_BLOCK * height);
+        Map<String, Variable> result = new HashMap<>();
+        result.put("width", new Variable(GraphicsCardModuleCommonSystem.MAXIMUM_WIDTH_PIXEL_DENSITY_PER_BLOCK * width));
+        result.put("height", new Variable(GraphicsCardModuleCommonSystem.MAXIMUM_HEIGHT_PIXEL_DENSITY_PER_BLOCK * height));
 
         return result;
     }

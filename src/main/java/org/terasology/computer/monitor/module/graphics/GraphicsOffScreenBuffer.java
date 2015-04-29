@@ -55,7 +55,7 @@ public class GraphicsOffScreenBuffer implements CustomObject, GraphicsRenderBind
 
     @Override
     public int sizeOf() {
-        return 4 + (resolution.x * resolution.y) / 100;
+        return 4 + (resolution.x * resolution.y) / 1000;
     }
 
     @Override
