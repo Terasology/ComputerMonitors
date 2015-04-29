@@ -18,6 +18,7 @@ package org.terasology.computer.monitor.module.graphics;
 import org.terasology.browser.data.ParagraphData;
 import org.terasology.computer.display.system.client.DisplayRenderModeRegistry;
 import org.terasology.computer.system.common.ComputerModuleRegistry;
+import org.terasology.computer.ui.documentation.DocumentationBuilder;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
@@ -161,9 +162,9 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
                                 put("paint", "[Paint] Paint to use to draw the oval.");
                                 put("fill", "[Boolean] If the oval should also be filled with the paint.");
                             }});
-                    put("drawRectangle",
+                    put("drawLine",
                             new LinkedHashMap<String, String>() {{
-                                put("graphicsRenderBinding", "[Graphics Render Binding] Binding to draw rectangle on.");
+                                put("graphicsRenderBinding", "[Graphics Render Binding] Binding to draw line on.");
                                 put("x1", "[Number] X coordinate of the first point.");
                                 put("y1", "[Number] Y coordinate of the first point.");
                                 put("x2", "[Number] X coordinate of the second point.");
@@ -185,6 +186,164 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
                             "\"height\" that has a value type of Number and contains maximum height of the display.");
                 }},
                 new HashMap<String, Collection<ParagraphData>>() {{
+                    put("getRenderBinding", DocumentationBuilder.createExampleParagraphs(
+                            "This example gets render binding of the maximum size for the display below and clears the screen. " +
+                                    "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                            "var graphicsMod = computer.bindModuleOfType(\"" + GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                                    "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
+                                    "var display = graphicsMod.getRenderBinding(\"down\",\n" +
+                                    "  maxRes[\"width\"], maxRes[\"height\"]);\n" +
+                                    "graphicsMod.clear(display);"
+                    ));
+                    put("clear", DocumentationBuilder.createExampleParagraphs(
+                            "This example gets render binding of the maximum size for the display below and clears the screen. " +
+                                    "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                            "var graphicsMod = computer.bindModuleOfType(\"" + GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                                    "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
+                                    "var display = graphicsMod.getRenderBinding(\"down\",\n" +
+                                    "  maxRes[\"width\"], maxRes[\"height\"]);\n" +
+                                    "graphicsMod.clear(display);"
+                    ));
+                    put("createOffScreenBuffer", DocumentationBuilder.createExampleParagraphs(
+                            "This example creates an off screen buffer of maximum resolution accepted by the display below and " +
+                                    "draws fiver rectangles on it in different colors, then renders the buffer to the display. " +
+                                    "Please note that all the five rectangles appear on the display at the same time (buffering), " +
+                                    "also rendering like this is much faster than rendering one rectangle on the screen at a time. " +
+                                    "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                            "var graphicsMod = computer.bindModuleOfType(\"" + GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                                    "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
+                                    "var width = maxRes[\"width\"];\n" +
+                                    "var height = maxRes[\"height\"];\n" +
+                                    "var display = graphicsMod.getRenderBinding(\"down\", width, height);\n" +
+                                    "var buffer = graphicsMod.createOffScreenBuffer(width, height);\n" +
+                                    "var red = graphicsMod.createColor(\"ff0000\");\n" +
+                                    "for (var i=0; i<5; i++) {\n" +
+                                    "  graphicsMod.drawRectangle(buffer, 0, i*10, width, 5, red, false);\n" +
+                                    "}\n" +
+                                    "graphicsMod.renderBuffer(display, buffer);"
+                    ));
+                    put("renderBuffer", DocumentationBuilder.createExampleParagraphs(
+                            "This example creates an off screen buffer of maximum resolution accepted by the display below and " +
+                                    "draws fiver rectangles on it in different colors, then renders the buffer to the display. " +
+                                    "Please note that all the five rectangles appear on the display at the same time (buffering), " +
+                                    "also rendering like this is much faster than rendering one rectangle on the screen at a time. " +
+                                    "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                            "var graphicsMod = computer.bindModuleOfType(\"" + GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                                    "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
+                                    "var width = maxRes[\"width\"];\n" +
+                                    "var height = maxRes[\"height\"];\n" +
+                                    "var display = graphicsMod.getRenderBinding(\"down\", width, height);\n" +
+                                    "var buffer = graphicsMod.createOffScreenBuffer(width, height);\n" +
+                                    "var red = graphicsMod.createColor(\"ff0000\");\n" +
+                                    "for (var i=0; i<5; i++) {\n" +
+                                    "  graphicsMod.drawRectangle(buffer, 0, i*10, width, 5, red, false);\n" +
+                                    "}\n" +
+                                    "graphicsMod.renderBuffer(display, buffer);"
+                    ));
+                    put("createColor", DocumentationBuilder.createExampleParagraphs(
+                            "This example draws a red rectangle in the middle of the display with half of its width and height. " +
+                                    "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                            "var graphicsMod = computer.bindModuleOfType(\"" + GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                                    "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
+                                    "var width = maxRes[\"width\"];\n" +
+                                    "var height = maxRes[\"height\"];\n" +
+                                    "var display = graphicsMod.getRenderBinding(\"down\", width, height);\n" +
+                                    "var  = graphicsMod.createColor(\"ff0000\");\n" +
+                                    "graphicsMod.drawRectangle(display, width/4, height/4, width/2, height/2, red, false);"
+                    ));
+                    put("createGradient", DocumentationBuilder.createExampleParagraphs(
+                            "This example draws a filled rectangle in the middle of the display with half of its width and height. " +
+                                    "The fill of the rectangle is an acyclic gradient spanning between top-left and bottom-right corners of the " +
+                                    "display, going from red to green color. Please note, that neither red, nor green colors will be " +
+                                    "displayed, because the bounds of the gradient are outside of the drawn shape. " +
+                                    "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                            "var graphicsMod = computer.bindModuleOfType(\"" + GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                                    "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
+                                    "var width = maxRes[\"width\"];\n" +
+                                    "var height = maxRes[\"height\"];\n" +
+                                    "var display = graphicsMod.getRenderBinding(\"down\", width, height);\n" +
+                                    "var gradient = graphicsMod.createGradient(\"ff0000\", 0, 0, \"00ff00\", width, height, false);\n" +
+                                    "graphicsMod.drawRectangle(display, width/4, height/4, width/2, height/2, gradient, true);"
+                    ));
+                    put("drawText", DocumentationBuilder.createExampleParagraphs(
+                            "This example draws the \"Hello World!\" text on the display. " +
+                                    "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                            "var graphicsMod = computer.bindModuleOfType(\"" + GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                                    "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
+                                    "var width = maxRes[\"width\"];\n" +
+                                    "var height = maxRes[\"height\"];\n" +
+                                    "var display = graphicsMod.getRenderBinding(\"down\", width, height);\n" +
+                                    "var white = graphicsMod.createColor(\"ffffff\");\n" +
+                                    "graphicsMod.drawText(display, \"Hello World!\", 0, 15, \"Arial\", 12, white);"
+                    ));
+                    put("drawRectangle", DocumentationBuilder.createExampleParagraphs(
+                            "This example draws a red rectangle in the middle of the display with half of its width and height. " +
+                                    "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                            "var graphicsMod = computer.bindModuleOfType(\"" + GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                                    "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
+                                    "var width = maxRes[\"width\"];\n" +
+                                    "var height = maxRes[\"height\"];\n" +
+                                    "var display = graphicsMod.getRenderBinding(\"down\", width, height);\n" +
+                                    "var red = graphicsMod.createColor(\"ff0000\");\n" +
+                                    "graphicsMod.drawRectangle(display, width/4, height/4, width/2, height/2, red, false);"
+                    ));
+                    put("drawRoundedRectangle", DocumentationBuilder.createExampleParagraphs(
+                            "This example draws a red rounded rectangle in the middle of the display with half of its width and height. The " +
+                                    "arc of the rounding is 1/8 of the width and height respectively. " +
+                                    "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                            "var graphicsMod = computer.bindModuleOfType(\"" + GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                                    "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
+                                    "var width = maxRes[\"width\"];\n" +
+                                    "var height = maxRes[\"height\"];\n" +
+                                    "var display = graphicsMod.getRenderBinding(\"down\", width, height);\n" +
+                                    "var red = graphicsMod.createColor(\"ff0000\");\n" +
+                                    "graphicsMod.drawRoundedRectangle(display, width/4, height/4, width/2, height/2, width/8, height/8, red, false);"
+                    ));
+                    put("getRenderSize", DocumentationBuilder.createExampleParagraphs(
+                            "This example queries the size of the Graphics Render Binding created from a display with its " +
+                                    "maximum resolution then displays it. " +
+                                    "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                            "var graphicsMod = computer.bindModuleOfType(\"" + GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                                    "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
+                                    "var width = maxRes[\"width\"];\n" +
+                                    "var height = maxRes[\"height\"];\n" +
+                                    "var display = graphicsMod.getRenderBinding(\"down\", width, height);" +
+                                    "var renderSize = graphicsMod.getRenderSize(display);\n" +
+                                    "console.append(\"Width: \"+renderSize[\"width\"]+\", height: \"+renderSize[\"height\"]);"
+                    ));
+                    put("getMaximumResolution", DocumentationBuilder.createExampleParagraphs(
+                            "This example queries the display below for its maximum resolution supported and prints it out " +
+                                    "to console. "+
+                                    "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                            "var graphicsMod = computer.bindModuleOfType(\"" + GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                                    "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
+                                    "var width = maxRes[\"width\"];\n" +
+                                    "var height = maxRes[\"height\"];\n" +
+                                    "console.append(\"Maximum resolution is \" + width + \"x\" + height);"
+                    ));
+                    put("drawOval", DocumentationBuilder.createExampleParagraphs(
+                            "This example draws a red oval with bounds the size of the whole display. " +
+                                    "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                            "var graphicsMod = computer.bindModuleOfType(\"" + GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                                    "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
+                                    "var width = maxRes[\"width\"];\n" +
+                                    "var height = maxRes[\"height\"];\n" +
+                                    "var display = graphicsMod.getRenderBinding(\"down\", width, height);\n" +
+                                    "var red = graphicsMod.createColor(\"ff0000\");\n" +
+                                    "graphicsMod.drawOval(display, 0, 0, width, height, red, false);"
+                    ));
+                    put("drawLine", DocumentationBuilder.createExampleParagraphs(
+                            "This example draws a blue line from top-left corner to bottom-right corner of the display with a width of " +
+                                    "two pixels. "+
+                                    "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                            "var graphicsMod = computer.bindModuleOfType(\"" + GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                                    "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
+                                    "var width = maxRes[\"width\"];\n" +
+                                    "var height = maxRes[\"height\"];\n" +
+                                    "var display = graphicsMod.getRenderBinding(\"down\", width, height);\n" +
+                                    "var blue = graphicsMod.createColor(\"0000ff\");\n" +
+                                    "graphicsMod.drawLine(display, 0, 0, width, height, blue, 2);"
+                    ));
                 }});
     }
 
