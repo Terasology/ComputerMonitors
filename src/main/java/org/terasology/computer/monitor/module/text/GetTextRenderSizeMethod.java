@@ -48,9 +48,9 @@ public class GetTextRenderSizeMethod implements ModuleMethodExecutable<Object> {
 
         Vector2i maxCharacters = renderCommandSink.getMaxCharacters();
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("width", maxCharacters.x);
-        result.put("height", maxCharacters.y);
+        Map<String, Variable> result = new HashMap<>();
+        result.put("width", new Variable(maxCharacters.x));
+        result.put("height", new Variable(maxCharacters.y));
 
         return result;
     }

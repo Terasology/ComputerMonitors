@@ -48,9 +48,9 @@ public class GetGraphicsRenderSizeMethod implements ModuleMethodExecutable<Objec
 
         Vector2i resolution = renderCommandSink.getResolution();
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("width", resolution.x);
-        result.put("height", resolution.y);
+        Map<String, Variable> result = new HashMap<>();
+        result.put("width", new Variable(resolution.x));
+        result.put("height", new Variable(resolution.y));
         
         return result;
     }

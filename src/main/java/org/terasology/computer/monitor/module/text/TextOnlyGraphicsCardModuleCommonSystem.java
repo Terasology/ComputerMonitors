@@ -18,6 +18,7 @@ package org.terasology.computer.monitor.module.text;
 import org.terasology.browser.data.ParagraphData;
 import org.terasology.computer.display.system.client.DisplayRenderModeRegistry;
 import org.terasology.computer.system.common.ComputerModuleRegistry;
+import org.terasology.computer.ui.documentation.DocumentationBuilder;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
@@ -52,7 +53,7 @@ public class TextOnlyGraphicsCardModuleCommonSystem extends BaseComponentSystem 
 
         computerModuleRegistry.registerComputerModule(
                 TEXT_GRAPHICS_CARD_MODULE_TYPE,
-                new TextOnlyGraphicsCardComputerModule(multiBlockRegistry, TEXT_GRAPHICS_CARD_MODULE_TYPE, "Text Graphics card"),
+                new TextOnlyGraphicsCardComputerModule(multiBlockRegistry, TEXT_GRAPHICS_CARD_MODULE_TYPE, "Text Graphics Card"),
                 "This module allows computer to render text on displays.",
                 null,
                 new TreeMap<String, String>() {{
@@ -104,6 +105,77 @@ public class TextOnlyGraphicsCardModuleCommonSystem extends BaseComponentSystem 
                             "\"height\" that has a value type of Number and contains height in characters.");
                 }},
                 new HashMap<String, Collection<ParagraphData>>() {{
+                    put("getRenderBinding", DocumentationBuilder.createExampleParagraphs(
+                            "This example gets render binding for the display below the computer and prints the display's " +
+                                    "width and height available in characters. Please make sure " +
+                                    "this computer has a module of Text Graphics Card type in any of its slots.",
+                            "var textMod = computer.bindModuleOfType(\""+TEXT_GRAPHICS_CARD_MODULE_TYPE+"\");\n" +
+                                    "var renderBinding = textMod.getRenderBinding(\"down\");\n" +
+                                    "var renderSize = textMod.getRenderSize(renderBinding);\n" +
+                                    "console.append(\"The render size is \"+renderSize[\"width\"]+\n" +
+                                    "  \" by \"+renderSize[\"height\"]+\" characters.\");"
+                    ));
+                    put("setCharacters", DocumentationBuilder.createExampleParagraphs(
+                            "This example prints \"Hello World!\" in the first line of the display below the computer. " +
+                                    "Please make sure this computer has a module of Text Graphics Card type in any of its slots.",
+                            "var textMod = computer.bindModuleOfType(\""+TEXT_GRAPHICS_CARD_MODULE_TYPE+"\");\n" +
+                                    "var renderBinding = textMod.getRenderBinding(\"down\");\n" +
+                                    "textMod.setCharacters(renderBinding, 0, 0, \"Hello World!\");"
+                    ));
+                    put("clear", DocumentationBuilder.createExampleParagraphs(
+                            "This example prints \"Hello World!\" then immediately clears the display below the computer. " +
+                                    "Please make sure this computer has a module of Text Graphics Card type in any of its slots.",
+                            "var textMod = computer.bindModuleOfType(\""+TEXT_GRAPHICS_CARD_MODULE_TYPE+"\");\n" +
+                                    "var renderBinding = textMod.getRenderBinding(\"down\");\n" +
+                                    "textMod.setCharacters(renderBinding, 0, 0, \"Hello World!\");\n" +
+                                    "textMod.clear(renderBinding);"
+                    ));
+                    put("createOffScreenBuffer", DocumentationBuilder.createExampleParagraphs(
+                            "This example creates an off screen buffer with the size that the display below accepts, " +
+                                    "prints out \"Hello World!\" in each line of the buffer, then renders the buffer to " +
+                                    "the display. Please note, that all the text will be displayed at the same time " +
+                                    "on the display (buffering), and also that this process is much faster than displaying " +
+                                    "one line at the time on the display without the buffer. " +
+                                    "Please make sure this computer has a module of Text Graphics Card type in any of its slots.",
+                            "var textMod = computer.bindModuleOfType(\""+TEXT_GRAPHICS_CARD_MODULE_TYPE+"\");\n" +
+                                    "var renderBinding = textMod.getRenderBinding(\"down\");\n" +
+                                    "var renderSize = textMod.getRenderSize(renderBinding);\n" +
+                                    "var width = renderSize[\"width\"];\n" +
+                                    "var height = renderSize[\"height\"];\n" +
+                                    "var buffer = textMod.createOffScreenBuffer(width, height);\n" +
+                                    "for (var y=0; y<height; y++) {\n" +
+                                    "  textMod.setCharacters(0, y, \"Hello World!\");\n" +
+                                    "}\n" +
+                                    "textMod.renderBuffer(renderBinding, buffer);"
+                    ));
+                    put("renderBuffer", DocumentationBuilder.createExampleParagraphs(
+                            "This example creates an off screen buffer with the size that the display below accepts, " +
+                                    "prints out \"Hello World!\" in each line of the buffer, then renders the buffer to " +
+                                    "the display. Please note, that all the text will be displayed at the same time " +
+                                    "on the display (buffering), and also that this process is much faster than displaying " +
+                                    "one line at the time on the display without the buffer. " +
+                                    "Please make sure this computer has a module of Text Graphics Card type in any of its slots.",
+                            "var textMod = computer.bindModuleOfType(\""+TEXT_GRAPHICS_CARD_MODULE_TYPE+"\");\n" +
+                                    "var renderBinding = textMod.getRenderBinding(\"down\");\n" +
+                                    "var renderSize = textMod.getRenderSize(renderBinding);\n" +
+                                    "var width = renderSize[\"width\"];\n" +
+                                    "var height = renderSize[\"height\"];\n" +
+                                    "var buffer = textMod.createOffScreenBuffer(width, height);\n" +
+                                    "for (var y=0; y<height; y++) {\n" +
+                                    "  textMod.setCharacters(0, y, \"Hello World!\");\n" +
+                                    "}\n" +
+                                    "textMod.renderBuffer(renderBinding, buffer);"
+                    ));
+                    put("getRenderSize", DocumentationBuilder.createExampleParagraphs(
+                            "This example gets render binding for the display below the computer and prints the display's " +
+                                    "width and height available in characters. Please make sure " +
+                                    "this computer has a module of Text Graphics Card type in any of its slots.",
+                            "var textMod = computer.bindModuleOfType(\""+TEXT_GRAPHICS_CARD_MODULE_TYPE+"\");\n" +
+                                    "var renderBinding = textMod.getRenderBinding(\"down\");\n" +
+                                    "var renderSize = textMod.getRenderSize(renderBinding);\n" +
+                                    "console.append(\"The render size is \"+renderSize[\"width\"]+\n" +
+                                    "  \" by \"+renderSize[\"height\"]+\" characters.\");"
+                    ));
                 }});
     }
 

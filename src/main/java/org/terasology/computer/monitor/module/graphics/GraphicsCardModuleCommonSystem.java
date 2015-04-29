@@ -54,7 +54,7 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
 
         computerModuleRegistry.registerComputerModule(
                 GRAPHICS_CARD_MODULE_TYPE,
-                new GraphicsCardComputerModule(multiBlockRegistry, GRAPHICS_CARD_MODULE_TYPE, "Graphics card"),
+                new GraphicsCardComputerModule(multiBlockRegistry, GRAPHICS_CARD_MODULE_TYPE, "Graphics Card"),
                 "This module allows computer to render graphics on displays.",
                 null,
                 new TreeMap<String, String>() {{
