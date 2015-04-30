@@ -55,6 +55,8 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
     @In
     private EntityManager entityManager;
 
+    private DefaultDisplayRenderer defaultDisplayRenderer = new DefaultDisplayRenderer();
+
     @Override
     public void registerComputerMonitorRenderer(String modePrefix, DisplayRenderer displayRenderer) {
         computerMonitorRendererMap.put(modePrefix, displayRenderer);
@@ -109,7 +111,7 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
     private Material createMaterial(String mode, List<String> data) {
         Material material = render(mode, data);
         if (material == null) {
-            material = Assets.getMaterial("ComputerMonitors:ComputerMonitor");
+            material = defaultDisplayRenderer.renderMaterial(mode, data);
         }
         return material;
     }
@@ -152,10 +154,6 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
     }
 
     private void addMeshForSide(MeshBuilder meshBuilder, Side side, Vector3i monitorSize) {
-        addMeshForSide(meshBuilder, side, monitorSize, 0, 0.0625f);
-    }
-
-    private void addMeshForSide(MeshBuilder meshBuilder, Side side, Vector3i monitorSize, float textureMin, float textureMax) {
         BlockShape blockShape = (BlockShape) Assets.get(AssetType.SHAPE, "engine:cube");
         BlockMeshPart meshPart = blockShape.getMeshPart(BlockPart.fromSide(side));
 
@@ -165,10 +163,10 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
                 getBottomRight(monitorSize, meshPart),
                 getBottomLeft(monitorSize, meshPart));
         meshBuilder.addColor(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK);
-        meshBuilder.addTexCoord(textureMin, textureMin);
-        meshBuilder.addTexCoord(textureMin, textureMax);
-        meshBuilder.addTexCoord(textureMax, textureMax);
-        meshBuilder.addTexCoord(textureMax, textureMin);
+        meshBuilder.addTexCoord((float) 0, (float) 0);
+        meshBuilder.addTexCoord((float) 0, 0.0625f);
+        meshBuilder.addTexCoord(0.0625f, 0.0625f);
+        meshBuilder.addTexCoord(0.0625f, (float) 0);
     }
 
     private void addNormalizedMeshForSide(MeshBuilder meshBuilder, Side side, Vector3i monitorSize) {
