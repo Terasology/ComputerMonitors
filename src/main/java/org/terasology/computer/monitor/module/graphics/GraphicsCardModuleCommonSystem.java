@@ -61,6 +61,8 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
                 new TreeMap<String, String>() {{
                     put("getRenderBinding", "Returns Graphics Render Binding that allows to render graphics on a " +
                             "connected display. Specified resolution will be set on the device when binding is used.");
+                    put("getMaxRenderBinding", "Returns Graphics Render Binding that allows to render graphics on a " +
+                            "connected display. Maximum resolution will be set on the device when binding is used.");
                     put("clear", "Clears the Graphics Render Binding of any data.");
                     put("createOffScreenBuffer", "Creates Graphics Off Screen Buffer that can be used for fast rendering " +
                             "and buffering and later rendered on a display. Please note that this off screen buffer also " +
@@ -82,6 +84,10 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
                                 put("direction", "[String] Direction of the binding in reference to computer.");
                                 put("width", "[Number] Width of the graphics binding.");
                                 put("height", "[Number] Height of the graphics binding.");
+                            }});
+                    put("getMaxRenderBinding",
+                            new LinkedHashMap<String, String>() {{
+                                put("direction", "[String] Direction of the binding in reference to computer.");
                             }});
                     put("clear",
                             new LinkedHashMap<String, String>() {{
@@ -175,6 +181,7 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
                 }},
                 new HashMap<String, String>() {{
                     put("getRenderBinding", "[Graphics Render Binding] Binding for the specified direction and resolution.");
+                    put("getMaxRenderBinding", "[Graphics Render Binding] Binding for the specified direction and maximum available resolution.");
                     put("createOffScreenBuffer", "[Graphics Off Screen Buffer] Off screen buffer with the specified resolution.");
                     put("createColor", "[Paint] Requested color paint.");
                     put("createGradient", "[Paint] Requested gradient paint.");
@@ -193,6 +200,13 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
                                     "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
                                     "var display = graphicsMod.getRenderBinding(\"down\",\n" +
                                     "  maxRes[\"width\"], maxRes[\"height\"]);\n" +
+                                    "graphicsMod.clear(display);"
+                    ));
+                    put("getMaxRenderBinding", DocumentationBuilder.createExampleParagraphs(
+                            "This example gets render binding of the maximum size for the display below and clears the screen. " +
+                                    "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                            "var graphicsMod = computer.bindModuleOfType(\"" + GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                                    "var display = graphicsMod.getMaxRenderBinding(\"down\");\n" +
                                     "graphicsMod.clear(display);"
                     ));
                     put("clear", DocumentationBuilder.createExampleParagraphs(

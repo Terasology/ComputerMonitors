@@ -56,6 +56,8 @@ public class GraphicsCardComputerModule implements ComputerModule {
     public ModuleMethodExecutable getFunctionByName(String name) {
         if (name.equals("getRenderBinding"))
             return new GraphicsRenderBindingMethod("getRenderBinding", multiBlockRegistry);
+        if (name.equals("getMaxRenderBinding"))
+            return new GraphicsMaxRenderBindingMethod("getMaxRenderBinding", multiBlockRegistry);
         if (name.equals("clear"))
             return new GraphicsClearMethod("clear");
         if (name.equals("createOffScreenBuffer"))
