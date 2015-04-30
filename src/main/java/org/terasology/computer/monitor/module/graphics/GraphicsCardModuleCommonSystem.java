@@ -248,7 +248,7 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
                                     "var width = maxRes[\"width\"];\n" +
                                     "var height = maxRes[\"height\"];\n" +
                                     "var display = graphicsMod.getRenderBinding(\"down\", width, height);\n" +
-                                    "var  = graphicsMod.createColor(\"ff0000\");\n" +
+                                    "var red = graphicsMod.createColor(\"ff0000\");\n" +
                                     "graphicsMod.drawRectangle(display, width/4, height/4, width/2, height/2, red, false);"
                     ));
                     put("createGradient", DocumentationBuilder.createExampleParagraphs(

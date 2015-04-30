@@ -144,7 +144,7 @@ public class TextOnlyGraphicsCardModuleCommonSystem extends BaseComponentSystem 
                                     "var height = renderSize[\"height\"];\n" +
                                     "var buffer = textMod.createOffScreenBuffer(width, height);\n" +
                                     "for (var y=0; y<height; y++) {\n" +
-                                    "  textMod.setCharacters(0, y, \"Hello World!\");\n" +
+                                    "  textMod.setCharacters(buffer, 0, y, \"Hello World!\");\n" +
                                     "}\n" +
                                     "textMod.renderBuffer(renderBinding, buffer);"
                     ));
@@ -162,7 +162,7 @@ public class TextOnlyGraphicsCardModuleCommonSystem extends BaseComponentSystem 
                                     "var height = renderSize[\"height\"];\n" +
                                     "var buffer = textMod.createOffScreenBuffer(width, height);\n" +
                                     "for (var y=0; y<height; y++) {\n" +
-                                    "  textMod.setCharacters(0, y, \"Hello World!\");\n" +
+                                    "  textMod.setCharacters(buffer, 0, y, \"Hello World!\");\n" +
                                     "}\n" +
                                     "textMod.renderBuffer(renderBinding, buffer);"
                     ));
