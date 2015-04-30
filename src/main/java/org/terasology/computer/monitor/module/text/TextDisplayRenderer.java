@@ -37,7 +37,7 @@ public class TextDisplayRenderer implements DisplayRenderer {
     private int fontImageWidth = fontImage.getWidth();
     private int fontImageHeight = fontImage.getHeight();
 
-    private int characterWidth = 10;
+    private int characterWidth = 8;
     private int characterHeight = 16;
 
     @Override

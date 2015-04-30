@@ -99,7 +99,7 @@ public class RelativeLiveTextRenderBindingCustomObject implements CustomObject, 
             int width = Math.max(monitorSize.x, monitorSize.z);
 
             int lineCount = height * 5;
-            int charsInLine = width * 8;
+            int charsInLine = width * 10;
 
             return new Vector2i(charsInLine, lineCount);
         }
