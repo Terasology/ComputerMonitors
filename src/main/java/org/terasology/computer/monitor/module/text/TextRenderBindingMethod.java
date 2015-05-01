@@ -19,29 +19,38 @@ import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
 import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
-import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
+import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
 import org.terasology.math.Direction;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 
 import java.util.Map;
 
-public class TextRenderBindingMethod implements ModuleMethodExecutable<Object> {
+public class TextRenderBindingMethod extends AbstractModuleMethodExecutable<Object> {
     private final String methodName;
     private MultiBlockRegistry multiBlockRegistry;
 
     public TextRenderBindingMethod(String methodName, MultiBlockRegistry multiBlockRegistry) {
+        super("Creates a Text Render Binding that allows to render text on a display.",
+                "Text Render Binding", "Binding that can be used to render text on.");
         this.multiBlockRegistry = multiBlockRegistry;
         this.methodName = methodName;
+
+        addParameter("direction", "String", "Specifies direction of the display relative to computer.");
+
+        addExample("This example gets render binding for the display below the computer and prints the display's " +
+                        "width and height available in characters. Please make sure " +
+                        "this computer has a module of Text Graphics Card type in any of its slots.",
+                "var textMod = computer.bindModuleOfType(\"" + TextOnlyGraphicsCardModuleCommonSystem.TEXT_GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                        "var renderBinding = textMod.getRenderBinding(\"down\");\n" +
+                        "var renderSize = textMod.getRenderSize(renderBinding);\n" +
+                        "console.append(\"The render size is \"+renderSize[\"width\"]+\n" +
+                        "  \" by \"+renderSize[\"height\"]+\" characters.\");"
+        );
     }
 
     @Override
     public int getCpuCycleDuration() {
         return 10;
-    }
-
-    @Override
-    public String[] getParameterNames() {
-        return new String[] { "direction" };
     }
 
     @Override

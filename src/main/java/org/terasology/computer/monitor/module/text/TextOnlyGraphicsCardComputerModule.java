@@ -15,57 +15,22 @@
  */
 package org.terasology.computer.monitor.module.text;
 
+import org.terasology.computer.module.DefaultComputerModule;
 import org.terasology.computer.system.server.lang.ComputerModule;
 import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 
 import java.util.Collection;
 
-public class TextOnlyGraphicsCardComputerModule implements ComputerModule {
-    private MultiBlockRegistry multiBlockRegistry;
-    private String moduleType;
-    private String moduleName;
-
+public class TextOnlyGraphicsCardComputerModule extends DefaultComputerModule {
     public TextOnlyGraphicsCardComputerModule(MultiBlockRegistry multiBlockRegistry, String moduleType, String moduleName) {
-        this.multiBlockRegistry = multiBlockRegistry;
-        this.moduleType = moduleType;
-        this.moduleName = moduleName;
-    }
+        super(moduleType, moduleName);
 
-    @Override
-    public String getModuleType() {
-        return moduleType;
-    }
-
-    @Override
-    public String getModuleName() {
-        return moduleName;
-    }
-
-    @Override
-    public boolean canBePlacedInComputer(Collection<ComputerModule> computerModulesInstalled) {
-        return true;
-    }
-
-    @Override
-    public boolean acceptsNewModule(ComputerModule computerModule) {
-        return true;
-    }
-
-    @Override
-    public ModuleMethodExecutable getFunctionByName(String name) {
-        if (name.equals("getRenderBinding"))
-            return new TextRenderBindingMethod("getRenderBinding", multiBlockRegistry);
-        if (name.equals("setCharacters"))
-            return new TextSetCharactersMethod("setCharacters");
-        if (name.equals("clear"))
-            return new TextClearMethod("clear");
-        if (name.equals("createOffScreenBuffer"))
-            return new TextCreateOffScreenBufferMethod("createOffScreenBuffer");
-        if (name.equals("renderBuffer"))
-            return new TextRenderBufferMethod("renderBuffer");
-        if (name.equals("getRenderSize"))
-            return new GetTextRenderSizeMethod("getRenderSize");
-        return null;
+        addMethod("getRenderBinding", new TextRenderBindingMethod("getRenderBinding", multiBlockRegistry));
+        addMethod("setCharacters", new TextSetCharactersMethod("setCharacters"));
+        addMethod("clear", new TextClearMethod("clear"));
+        addMethod("createOffScreenBuffer", new TextCreateOffScreenBufferMethod("createOffScreenBuffer"));
+        addMethod("renderBuffer", new TextRenderBufferMethod("renderBuffer"));
+        addMethod("getRenderSize", new GetTextRenderSizeMethod("getRenderSize"));
     }
 }

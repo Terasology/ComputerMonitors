@@ -19,18 +19,39 @@ import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
 import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
+import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
 import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DrawOvalMethod implements ModuleMethodExecutable<Object> {
+public class DrawOvalMethod extends AbstractModuleMethodExecutable<Object> {
 
     private final String methodName;
 
     public DrawOvalMethod(String methodName) {
+        super("Draws or fills an oval with the specified bounds with specified Paint.");
         this.methodName = methodName;
+
+        addParameter("graphicsRenderBinding", "Graphics Render Binding", "Binding to draw oval on.");
+        addParameter("x", "Number", "X coordinate of the top-left corner of the bounding rectangle.");
+        addParameter("y", "Number", "Y coordinate of the top-left corner of the bounding rectangle.");
+        addParameter("width", "Number", "Width of the bounding rectangle.");
+        addParameter("height", "Number", "Height of the bounding rectangle.");
+        addParameter("paint", "Paint", "Paint to use to draw the oval.");
+        addParameter("fill", "Boolean", "If the oval should also be filled with the paint.");
+
+        addExample(                            "This example draws a red oval with bounds the size of the whole display. " +
+                        "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                "var graphicsMod = computer.bindModuleOfType(\"" + GraphicsCardModuleCommonSystem.GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                        "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
+                        "var width = maxRes[\"width\"];\n" +
+                        "var height = maxRes[\"height\"];\n" +
+                        "var display = graphicsMod.getRenderBinding(\"down\", width, height);\n" +
+                        "var red = graphicsMod.createColor(\"ff0000\");\n" +
+                        "graphicsMod.drawOval(display, 0, 0, width, height, red, false);"
+        );
     }
 
     @Override
@@ -42,11 +63,6 @@ public class DrawOvalMethod implements ModuleMethodExecutable<Object> {
     public int getMinimumExecutionTime(int line, ComputerCallback computer, Map<String, Variable> parameters) throws ExecutionException {
         GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", methodName);
         return renderCommandSink.isInstantRendering() ? 0 : 100;
-    }
-
-    @Override
-    public String[] getParameterNames() {
-        return new String[]{"renderBinding", "x", "y", "width", "height", "paint", "fill"};
     }
 
     @Override

@@ -21,28 +21,45 @@ import com.gempukku.lang.Variable;
 import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.monitor.module.ColorUtils;
-import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
+import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-public class CreateGradientMethod implements ModuleMethodExecutable<Object> {
-
+public class CreateGradientMethod extends AbstractModuleMethodExecutable<Object> {
     private final String methodName;
 
     public CreateGradientMethod(String methodName) {
+        super("Creates a Paint object with a gradient defined.", "Paint", "Requested gradient paint.");
         this.methodName = methodName;
+
+        addParameter("hex1", "String", "Hexadecimal value of the first color in the RRGGBBAA or RRGGBB format.");
+        addParameter("x1", "Number", "X coordinate of the first color.");
+        addParameter("y1", "Number", "Y coordinate of the first color.");
+        addParameter("hex2", "String", "Hexadecimal value of the second color in the RRGGBBAA or RRGGBB format.");
+        addParameter("x2", "Number", "X coordinate of the second color.");
+        addParameter("y2", "Number", "Y coordinate of the second color.");
+        addParameter("cyclic", "Boolean", "If the gradient should be cyclic or not.");
+
+        addExample("This example draws a filled rectangle in the middle of the display with half of its width and height. " +
+                        "The fill of the rectangle is an acyclic gradient spanning between top-left and bottom-right corners of the " +
+                        "display, going from red to green color. Please note, that neither red, nor green colors will be " +
+                        "displayed, because the bounds of the gradient are outside of the drawn shape. " +
+                        "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                "var graphicsMod = computer.bindModuleOfType(\"" + GraphicsCardModuleCommonSystem.GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                        "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
+                        "var width = maxRes[\"width\"];\n" +
+                        "var height = maxRes[\"height\"];\n" +
+                        "var display = graphicsMod.getRenderBinding(\"down\", width, height);\n" +
+                        "var gradient = graphicsMod.createGradient(\"ff0000\", 0, 0, \"00ff00\", width, height, false);\n" +
+                        "graphicsMod.drawRectangle(display, width/4, height/4, width/2, height/2, gradient, true);"
+        );
     }
 
     @Override
     public int getCpuCycleDuration() {
         return 50;
-    }
-
-    @Override
-    public String[] getParameterNames() {
-        return new String[]{"hex1", "x1", "y1", "hex2", "x2", "y2", "cyclic"};
     }
 
     @Override

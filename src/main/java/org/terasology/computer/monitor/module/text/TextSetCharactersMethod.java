@@ -21,19 +21,32 @@ import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.monitor.module.graphics.GraphicsRenderBindingValidator;
 import org.terasology.computer.monitor.module.graphics.GraphicsRenderCommandSink;
-import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
+import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
 import org.terasology.math.Vector2i;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class TextSetCharactersMethod implements ModuleMethodExecutable<Object> {
+public class TextSetCharactersMethod extends AbstractModuleMethodExecutable<Object> {
 
     private final String methodName;
 
     public TextSetCharactersMethod(String methodName) {
+        super("Sets characters on a Text Render Binding at the specified coordinates.");
         this.methodName = methodName;
+
+        addParameter("textRenderBinding", "Text Render Binding", "Binding to render on.");
+        addParameter("x", "Number", "X coordinate of the rendered text - number of characters from the left.");
+        addParameter("y", "Number", "Y coordinate of the rendered text - line number.");
+        addParameter("text", "String", "Text to display. Please note, that the sum of x and text length cannot exceed display width.");
+
+        addExample("This example prints \"Hello World!\" in the first line of the display below the computer. " +
+                        "Please make sure this computer has a module of Text Graphics Card type in any of its slots.",
+                "var textMod = computer.bindModuleOfType(\"" + TextOnlyGraphicsCardModuleCommonSystem.TEXT_GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                        "var renderBinding = textMod.getRenderBinding(\"down\");\n" +
+                        "textMod.setCharacters(renderBinding, 0, 0, \"Hello World!\");"
+        );
     }
 
     @Override
@@ -45,11 +58,6 @@ public class TextSetCharactersMethod implements ModuleMethodExecutable<Object> {
     public int getMinimumExecutionTime(int line, ComputerCallback computer, Map<String, Variable> parameters) throws ExecutionException {
         GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", methodName);
         return renderCommandSink.isInstantRendering() ? 0 : 30;
-    }
-
-    @Override
-    public String[] getParameterNames() {
-        return new String[]{"renderBinding", "x", "y", "text"};
     }
 
     @Override

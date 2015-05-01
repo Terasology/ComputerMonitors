@@ -19,18 +19,40 @@ import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
 import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
+import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
 import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DrawTextMethod implements ModuleMethodExecutable<Object> {
+public class DrawTextMethod extends AbstractModuleMethodExecutable<Object> {
 
     private final String methodName;
 
     public DrawTextMethod(String methodName) {
+        super("Draws text on the Graphics Render Binding.");
+
         this.methodName = methodName;
+
+        addParameter("graphicsRenderBinding", "Graphics Render Binding", "Binding to draw text on.");
+        addParameter("text", "String", "Text to draw");
+        addParameter("x", "Number", "X coordinate of the baseline for the font.");
+        addParameter("y", "Number", "Y coordinate of the baseline for the font.");
+        addParameter("font", "String", "Font to use (please note that if a player does not have the font it will be drawn with the default one.");
+        addParameter("fontSize", "Number", "Size of the font.");
+        addParameter("paint", "Paint", "Paint to use to draw the text.");
+
+        addExample(                            "This example draws the \"Hello World!\" text on the display. " +
+                        "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                "var graphicsMod = computer.bindModuleOfType(\"" + GraphicsCardModuleCommonSystem.GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                        "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
+                        "var width = maxRes[\"width\"];\n" +
+                        "var height = maxRes[\"height\"];\n" +
+                        "var display = graphicsMod.getRenderBinding(\"down\", width, height);\n" +
+                        "var white = graphicsMod.createColor(\"ffffff\");\n" +
+                        "graphicsMod.drawText(display, \"Hello World!\", 0, 15, \"Arial\", 12, white);"
+        );
     }
 
     @Override
@@ -42,11 +64,6 @@ public class DrawTextMethod implements ModuleMethodExecutable<Object> {
     public int getMinimumExecutionTime(int line, ComputerCallback computer, Map<String, Variable> parameters) throws ExecutionException {
         GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", methodName);
         return renderCommandSink.isInstantRendering() ? 0 : 50;
-    }
-
-    @Override
-    public String[] getParameterNames() {
-        return new String[]{"renderBinding", "text", "x", "y", "font", "fontSize", "paint"};
     }
 
     @Override

@@ -21,7 +21,7 @@ import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.display.component.DisplayComponent;
 import org.terasology.computer.display.system.server.DisplayServerSystem;
-import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
+import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.math.Direction;
 import org.terasology.math.geom.Vector3f;
@@ -30,23 +30,31 @@ import org.terasology.multiBlock2.MultiBlockRegistry;
 
 import java.util.Map;
 
-public class GraphicsMaxRenderBindingMethod implements ModuleMethodExecutable<Object> {
+public class GraphicsMaxRenderBindingMethod extends AbstractModuleMethodExecutable<Object> {
     private final String methodName;
     private MultiBlockRegistry multiBlockRegistry;
 
     public GraphicsMaxRenderBindingMethod(String methodName, MultiBlockRegistry multiBlockRegistry) {
+        super("Returns Graphics Render Binding that allows to render graphics on a " +
+                        "connected display. Maximum resolution will be set on the device when binding is used.",
+                "Graphics Render Binding", "Binding for the specified direction and maximum available resolution.");
         this.multiBlockRegistry = multiBlockRegistry;
         this.methodName = methodName;
+
+        addParameter("direction", "String", "Direction of the binding in reference to computer.");
+
+        addExample("This example gets render binding of the maximum size for the display below and clears the screen. " +
+                        "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                "var graphicsMod = computer.bindModuleOfType(\"" + GraphicsCardModuleCommonSystem.GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                        "var display = graphicsMod.getMaxRenderBinding(\"down\");\n" +
+                        "graphicsMod.clear(display);"
+        );
+
     }
 
     @Override
     public int getCpuCycleDuration() {
         return 10;
-    }
-
-    @Override
-    public String[] getParameterNames() {
-        return new String[] { "direction" };
     }
 
     @Override
@@ -62,8 +70,9 @@ public class GraphicsMaxRenderBindingMethod implements ModuleMethodExecutable<Ob
                 computerLocation.z + directionVector.z);
         EntityRef monitorEntity = multiBlockRegistry.getMultiBlockAtLocation(monitorLocation, DisplayServerSystem.MONITOR_MULTI_BLOCK_TYPE);
 
-        if (monitorEntity == null)
+        if (monitorEntity == null) {
             throw new ExecutionException(line, "Unable to locate device that could be rendered on");
+        }
 
         DisplayComponent monitor = monitorEntity.getComponent(DisplayComponent.class);
 

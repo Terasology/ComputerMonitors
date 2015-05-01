@@ -19,18 +19,39 @@ import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
 import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
-import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
+import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DrawLineMethod implements ModuleMethodExecutable<Object> {
+public class DrawLineMethod extends AbstractModuleMethodExecutable<Object> {
 
     private final String methodName;
 
     public DrawLineMethod(String methodName) {
+        super("Draws a line between two points with the specified Paint and width.");
         this.methodName = methodName;
+
+        addParameter("graphicsRenderBinding", "Graphics Render Binding", "Binding to draw line on.");
+        addParameter("x1", "Number", "X coordinate of the first point.");
+        addParameter("y1", "Number", "Y coordinate of the first point.");
+        addParameter("x2", "Number", "X coordinate of the second point.");
+        addParameter("y2", "Number", "Y coordinate of the second point.");
+        addParameter("paint", "Paint", "Paint to use to draw the line.");
+        addParameter("width", "Number", "Width of the line to draw.");
+
+        addExample("This example draws a blue line from top-left corner to bottom-right corner of the display with a width of " +
+                        "two pixels. " +
+                        "Please make sure this computer has a module of Graphics Card type in any of its slots.",
+                "var graphicsMod = computer.bindModuleOfType(\"" + GraphicsCardModuleCommonSystem.GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                        "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
+                        "var width = maxRes[\"width\"];\n" +
+                        "var height = maxRes[\"height\"];\n" +
+                        "var display = graphicsMod.getRenderBinding(\"down\", width, height);\n" +
+                        "var blue = graphicsMod.createColor(\"0000ff\");\n" +
+                        "graphicsMod.drawLine(display, 0, 0, width, height, blue, 2);"
+        );
     }
 
     @Override
@@ -42,11 +63,6 @@ public class DrawLineMethod implements ModuleMethodExecutable<Object> {
     public int getMinimumExecutionTime(int line, ComputerCallback computer, Map<String, Variable> parameters) throws ExecutionException {
         GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", methodName);
         return renderCommandSink.isInstantRendering() ? 0 : 100;
-    }
-
-    @Override
-    public String[] getParameterNames() {
-        return new String[]{"renderBinding", "x1", "y1", "x2", "y2", "paint", "width"};
     }
 
     @Override

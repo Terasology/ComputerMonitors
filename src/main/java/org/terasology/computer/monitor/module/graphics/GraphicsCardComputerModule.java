@@ -15,31 +15,31 @@
  */
 package org.terasology.computer.monitor.module.graphics;
 
+import org.terasology.computer.module.DefaultComputerModule;
 import org.terasology.computer.system.server.lang.ComputerModule;
-import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 
 import java.util.Collection;
 
-public class GraphicsCardComputerModule implements ComputerModule {
-    private MultiBlockRegistry multiBlockRegistry;
-    private String moduleType;
-    private String moduleName;
+public class GraphicsCardComputerModule extends DefaultComputerModule {
 
     public GraphicsCardComputerModule(MultiBlockRegistry multiBlockRegistry, String moduleType, String moduleName) {
-        this.multiBlockRegistry = multiBlockRegistry;
-        this.moduleType = moduleType;
-        this.moduleName = moduleName;
-    }
+        super(moduleType, moduleName);
 
-    @Override
-    public String getModuleType() {
-        return moduleType;
-    }
-
-    @Override
-    public String getModuleName() {
-        return moduleName;
+        addMethod("getRenderBinding", new GraphicsRenderBindingMethod("getRenderBinding", multiBlockRegistry));
+        addMethod("getMaxRenderBinding", new GraphicsMaxRenderBindingMethod("getMaxRenderBinding", multiBlockRegistry));
+        addMethod("clear", new GraphicsClearMethod("clear"));
+        addMethod("createOffScreenBuffer", new GraphicsCreateOffScreenBufferMethod("createOffScreenBuffer"));
+        addMethod("renderBuffer", new GraphicsRenderBufferMethod("renderBuffer"));
+        addMethod("createColor", new CreateColorMethod("createColor"));
+        addMethod("createGradient", new CreateGradientMethod("createGradient"));
+        addMethod("drawText", new DrawTextMethod("drawText"));
+        addMethod("drawRectangle", new DrawRectangleMethod("drawRectangle"));
+        addMethod("drawRoundedRectangle", new DrawRoundedRectangleMethod("drawRoundedRectangle"));
+        addMethod("getRenderSize", new GetGraphicsRenderSizeMethod("getRenderSize"));
+        addMethod("getMaximumResolution", new GetGraphicsMaximumResolutionMethod("getMaximumResolution", multiBlockRegistry));
+        addMethod("drawOval", new DrawOvalMethod("drawOval"));
+        addMethod("drawLine", new DrawLineMethod("drawLine"));
     }
 
     @Override
@@ -50,38 +50,5 @@ public class GraphicsCardComputerModule implements ComputerModule {
     @Override
     public boolean acceptsNewModule(ComputerModule computerModule) {
         return true;
-    }
-
-    @Override
-    public ModuleMethodExecutable getFunctionByName(String name) {
-        if (name.equals("getRenderBinding"))
-            return new GraphicsRenderBindingMethod("getRenderBinding", multiBlockRegistry);
-        if (name.equals("getMaxRenderBinding"))
-            return new GraphicsMaxRenderBindingMethod("getMaxRenderBinding", multiBlockRegistry);
-        if (name.equals("clear"))
-            return new GraphicsClearMethod("clear");
-        if (name.equals("createOffScreenBuffer"))
-            return new GraphicsCreateOffScreenBufferMethod("createOffScreenBuffer");
-        if (name.equals("renderBuffer"))
-            return new GraphicsRenderBufferMethod("renderBuffer");
-        if (name.equals("createColor"))
-            return new CreateColorMethod("createColor");
-        if (name.equals("createGradient"))
-            return new CreateGradientMethod("createGradient");
-        if (name.equals("drawText"))
-            return new DrawTextMethod("drawText");
-        if (name.equals("drawRectangle"))
-            return new DrawRectangleMethod("drawRectangle");
-        if (name.equals("drawRoundedRectangle"))
-            return new DrawRoundedRectangleMethod("drawRoundedRectangle");
-        if (name.equals("getRenderSize"))
-            return new GetGraphicsRenderSizeMethod("getRenderSize");
-        if (name.equals("getMaximumResolution"))
-            return new GetGraphicsMaximumResolutionMethod("getMaximumResolution", multiBlockRegistry);
-        if (name.equals("drawOval"))
-            return new DrawOvalMethod("drawOval");
-        if (name.equals("drawLine"))
-            return new DrawLineMethod("drawLine");
-        return null;
     }
 }
