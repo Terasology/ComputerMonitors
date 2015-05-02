@@ -20,7 +20,6 @@ import com.gempukku.lang.Variable;
 import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
-import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public class DrawRectangleMethod extends AbstractModuleMethodExecutable<Object> 
         super("Draws or fills specified rectangle with specified Paint.");
         this.methodName = methodName;
 
-        addParameter("graphicsRenderBinding", "Graphics Render Binding", "Binding to draw rectangle on.");
+        addParameter("graphicsRenderBinding", "GraphicsRenderBinding", "Binding to draw rectangle on.");
         addParameter("x", "Number", "X coordinate of the top-left corner of the rectangle.");
         addParameter("y", "Number", "Y coordinate of the top-left corner of the rectangle.");
         addParameter("width", "Number", "Width of the rectangle.");
@@ -42,7 +41,7 @@ public class DrawRectangleMethod extends AbstractModuleMethodExecutable<Object> 
         addParameter("paint", "Paint", "Paint to use to draw the rectangle.");
         addParameter("fill", "Boolean", "If the rectangle should also be filled with the paint.");
 
-        addExample(                            "This example draws a red rectangle in the middle of the display with half of its width and height. " +
+        addExample("This example draws a red rectangle in the middle of the display with half of its width and height. " +
                         "Please make sure this computer has a module of Graphics Card type in any of its slots.",
                 "var graphicsMod = computer.bindModuleOfType(\"" + GraphicsCardModuleCommonSystem.GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
                         "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +

@@ -31,7 +31,7 @@ public class GraphicsClearMethod extends AbstractModuleMethodExecutable<Object> 
         super("Clears the Graphics Render Binding of any data.");
         this.methodName = methodName;
 
-        addParameter("renderBinding", "Graphics Render Binding", "Binding to clear of any data.");
+        addParameter("renderBinding", "GraphicsRenderBinding", "Binding to clear of any data.");
 
         addExample("This example gets render binding of the maximum size for the display below and clears the screen. " +
                         "Please make sure this computer has a module of Graphics Card type in any of its slots.",

@@ -33,7 +33,7 @@ public class DrawLineMethod extends AbstractModuleMethodExecutable<Object> {
         super("Draws a line between two points with the specified Paint and width.");
         this.methodName = methodName;
 
-        addParameter("graphicsRenderBinding", "Graphics Render Binding", "Binding to draw line on.");
+        addParameter("graphicsRenderBinding", "GraphicsRenderBinding", "Binding to draw line on.");
         addParameter("x1", "Number", "X coordinate of the first point.");
         addParameter("y1", "Number", "Y coordinate of the first point.");
         addParameter("x2", "Number", "X coordinate of the second point.");

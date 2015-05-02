@@ -21,5 +21,6 @@ import java.util.List;
 
 public interface GraphicsBuffer {
     public Vector2i getResolution();
+
     public List<String> getData();
 }

@@ -37,11 +37,11 @@ public class GraphicsMaxRenderBindingMethod extends AbstractModuleMethodExecutab
     public GraphicsMaxRenderBindingMethod(String methodName, MultiBlockRegistry multiBlockRegistry) {
         super("Returns Graphics Render Binding that allows to render graphics on a " +
                         "connected display. Maximum resolution will be set on the device when binding is used.",
-                "Graphics Render Binding", "Binding for the specified direction and maximum available resolution.");
+                "GraphicsRenderBinding", "Binding for the specified direction and maximum available resolution.");
         this.multiBlockRegistry = multiBlockRegistry;
         this.methodName = methodName;
 
-        addParameter("direction", "String", "Direction of the binding in reference to computer.");
+        addParameter("direction", "Direction", "Direction of the binding in reference to computer.");
 
         addExample("This example gets render binding of the maximum size for the display below and clears the screen. " +
                         "Please make sure this computer has a module of Graphics Card type in any of its slots.",

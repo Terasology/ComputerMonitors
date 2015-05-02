@@ -21,5 +21,6 @@ import java.util.List;
 
 public interface TextBuffer {
     public Vector2i getSize();
+
     public List<String> getData();
 }

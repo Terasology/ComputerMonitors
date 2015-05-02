@@ -19,7 +19,6 @@ import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
-import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 import org.terasology.math.Vector2i;
 
 import java.util.HashMap;
@@ -35,9 +34,9 @@ public class GetGraphicsRenderSizeMethod extends AbstractModuleMethodExecutable<
                 "\"height\" that has a value type of Number and contains height of the binding.");
         this.methodName = methodName;
 
-        addParameter("graphicsRenderBinding", "Graphics Render Binding", "Binding to get a size of.");
+        addParameter("graphicsRenderBinding", "GraphicsRenderBinding", "Binding to get a size of.");
 
-        addExample(                            "This example queries the size of the Graphics Render Binding created from a display with its " +
+        addExample("This example queries the size of the Graphics Render Binding created from a display with its " +
                         "maximum resolution then displays it. " +
                         "Please make sure this computer has a module of Graphics Card type in any of its slots.",
                 "var graphicsMod = computer.bindModuleOfType(\"" + GraphicsCardModuleCommonSystem.GRAPHICS_CARD_MODULE_TYPE + "\");\n" +

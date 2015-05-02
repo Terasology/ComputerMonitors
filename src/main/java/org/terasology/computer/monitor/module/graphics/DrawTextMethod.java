@@ -20,7 +20,6 @@ import com.gempukku.lang.Variable;
 import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
-import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,7 @@ public class DrawTextMethod extends AbstractModuleMethodExecutable<Object> {
 
         this.methodName = methodName;
 
-        addParameter("graphicsRenderBinding", "Graphics Render Binding", "Binding to draw text on.");
+        addParameter("graphicsRenderBinding", "GraphicsRenderBinding", "Binding to draw text on.");
         addParameter("text", "String", "Text to draw");
         addParameter("x", "Number", "X coordinate of the baseline for the font.");
         addParameter("y", "Number", "Y coordinate of the baseline for the font.");
@@ -43,7 +42,7 @@ public class DrawTextMethod extends AbstractModuleMethodExecutable<Object> {
         addParameter("fontSize", "Number", "Size of the font.");
         addParameter("paint", "Paint", "Paint to use to draw the text.");
 
-        addExample(                            "This example draws the \"Hello World!\" text on the display. " +
+        addExample("This example draws the \"Hello World!\" text on the display. " +
                         "Please make sure this computer has a module of Graphics Card type in any of its slots.",
                 "var graphicsMod = computer.bindModuleOfType(\"" + GraphicsCardModuleCommonSystem.GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
                         "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +

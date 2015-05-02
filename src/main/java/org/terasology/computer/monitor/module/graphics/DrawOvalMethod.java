@@ -20,7 +20,6 @@ import com.gempukku.lang.Variable;
 import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
-import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public class DrawOvalMethod extends AbstractModuleMethodExecutable<Object> {
         super("Draws or fills an oval with the specified bounds with specified Paint.");
         this.methodName = methodName;
 
-        addParameter("graphicsRenderBinding", "Graphics Render Binding", "Binding to draw oval on.");
+        addParameter("graphicsRenderBinding", "GraphicsRenderBinding", "Binding to draw oval on.");
         addParameter("x", "Number", "X coordinate of the top-left corner of the bounding rectangle.");
         addParameter("y", "Number", "Y coordinate of the top-left corner of the bounding rectangle.");
         addParameter("width", "Number", "Width of the bounding rectangle.");
@@ -42,7 +41,7 @@ public class DrawOvalMethod extends AbstractModuleMethodExecutable<Object> {
         addParameter("paint", "Paint", "Paint to use to draw the oval.");
         addParameter("fill", "Boolean", "If the oval should also be filled with the paint.");
 
-        addExample(                            "This example draws a red oval with bounds the size of the whole display. " +
+        addExample("This example draws a red oval with bounds the size of the whole display. " +
                         "Please make sure this computer has a module of Graphics Card type in any of its slots.",
                 "var graphicsMod = computer.bindModuleOfType(\"" + GraphicsCardModuleCommonSystem.GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
                         "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +

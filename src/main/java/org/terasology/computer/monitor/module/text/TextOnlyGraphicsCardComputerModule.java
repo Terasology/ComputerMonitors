@@ -16,11 +16,7 @@
 package org.terasology.computer.monitor.module.text;
 
 import org.terasology.computer.module.DefaultComputerModule;
-import org.terasology.computer.system.server.lang.ComputerModule;
-import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 import org.terasology.multiBlock2.MultiBlockRegistry;
-
-import java.util.Collection;
 
 public class TextOnlyGraphicsCardComputerModule extends DefaultComputerModule {
     public TextOnlyGraphicsCardComputerModule(MultiBlockRegistry multiBlockRegistry, String moduleType, String moduleName) {

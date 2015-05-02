@@ -22,7 +22,6 @@ import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.display.component.DisplayComponent;
 import org.terasology.computer.display.system.server.DisplayServerSystem;
 import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
-import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.math.Direction;
 import org.terasology.math.geom.Vector3f;
@@ -43,10 +42,10 @@ public class GetGraphicsMaximumResolutionMethod extends AbstractModuleMethodExec
         this.multiBlockRegistry = multiBlockRegistry;
         this.methodName = methodName;
 
-        addParameter("direction", "String", "Direction of the display to query for maximum resolution.");
+        addParameter("direction", "Direction", "Direction of the display to query for maximum resolution.");
 
-        addExample(                            "This example queries the display below for its maximum resolution supported and prints it out " +
-                        "to console. "+
+        addExample("This example queries the display below for its maximum resolution supported and prints it out " +
+                        "to console. " +
                         "Please make sure this computer has a module of Graphics Card type in any of its slots.",
                 "var graphicsMod = computer.bindModuleOfType(\"" + GraphicsCardModuleCommonSystem.GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
                         "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +

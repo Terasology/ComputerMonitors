@@ -15,8 +15,9 @@
  */
 package org.terasology.computer.monitor.module.graphics;
 
-import org.terasology.browser.data.ParagraphData;
+import org.terasology.browser.data.basic.HTMLLikeParser;
 import org.terasology.computer.display.system.client.DisplayRenderModeRegistry;
+import org.terasology.computer.system.common.ComputerLanguageRegistry;
 import org.terasology.computer.system.common.ComputerModuleRegistry;
 import org.terasology.computer.ui.documentation.DocumentationBuilder;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
@@ -25,12 +26,6 @@ import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 import org.terasology.registry.In;
 import org.terasology.world.BlockEntityRegistry;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.TreeMap;
 
 @RegisterSystem(RegisterMode.ALWAYS)
 public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
@@ -46,12 +41,30 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
     private MultiBlockRegistry multiBlockRegistry;
     @In
     private DisplayRenderModeRegistry displayRenderModeRegistry;
+    @In
+    private ComputerLanguageRegistry computerLanguageRegistry;
 
     @Override
     public void preBegin() {
         if (displayRenderModeRegistry != null) {
             displayRenderModeRegistry.registerComputerMonitorRenderer("Graphics:", new GraphicsDisplayRenderer());
         }
+
+        computerLanguageRegistry.registerObjectType(
+                "GraphicsRenderBinding",
+                HTMLLikeParser.parseHTMLLike(null, "Binding that tells method where to render graphics to. Usually passed as " +
+                        "a parameter to methods of Graphics Card computer module."));
+
+        computerLanguageRegistry.registerObjectType(
+                "Paint",
+                HTMLLikeParser.parseHTMLLike(null, "Object that tells the rendering engine how to paint the specified elements (color, gradient, etc)."));
+
+        computerLanguageRegistry.registerObjectType(
+                "GraphicsOffScreenBuffer",
+                HTMLLikeParser.parseHTMLLike(null, "In memory buffer for graphics, please note this object takes considerable amount " +
+                        "of computer memory so should be used wisely. This object can also be passed wherever " +
+                        "<h navigate:" + DocumentationBuilder.getObjectTypePageId("GraphicsRenderBinding") + ">GraphicsRenderBinding</h> " +
+                        "is expected, as it can also have graphics drawn on."));
 
         computerModuleRegistry.registerComputerModule(
                 GRAPHICS_CARD_MODULE_TYPE,

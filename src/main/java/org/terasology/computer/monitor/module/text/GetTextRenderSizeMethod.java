@@ -34,7 +34,7 @@ public class GetTextRenderSizeMethod extends AbstractModuleMethodExecutable<Obje
                 "\"height\" that has a value type of Number and contains height in characters.");
         this.methodName = methodName;
 
-        addParameter("renderBinding", "Text Render Binding", "Binding to get size of.");
+        addParameter("renderBinding", "TextRenderBinding", "Binding to get size of.");
 
         addExample("This example gets render binding for the display below the computer and prints the display's " +
                         "width and height available in characters. Please make sure " +

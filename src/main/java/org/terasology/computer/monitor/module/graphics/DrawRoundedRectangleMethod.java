@@ -20,7 +20,6 @@ import com.gempukku.lang.Variable;
 import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
-import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public class DrawRoundedRectangleMethod extends AbstractModuleMethodExecutable<O
         super("Draws or fills specified rounded rectangle with specified Paint.");
         this.methodName = methodName;
 
-        addParameter("graphicsRenderBinding", "Graphics Render Binding", "Binding to draw rounded rectangle on.");
+        addParameter("graphicsRenderBinding", "GraphicsRenderBinding", "Binding to draw rounded rectangle on.");
         addParameter("x", "Number", "X coordinate of the top-left corner of the rounded rectangle.");
         addParameter("y", "Number", "Y coordinate of the top-left corner of the rounded rectangle.");
         addParameter("width", "Number", "Width of the rounded rectangle.");
@@ -44,7 +43,7 @@ public class DrawRoundedRectangleMethod extends AbstractModuleMethodExecutable<O
         addParameter("paint", "Paint", "Paint to use to draw the rounded rectangle.");
         addParameter("fill", "Boolean", "If the rounded rectangle should also be filled with the paint.");
 
-        addExample(                            "This example draws a red rounded rectangle in the middle of the display with half of its width and height. The " +
+        addExample("This example draws a red rounded rectangle in the middle of the display with half of its width and height. The " +
                         "arc of the rounding is 1/8 of the width and height respectively. " +
                         "Please make sure this computer has a module of Graphics Card type in any of its slots.",
                 "var graphicsMod = computer.bindModuleOfType(\"" + GraphicsCardModuleCommonSystem.GRAPHICS_CARD_MODULE_TYPE + "\");\n" +

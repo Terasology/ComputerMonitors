@@ -21,6 +21,8 @@ import java.util.List;
 
 public interface RenderCommandSink {
     public List<String> getExistingData(int line) throws ExecutionException;
+
     public void setData(int line, List<String> data) throws ExecutionException;
+
     public boolean isInstantRendering();
 }

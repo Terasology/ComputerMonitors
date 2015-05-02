@@ -36,7 +36,7 @@ public class TextSetCharactersMethod extends AbstractModuleMethodExecutable<Obje
         super("Sets characters on a Text Render Binding at the specified coordinates.");
         this.methodName = methodName;
 
-        addParameter("textRenderBinding", "Text Render Binding", "Binding to render on.");
+        addParameter("textRenderBinding", "TextRenderBinding", "Binding to render on.");
         addParameter("x", "Number", "X coordinate of the rendered text - number of characters from the left.");
         addParameter("y", "Number", "Y coordinate of the rendered text - line number.");
         addParameter("text", "String", "Text to display. Please note, that the sum of x and text length cannot exceed display width.");

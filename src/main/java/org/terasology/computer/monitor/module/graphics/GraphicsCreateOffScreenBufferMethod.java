@@ -20,7 +20,6 @@ import com.gempukku.lang.Variable;
 import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
-import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 import org.terasology.math.Vector2i;
 
 import java.util.Map;
@@ -31,15 +30,15 @@ public class GraphicsCreateOffScreenBufferMethod extends AbstractModuleMethodExe
 
     public GraphicsCreateOffScreenBufferMethod(String methodName) {
         super("Creates Graphics Off Screen Buffer that can be used for fast rendering " +
-                "and buffering and later rendered on a display. Please note that this off screen buffer also " +
-                "acts as a Graphics Render Binding.",
-                "Graphics Off Screen Buffer", "Off screen buffer with the specified resolution.");
+                        "and buffering and later rendered on a display. Please note that this off screen buffer also " +
+                        "acts as a Graphics Render Binding.",
+                "GraphicsOffScreenBuffer", "Off screen buffer with the specified resolution.");
         this.methodName = methodName;
 
         addParameter("width", "Number", "Width of the Graphics Off Screen Buffer.");
-        addParameter("height", "[Number", "Height of the Graphics Off Screen Buffer.");
+        addParameter("height", "Number", "Height of the Graphics Off Screen Buffer.");
 
-        addExample(                            "This example creates an off screen buffer of maximum resolution accepted by the display below and " +
+        addExample("This example creates an off screen buffer of maximum resolution accepted by the display below and " +
                         "draws fiver rectangles on it in different colors, then renders the buffer to the display. " +
                         "Please note that all the five rectangles appear on the display at the same time (buffering), " +
                         "also rendering like this is much faster than rendering one rectangle on the screen at a time. " +

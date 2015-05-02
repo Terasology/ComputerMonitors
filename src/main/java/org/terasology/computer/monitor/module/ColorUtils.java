@@ -18,12 +18,13 @@ package org.terasology.computer.monitor.module;
 import com.gempukku.lang.ExecutionException;
 
 public class ColorUtils {
-    private ColorUtils() { }
+    private ColorUtils() {
+    }
 
     public static int[] parseColor(int line, String color) throws ExecutionException {
         int[] result = new int[4];
 
-        if (color.length()!= 6 && color.length() != 8) {
+        if (color.length() != 6 && color.length() != 8) {
             throw new ExecutionException(line, "Invalid definition of color");
         }
 

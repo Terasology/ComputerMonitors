@@ -40,7 +40,7 @@ public class GraphicsRenderBindingValidator {
     }
 
     public static GraphicsBuffer validateGraphicsBuffer(int line, Map<String, Variable> parameters,
-                                                String parameterName, String functionName) throws ExecutionException {
+                                                        String parameterName, String functionName) throws ExecutionException {
         Variable inventoryBinding = FunctionParamValidationUtil.validateParameter(line, parameters, parameterName, functionName, Variable.Type.CUSTOM_OBJECT);
         CustomObject customObject = (CustomObject) inventoryBinding.getValue();
         if (!customObject.getType().contains("GRAPHICS_BUFFER"))

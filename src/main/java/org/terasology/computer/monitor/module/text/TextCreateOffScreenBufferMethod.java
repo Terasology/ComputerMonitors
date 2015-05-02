@@ -31,7 +31,7 @@ public class TextCreateOffScreenBufferMethod extends AbstractModuleMethodExecuta
     public TextCreateOffScreenBufferMethod(String methodName) {
         super("Creates a Text Off Screen Buffer that allows faster rendering and buffering. " +
                         "Please note that this off screen buffer also acts as a Text Render Binding.",
-                "Text Off Screen Buffer", "Buffer that can be used to render text on and " +
+                "TextOffScreenBuffer", "Buffer that can be used to render text on and " +
                         "later displayed.");
         this.methodName = methodName;
 

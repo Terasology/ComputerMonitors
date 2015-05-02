@@ -21,7 +21,6 @@ import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.monitor.module.graphics.GraphicsRenderBindingValidator;
 import org.terasology.computer.monitor.module.graphics.GraphicsRenderCommandSink;
 import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
-import org.terasology.computer.system.server.lang.ModuleMethodExecutable;
 import org.terasology.math.Vector2i;
 
 import java.util.ArrayList;
@@ -36,11 +35,11 @@ public class TextClearMethod extends AbstractModuleMethodExecutable<Object> {
         super("Clear the display of Text Render Binding.");
         this.methodName = methodName;
 
-        addParameter("renderBinding", "Text Render Binding", "Binding to clear.");
+        addParameter("renderBinding", "TextRenderBinding", "Binding to clear.");
 
-        addExample(                            "This example prints \"Hello World!\" then immediately clears the display below the computer. " +
+        addExample("This example prints \"Hello World!\" then immediately clears the display below the computer. " +
                         "Please make sure this computer has a module of Text Graphics Card type in any of its slots.",
-                "var textMod = computer.bindModuleOfType(\""+TextOnlyGraphicsCardModuleCommonSystem.TEXT_GRAPHICS_CARD_MODULE_TYPE+"\");\n" +
+                "var textMod = computer.bindModuleOfType(\"" + TextOnlyGraphicsCardModuleCommonSystem.TEXT_GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
                         "var renderBinding = textMod.getRenderBinding(\"down\");\n" +
                         "textMod.setCharacters(renderBinding, 0, 0, \"Hello World!\");\n" +
                         "textMod.clear(renderBinding);"

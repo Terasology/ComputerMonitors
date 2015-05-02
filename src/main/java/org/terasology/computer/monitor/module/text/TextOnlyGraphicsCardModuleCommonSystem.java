@@ -15,8 +15,9 @@
  */
 package org.terasology.computer.monitor.module.text;
 
-import org.terasology.browser.data.ParagraphData;
+import org.terasology.browser.data.basic.HTMLLikeParser;
 import org.terasology.computer.display.system.client.DisplayRenderModeRegistry;
+import org.terasology.computer.system.common.ComputerLanguageRegistry;
 import org.terasology.computer.system.common.ComputerModuleRegistry;
 import org.terasology.computer.ui.documentation.DocumentationBuilder;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
@@ -25,12 +26,6 @@ import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 import org.terasology.registry.In;
 import org.terasology.world.BlockEntityRegistry;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.TreeMap;
 
 @RegisterSystem(RegisterMode.ALWAYS)
 public class TextOnlyGraphicsCardModuleCommonSystem extends BaseComponentSystem {
@@ -44,12 +39,26 @@ public class TextOnlyGraphicsCardModuleCommonSystem extends BaseComponentSystem 
     private MultiBlockRegistry multiBlockRegistry;
     @In
     private DisplayRenderModeRegistry displayRenderModeRegistry;
+    @In
+    private ComputerLanguageRegistry computerLanguageRegistry;
 
     @Override
     public void preBegin() {
         if (displayRenderModeRegistry != null) {
             displayRenderModeRegistry.registerComputerMonitorRenderer("Text:", new TextDisplayRenderer());
         }
+
+        computerLanguageRegistry.registerObjectType(
+                "TextRenderBinding",
+                HTMLLikeParser.parseHTMLLike(null, "Binding that tells method where to render text to. Usually passed as " +
+                        "a parameter to methods of Text Graphics Card computer module."));
+
+        computerLanguageRegistry.registerObjectType(
+                "TextOffScreenBuffer",
+                HTMLLikeParser.parseHTMLLike(null, "In memory buffer for text, please note this object takes considerable amount " +
+                        "of computer memory so should be used wisely. This object can also be passed wherever " +
+                        "<h navigate:" + DocumentationBuilder.getObjectTypePageId("TextRenderBinding") + ">TextRenderBinding</h> " +
+                        "is expected, as it can also be drawn text on."));
 
         computerModuleRegistry.registerComputerModule(
                 TEXT_GRAPHICS_CARD_MODULE_TYPE,

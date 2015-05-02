@@ -31,11 +31,11 @@ public class TextRenderBindingMethod extends AbstractModuleMethodExecutable<Obje
 
     public TextRenderBindingMethod(String methodName, MultiBlockRegistry multiBlockRegistry) {
         super("Creates a Text Render Binding that allows to render text on a display.",
-                "Text Render Binding", "Binding that can be used to render text on.");
+                "TextRenderBinding", "Binding that can be used to render text on.");
         this.multiBlockRegistry = multiBlockRegistry;
         this.methodName = methodName;
 
-        addParameter("direction", "String", "Specifies direction of the display relative to computer.");
+        addParameter("direction", "Direction", "Specifies direction of the display relative to computer.");
 
         addExample("This example gets render binding for the display below the computer and prints the display's " +
                         "width and height available in characters. Please make sure " +
