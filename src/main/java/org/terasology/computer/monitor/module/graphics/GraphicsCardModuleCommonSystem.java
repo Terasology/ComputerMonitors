@@ -23,6 +23,7 @@ import org.terasology.computer.ui.documentation.DocumentationBuilder;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.logic.config.ModuleConfigManager;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 import org.terasology.registry.In;
 import org.terasology.world.BlockEntityRegistry;
@@ -43,34 +44,37 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
     private DisplayRenderModeRegistry displayRenderModeRegistry;
     @In
     private ComputerLanguageRegistry computerLanguageRegistry;
+    @In
+    private ModuleConfigManager moduleConfigManager;
 
     @Override
     public void preBegin() {
-        if (displayRenderModeRegistry != null) {
+        if (displayRenderModeRegistry != null
+                && moduleConfigManager.getBooleanVariable("ComputerMonitors", "registerModule.graphics", true)) {
             displayRenderModeRegistry.registerComputerMonitorRenderer("Graphics:", new GraphicsDisplayRenderer());
+
+            computerLanguageRegistry.registerObjectType(
+                    "GraphicsRenderBinding",
+                    HTMLLikeParser.parseHTMLLike(null, "Binding that tells method where to render graphics to. Usually passed as " +
+                            "a parameter to methods of Graphics Card computer module."));
+
+            computerLanguageRegistry.registerObjectType(
+                    "Paint",
+                    HTMLLikeParser.parseHTMLLike(null, "Object that tells the rendering engine how to paint the specified elements (color, gradient, etc)."));
+
+            computerLanguageRegistry.registerObjectType(
+                    "GraphicsOffScreenBuffer",
+                    HTMLLikeParser.parseHTMLLike(null, "In memory buffer for graphics, please note this object takes considerable amount " +
+                            "of computer memory so should be used wisely. This object can also be passed wherever " +
+                            "<h navigate:" + DocumentationBuilder.getObjectTypePageId("GraphicsRenderBinding") + ">GraphicsRenderBinding</h> " +
+                            "is expected, as it can also have graphics drawn on."));
+
+            computerModuleRegistry.registerComputerModule(
+                    GRAPHICS_CARD_MODULE_TYPE,
+                    new GraphicsCardComputerModule(multiBlockRegistry, GRAPHICS_CARD_MODULE_TYPE, "Graphics Card"),
+                    "This module allows computer to render graphics on displays.",
+                    null);
         }
-
-        computerLanguageRegistry.registerObjectType(
-                "GraphicsRenderBinding",
-                HTMLLikeParser.parseHTMLLike(null, "Binding that tells method where to render graphics to. Usually passed as " +
-                        "a parameter to methods of Graphics Card computer module."));
-
-        computerLanguageRegistry.registerObjectType(
-                "Paint",
-                HTMLLikeParser.parseHTMLLike(null, "Object that tells the rendering engine how to paint the specified elements (color, gradient, etc)."));
-
-        computerLanguageRegistry.registerObjectType(
-                "GraphicsOffScreenBuffer",
-                HTMLLikeParser.parseHTMLLike(null, "In memory buffer for graphics, please note this object takes considerable amount " +
-                        "of computer memory so should be used wisely. This object can also be passed wherever " +
-                        "<h navigate:" + DocumentationBuilder.getObjectTypePageId("GraphicsRenderBinding") + ">GraphicsRenderBinding</h> " +
-                        "is expected, as it can also have graphics drawn on."));
-
-        computerModuleRegistry.registerComputerModule(
-                GRAPHICS_CARD_MODULE_TYPE,
-                new GraphicsCardComputerModule(multiBlockRegistry, GRAPHICS_CARD_MODULE_TYPE, "Graphics Card"),
-                "This module allows computer to render graphics on displays.",
-                null);
     }
 
 }

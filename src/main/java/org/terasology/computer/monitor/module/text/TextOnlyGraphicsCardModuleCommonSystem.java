@@ -23,6 +23,7 @@ import org.terasology.computer.ui.documentation.DocumentationBuilder;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.logic.config.ModuleConfigManager;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 import org.terasology.registry.In;
 import org.terasology.world.BlockEntityRegistry;
@@ -41,30 +42,33 @@ public class TextOnlyGraphicsCardModuleCommonSystem extends BaseComponentSystem 
     private DisplayRenderModeRegistry displayRenderModeRegistry;
     @In
     private ComputerLanguageRegistry computerLanguageRegistry;
+    @In
+    private ModuleConfigManager moduleConfigManager;
 
     @Override
     public void preBegin() {
-        if (displayRenderModeRegistry != null) {
+        if (displayRenderModeRegistry != null
+                && moduleConfigManager.getBooleanVariable("ComputerMonitors", "registerModule.text", true)) {
             displayRenderModeRegistry.registerComputerMonitorRenderer("Text:", new TextDisplayRenderer());
+
+            computerLanguageRegistry.registerObjectType(
+                    "TextRenderBinding",
+                    HTMLLikeParser.parseHTMLLike(null, "Binding that tells method where to render text to. Usually passed as " +
+                            "a parameter to methods of Text Graphics Card computer module."));
+
+            computerLanguageRegistry.registerObjectType(
+                    "TextOffScreenBuffer",
+                    HTMLLikeParser.parseHTMLLike(null, "In memory buffer for text, please note this object takes considerable amount " +
+                            "of computer memory so should be used wisely. This object can also be passed wherever " +
+                            "<h navigate:" + DocumentationBuilder.getObjectTypePageId("TextRenderBinding") + ">TextRenderBinding</h> " +
+                            "is expected, as it can also be drawn text on."));
+
+            computerModuleRegistry.registerComputerModule(
+                    TEXT_GRAPHICS_CARD_MODULE_TYPE,
+                    new TextOnlyGraphicsCardComputerModule(multiBlockRegistry, TEXT_GRAPHICS_CARD_MODULE_TYPE, "Text Graphics Card"),
+                    "This module allows computer to render text on displays.",
+                    null);
         }
-
-        computerLanguageRegistry.registerObjectType(
-                "TextRenderBinding",
-                HTMLLikeParser.parseHTMLLike(null, "Binding that tells method where to render text to. Usually passed as " +
-                        "a parameter to methods of Text Graphics Card computer module."));
-
-        computerLanguageRegistry.registerObjectType(
-                "TextOffScreenBuffer",
-                HTMLLikeParser.parseHTMLLike(null, "In memory buffer for text, please note this object takes considerable amount " +
-                        "of computer memory so should be used wisely. This object can also be passed wherever " +
-                        "<h navigate:" + DocumentationBuilder.getObjectTypePageId("TextRenderBinding") + ">TextRenderBinding</h> " +
-                        "is expected, as it can also be drawn text on."));
-
-        computerModuleRegistry.registerComputerModule(
-                TEXT_GRAPHICS_CARD_MODULE_TYPE,
-                new TextOnlyGraphicsCardComputerModule(multiBlockRegistry, TEXT_GRAPHICS_CARD_MODULE_TYPE, "Text Graphics Card"),
-                "This module allows computer to render text on displays.",
-                null);
     }
 
 }
