@@ -1,7 +1,0 @@
-{
-    "hardness" : 18,
-    "rotation": "invisibleInMultiBlock",
-    "entity": {
-            "prefab": "ComputerMonitors:ComputerMonitor"
-        }
-}
