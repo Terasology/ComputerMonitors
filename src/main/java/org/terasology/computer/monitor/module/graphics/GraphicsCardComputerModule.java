@@ -41,14 +41,4 @@ public class GraphicsCardComputerModule extends DefaultComputerModule {
         addMethod("drawOval", new DrawOvalMethod("drawOval"));
         addMethod("drawLine", new DrawLineMethod("drawLine"));
     }
-
-    @Override
-    public boolean canBePlacedInComputer(Collection<ComputerModule> computerModulesInstalled) {
-        return true;
-    }
-
-    @Override
-    public boolean acceptsNewModule(ComputerModule computerModule) {
-        return true;
-    }
 }
