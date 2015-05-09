@@ -15,7 +15,7 @@
  */
 package org.terasology.computer.monitor.module.graphics;
 
-import org.terasology.browser.data.basic.HTMLLikeParser;
+import org.terasology.rendering.nui.widgets.browser.data.basic.HTMLLikeParser;
 import org.terasology.computer.display.system.client.DisplayRenderModeRegistry;
 import org.terasology.computer.system.common.ComputerLanguageRegistry;
 import org.terasology.computer.system.common.ComputerModuleRegistry;
