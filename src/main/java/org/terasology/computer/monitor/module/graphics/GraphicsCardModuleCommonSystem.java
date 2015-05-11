@@ -28,6 +28,8 @@ import org.terasology.multiBlock2.MultiBlockRegistry;
 import org.terasology.registry.In;
 import org.terasology.world.BlockEntityRegistry;
 
+import java.util.Collections;
+
 @RegisterSystem(RegisterMode.ALWAYS)
 public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
     public static final String GRAPHICS_CARD_MODULE_TYPE = "Graphics";
@@ -55,19 +57,19 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
 
             computerLanguageRegistry.registerObjectType(
                     "GraphicsRenderBinding",
-                    HTMLLikeParser.parseHTMLLike(null, "Binding that tells method where to render graphics to. Usually passed as " +
-                            "a parameter to methods of Graphics Card computer module."));
+                    Collections.singleton(HTMLLikeParser.parseHTMLLikeParagraph(null, "Binding that tells method where to render graphics to. Usually passed as " +
+                            "a parameter to methods of Graphics Card computer module.")));
 
             computerLanguageRegistry.registerObjectType(
                     "Paint",
-                    HTMLLikeParser.parseHTMLLike(null, "Object that tells the rendering engine how to paint the specified elements (color, gradient, etc)."));
+                    Collections.singleton(HTMLLikeParser.parseHTMLLikeParagraph(null, "Object that tells the rendering engine how to paint the specified elements (color, gradient, etc).")));
 
             computerLanguageRegistry.registerObjectType(
                     "GraphicsOffScreenBuffer",
-                    HTMLLikeParser.parseHTMLLike(null, "In memory buffer for graphics, please note this object takes considerable amount " +
+                    Collections.singleton(HTMLLikeParser.parseHTMLLikeParagraph(null, "In memory buffer for graphics, please note this object takes considerable amount " +
                             "of computer memory so should be used wisely. This object can also be passed wherever " +
                             "<h navigate:" + DocumentationBuilder.getObjectTypePageId("GraphicsRenderBinding") + ">GraphicsRenderBinding</h> " +
-                            "is expected, as it can also have graphics drawn on."));
+                            "is expected, as it can also have graphics drawn on.")));
 
             computerModuleRegistry.registerComputerModule(
                     GRAPHICS_CARD_MODULE_TYPE,

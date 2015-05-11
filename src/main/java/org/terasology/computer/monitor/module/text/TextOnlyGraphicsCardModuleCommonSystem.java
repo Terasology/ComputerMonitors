@@ -28,6 +28,8 @@ import org.terasology.multiBlock2.MultiBlockRegistry;
 import org.terasology.registry.In;
 import org.terasology.world.BlockEntityRegistry;
 
+import java.util.Collections;
+
 @RegisterSystem(RegisterMode.ALWAYS)
 public class TextOnlyGraphicsCardModuleCommonSystem extends BaseComponentSystem {
     public static final String TEXT_GRAPHICS_CARD_MODULE_TYPE = "TextGraphics";
@@ -53,15 +55,15 @@ public class TextOnlyGraphicsCardModuleCommonSystem extends BaseComponentSystem 
 
             computerLanguageRegistry.registerObjectType(
                     "TextRenderBinding",
-                    HTMLLikeParser.parseHTMLLike(null, "Binding that tells method where to render text to. Usually passed as " +
-                            "a parameter to methods of Text Graphics Card computer module."));
+                    Collections.singleton(HTMLLikeParser.parseHTMLLikeParagraph(null, "Binding that tells method where to render text to. Usually passed as " +
+                            "a parameter to methods of Text Graphics Card computer module.")));
 
             computerLanguageRegistry.registerObjectType(
                     "TextOffScreenBuffer",
-                    HTMLLikeParser.parseHTMLLike(null, "In memory buffer for text, please note this object takes considerable amount " +
+                    Collections.singleton(HTMLLikeParser.parseHTMLLikeParagraph(null, "In memory buffer for text, please note this object takes considerable amount " +
                             "of computer memory so should be used wisely. This object can also be passed wherever " +
                             "<h navigate:" + DocumentationBuilder.getObjectTypePageId("TextRenderBinding") + ">TextRenderBinding</h> " +
-                            "is expected, as it can also be drawn text on."));
+                            "is expected, as it can also be drawn text on.")));
 
             computerModuleRegistry.registerComputerModule(
                     TEXT_GRAPHICS_CARD_MODULE_TYPE,
