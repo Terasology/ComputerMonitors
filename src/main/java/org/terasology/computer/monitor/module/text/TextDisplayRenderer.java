@@ -15,7 +15,6 @@
  */
 package org.terasology.computer.monitor.module.text;
 
-import org.terasology.asset.AssetType;
 import org.terasology.asset.Assets;
 import org.terasology.computer.display.system.client.DisplayRenderer;
 import org.terasology.rendering.assets.font.Font;
@@ -32,7 +31,7 @@ import java.nio.ByteBuffer;
 import java.util.List;
 
 public class TextDisplayRenderer implements DisplayRenderer {
-    private Font font = Assets.getFont("ModularComputers:November");
+    private Font font = Assets.getFont("ModularComputers:November").get();
     private BufferedImage fontImage = TextureUtil.convertToImage(font.getCharacterData(' ').getPage());
     private int fontImageWidth = fontImage.getWidth();
     private int fontImageHeight = fontImage.getHeight();
@@ -87,12 +86,12 @@ public class TextDisplayRenderer implements DisplayRenderer {
 
         ByteBuffer resultBuffer = TextureUtil.convertToByteBuffer(image);
 
-        Texture texture = Assets.generateAsset(AssetType.TEXTURE, new TextureData(pixelWidth, pixelHeight, new ByteBuffer[]{resultBuffer}, Texture.WrapMode.REPEAT, Texture.FilterMode.NEAREST), Texture.class);
+        Texture texture = Assets.generateAsset(new TextureData(pixelWidth, pixelHeight, new ByteBuffer[]{resultBuffer}, Texture.WrapMode.REPEAT, Texture.FilterMode.NEAREST), Texture.class);
 
-        MaterialData terrainMatData = new MaterialData(Assets.getShader("engine:genericMeshMaterial"));
+        MaterialData terrainMatData = new MaterialData(Assets.getShader("engine:genericMeshMaterial").get());
         terrainMatData.setParam("diffuse", texture);
         terrainMatData.setParam("colorOffset", new float[]{1, 1, 1});
         terrainMatData.setParam("textured", true);
-        return Assets.generateAsset(AssetType.MATERIAL, terrainMatData, Material.class);
+        return Assets.generateAsset(terrainMatData, Material.class);
     }
 }

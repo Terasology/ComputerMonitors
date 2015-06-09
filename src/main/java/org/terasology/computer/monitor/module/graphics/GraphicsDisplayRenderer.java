@@ -15,7 +15,6 @@
  */
 package org.terasology.computer.monitor.module.graphics;
 
-import org.terasology.asset.AssetType;
 import org.terasology.asset.Assets;
 import org.terasology.computer.display.system.client.DisplayRenderer;
 import org.terasology.rendering.assets.material.Material;
@@ -67,13 +66,13 @@ public class GraphicsDisplayRenderer implements DisplayRenderer {
 
         ByteBuffer resultBuffer = TextureUtil.convertToByteBuffer(image);
 
-        Texture texture = Assets.generateAsset(AssetType.TEXTURE, new TextureData(width, height, new ByteBuffer[]{resultBuffer}, Texture.WrapMode.REPEAT, Texture.FilterMode.NEAREST), Texture.class);
+        Texture texture = Assets.generateAsset(new TextureData(width, height, new ByteBuffer[]{resultBuffer}, Texture.WrapMode.REPEAT, Texture.FilterMode.NEAREST), Texture.class);
 
-        MaterialData terrainMatData = new MaterialData(Assets.getShader("engine:genericMeshMaterial"));
+        MaterialData terrainMatData = new MaterialData(Assets.getShader("engine:genericMeshMaterial").get());
         terrainMatData.setParam("diffuse", texture);
         terrainMatData.setParam("colorOffset", new float[]{1, 1, 1});
         terrainMatData.setParam("textured", true);
-        return Assets.generateAsset(AssetType.MATERIAL, terrainMatData, Material.class);
+        return Assets.generateAsset(terrainMatData, Material.class);
     }
 
     private void renderText(Graphics2D gr, String renderable) {

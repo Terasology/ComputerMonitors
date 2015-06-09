@@ -15,7 +15,6 @@
  */
 package org.terasology.computer.display.system.client;
 
-import org.terasology.asset.AssetType;
 import org.terasology.asset.Assets;
 import org.terasology.computer.display.component.DisplayComponent;
 import org.terasology.computer.display.component.DisplayRenderComponent;
@@ -138,7 +137,7 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
 
         MeshComponent meshComponent = new MeshComponent();
         meshComponent.mesh = meshBuilder.build();
-        meshComponent.material = Assets.getMaterial("ComputerMonitors:ComputerMonitor");
+        meshComponent.material = Assets.getMaterial("ComputerMonitors:ComputerMonitor").get();
         meshComponent.translucent = false;
         meshComponent.hideFromOwner = false;
         meshComponent.color = Color.GREY;
@@ -154,7 +153,7 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
     }
 
     private void addMeshForSide(MeshBuilder meshBuilder, Side side, Vector3i monitorSize) {
-        BlockShape blockShape = (BlockShape) Assets.get(AssetType.SHAPE, "engine:cube");
+        BlockShape blockShape = Assets.get("engine:cube", BlockShape.class).get();
         BlockMeshPart meshPart = blockShape.getMeshPart(BlockPart.fromSide(side));
 
         meshBuilder.addPoly(
@@ -170,7 +169,7 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
     }
 
     private void addNormalizedMeshForSide(MeshBuilder meshBuilder, Side side, Vector3i monitorSize) {
-        BlockShape blockShape = (BlockShape) Assets.get(AssetType.SHAPE, "engine:cube");
+        BlockShape blockShape = Assets.get("engine:cube", BlockShape.class).get();
         BlockMeshPart meshPart = blockShape.getMeshPart(BlockPart.fromSide(side));
 
         Vector3f[] sideVectors =new Vector3f[] {
@@ -204,8 +203,9 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
             indicesWithValue[i] = (sideVectors[i].y == maxY);
         }
 
-        if (indicesWithValue[3] && indicesWithValue[0])
+        if (indicesWithValue[3] && indicesWithValue[0]) {
             return 3;
+        }
 
         for (int i=0; i<3; i++) {
             if (indicesWithValue[i]) {
