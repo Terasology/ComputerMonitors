@@ -22,7 +22,7 @@ import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.monitor.module.graphics.GraphicsRenderBindingValidator;
 import org.terasology.computer.monitor.module.graphics.GraphicsRenderCommandSink;
 import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
-import org.terasology.math.Vector2i;
+import org.terasology.math.geom.Vector2i;
 
 import java.util.ArrayList;
 import java.util.List;

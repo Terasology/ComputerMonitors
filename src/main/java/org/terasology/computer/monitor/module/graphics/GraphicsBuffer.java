@@ -15,12 +15,12 @@
  */
 package org.terasology.computer.monitor.module.graphics;
 
-import org.terasology.math.Vector2i;
+import org.terasology.math.geom.Vector2i;
 
 import java.util.List;
 
 public interface GraphicsBuffer {
-    public Vector2i getResolution();
+    Vector2i getResolution();
 
-    public List<String> getData();
+    List<String> getData();
 }
