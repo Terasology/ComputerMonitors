@@ -15,7 +15,7 @@
  */
 package org.terasology.computer.monitor.module.text;
 
-import org.terasology.asset.Assets;
+import org.terasology.utilities.Assets;
 import org.terasology.computer.display.system.client.DisplayRenderer;
 import org.terasology.rendering.assets.font.Font;
 import org.terasology.rendering.assets.font.FontCharacter;

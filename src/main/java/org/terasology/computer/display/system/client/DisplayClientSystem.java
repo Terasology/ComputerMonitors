@@ -15,7 +15,7 @@
  */
 package org.terasology.computer.display.system.client;
 
-import org.terasology.asset.Assets;
+import org.terasology.utilities.Assets;
 import org.terasology.computer.display.component.DisplayComponent;
 import org.terasology.computer.display.component.DisplayRenderComponent;
 import org.terasology.entitySystem.entity.EntityBuilder;
