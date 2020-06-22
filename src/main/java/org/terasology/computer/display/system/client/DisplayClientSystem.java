@@ -15,6 +15,7 @@
  */
 package org.terasology.computer.display.system.client;
 
+import org.terasology.math.JomlUtil;
 import org.terasology.utilities.Assets;
 import org.terasology.computer.display.component.DisplayComponent;
 import org.terasology.computer.display.component.DisplayRenderComponent;
@@ -216,19 +217,19 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
     }
 
     private Vector3f getBottomLeft(Vector3i monitorSize, BlockMeshPart meshPart) {
-        return applySizeToSideVector(monitorSize, meshPart.getVertex(1));
+        return applySizeToSideVector(monitorSize, JomlUtil.from(meshPart.getVertex(1)));
     }
 
     private Vector3f getBottomRight(Vector3i monitorSize, BlockMeshPart meshPart) {
-        return applySizeToSideVector(monitorSize, meshPart.getVertex(2));
+        return applySizeToSideVector(monitorSize, JomlUtil.from(meshPart.getVertex(2)));
     }
 
     private Vector3f getTopRight(Vector3i monitorSize, BlockMeshPart meshPart) {
-        return applySizeToSideVector(monitorSize, meshPart.getVertex(3));
+        return applySizeToSideVector(monitorSize, JomlUtil.from(meshPart.getVertex(3)));
     }
 
     private Vector3f getTopLeft(Vector3i monitorSize, BlockMeshPart meshPart) {
-        return applySizeToSideVector(monitorSize, meshPart.getVertex(0));
+        return applySizeToSideVector(monitorSize, JomlUtil.from(meshPart.getVertex(0)));
     }
 
     private Vector3f applySizeToSideVector(Vector3i monitorSize, Vector3f v2) {
