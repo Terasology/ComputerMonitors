@@ -2,33 +2,33 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.computer.display.system.client;
 
-import org.terasology.math.JomlUtil;
-import org.terasology.utilities.Assets;
 import org.terasology.computer.display.component.DisplayComponent;
 import org.terasology.computer.display.component.DisplayRenderComponent;
-import org.terasology.entitySystem.entity.EntityBuilder;
-import org.terasology.entitySystem.entity.EntityManager;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.entity.lifecycleEvents.BeforeRemoveComponent;
-import org.terasology.entitySystem.entity.lifecycleEvents.OnAddedComponent;
-import org.terasology.entitySystem.entity.lifecycleEvents.OnChangedComponent;
-import org.terasology.entitySystem.event.ReceiveEvent;
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
-import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.logic.location.LocationComponent;
-import org.terasology.math.Side;
+import org.terasology.engine.entitySystem.entity.EntityBuilder;
+import org.terasology.engine.entitySystem.entity.EntityManager;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.entity.lifecycleEvents.BeforeRemoveComponent;
+import org.terasology.engine.entitySystem.entity.lifecycleEvents.OnAddedComponent;
+import org.terasology.engine.entitySystem.entity.lifecycleEvents.OnChangedComponent;
+import org.terasology.engine.entitySystem.event.ReceiveEvent;
+import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
+import org.terasology.engine.entitySystem.systems.RegisterMode;
+import org.terasology.engine.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.logic.location.LocationComponent;
+import org.terasology.engine.math.JomlUtil;
+import org.terasology.engine.math.Side;
+import org.terasology.engine.registry.In;
+import org.terasology.engine.registry.Share;
+import org.terasology.engine.rendering.assets.material.Material;
+import org.terasology.engine.rendering.assets.mesh.MeshBuilder;
+import org.terasology.engine.rendering.logic.MeshComponent;
+import org.terasology.engine.utilities.Assets;
+import org.terasology.engine.world.block.BlockPart;
+import org.terasology.engine.world.block.shapes.BlockMeshPart;
+import org.terasology.engine.world.block.shapes.BlockShape;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.math.geom.Vector3i;
-import org.terasology.registry.In;
-import org.terasology.registry.Share;
-import org.terasology.rendering.assets.material.Material;
-import org.terasology.rendering.assets.mesh.MeshBuilder;
-import org.terasology.rendering.logic.MeshComponent;
 import org.terasology.nui.Color;
-import org.terasology.world.block.BlockPart;
-import org.terasology.world.block.shapes.BlockMeshPart;
-import org.terasology.world.block.shapes.BlockShape;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,12 +37,10 @@ import java.util.Map;
 @RegisterSystem(RegisterMode.CLIENT)
 @Share(DisplayRenderModeRegistry.class)
 public class DisplayClientSystem extends BaseComponentSystem implements DisplayRenderModeRegistry {
-    private Map<String, DisplayRenderer> computerMonitorRendererMap = new HashMap<>();
-
+    private final Map<String, DisplayRenderer> computerMonitorRendererMap = new HashMap<>();
+    private final DefaultDisplayRenderer defaultDisplayRenderer = new DefaultDisplayRenderer();
     @In
     private EntityManager entityManager;
-
-    private DefaultDisplayRenderer defaultDisplayRenderer = new DefaultDisplayRenderer();
 
     @Override
     public void registerComputerMonitorRenderer(String modePrefix, DisplayRenderer displayRenderer) {
@@ -58,7 +56,8 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
         DisplayRenderComponent computerRenderComponent = new DisplayRenderComponent();
 
         computerRenderComponent.monitorChassis = createChassisRenderingEntity(worldPosition, monitorSize, front);
-        computerRenderComponent.screen = createScreenRenderingEntity(worldPosition, monitorSize, front, monitor.getMode(), monitor.getData());
+        computerRenderComponent.screen = createScreenRenderingEntity(worldPosition, monitorSize, front,
+                monitor.getMode(), monitor.getData());
         monitorEntity.addComponent(computerRenderComponent);
     }
 
@@ -72,7 +71,8 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
         screen.saveComponent(mesh);
     }
 
-    private EntityRef createScreenRenderingEntity(Vector3f location, Vector3i monitorSize, Side front, String mode, List<String> data) {
+    private EntityRef createScreenRenderingEntity(Vector3f location, Vector3i monitorSize, Side front, String mode,
+                                                  List<String> data) {
         MeshBuilder meshBuilder = new MeshBuilder();
         addNormalizedMeshForSide(meshBuilder, front, monitorSize);
 
@@ -105,7 +105,8 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
 
     private Material render(String mode, List<String> data) {
         if (mode != null) {
-            for (Map.Entry<String, DisplayRenderer> keyComputerMonitorRenderer : computerMonitorRendererMap.entrySet()) {
+            for (Map.Entry<String, DisplayRenderer> keyComputerMonitorRenderer :
+                    computerMonitorRendererMap.entrySet()) {
                 if (mode.startsWith(keyComputerMonitorRenderer.getKey())) {
                     return keyComputerMonitorRenderer.getValue().renderMaterial(mode, data);
                 }
@@ -160,19 +161,19 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
         BlockShape blockShape = Assets.get("engine:cube", BlockShape.class).get();
         BlockMeshPart meshPart = blockShape.getMeshPart(BlockPart.fromSide(side));
 
-        Vector3f[] sideVectors =new Vector3f[] {
+        Vector3f[] sideVectors = new Vector3f[]{
                 getTopLeft(monitorSize, meshPart),
                 getTopRight(monitorSize, meshPart),
                 getBottomRight(monitorSize, meshPart),
-                getBottomLeft(monitorSize, meshPart) };
+                getBottomLeft(monitorSize, meshPart)};
 
         int startIndex = findIndexOfTopLeft(sideVectors);
 
         meshBuilder.addPoly(
                 sideVectors[startIndex],
-                sideVectors[(startIndex+1)%4],
-                sideVectors[(startIndex+2)%4],
-                sideVectors[(startIndex+3)%4]);
+                sideVectors[(startIndex + 1) % 4],
+                sideVectors[(startIndex + 2) % 4],
+                sideVectors[(startIndex + 3) % 4]);
         meshBuilder.addColor(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK);
         meshBuilder.addTexCoord(0, 0);
         meshBuilder.addTexCoord(1, 0);
@@ -187,7 +188,7 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
         }
 
         boolean[] indicesWithValue = new boolean[4];
-        for (int i=0; i<sideVectors.length; i++) {
+        for (int i = 0; i < sideVectors.length; i++) {
             indicesWithValue[i] = (sideVectors[i].y == maxY);
         }
 
@@ -195,7 +196,7 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
             return 3;
         }
 
-        for (int i=0; i<3; i++) {
+        for (int i = 0; i < 3; i++) {
             if (indicesWithValue[i]) {
                 return i;
             }
@@ -220,7 +221,8 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
     }
 
     private Vector3f applySizeToSideVector(Vector3i monitorSize, Vector3f v2) {
-        return new Vector3f(applySize(v2.x, monitorSize.x), applySize(v2.y, monitorSize.y), applySize(v2.z, monitorSize.z));
+        return new Vector3f(applySize(v2.x, monitorSize.x), applySize(v2.y, monitorSize.y), applySize(v2.z,
+                monitorSize.z));
     }
 
     private float applySize(float coord, int size) {

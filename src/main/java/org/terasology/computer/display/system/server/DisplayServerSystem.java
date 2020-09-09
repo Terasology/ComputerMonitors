@@ -1,30 +1,24 @@
-/*
- * Copyright 2015 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.computer.display.system.server;
 
 import com.google.common.base.Predicate;
 import org.terasology.computer.display.component.DisplayComponent;
 import org.terasology.computer.display.component.DisplayDataHolderComponent;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.event.ReceiveEvent;
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
-import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.math.Region3i;
-import org.terasology.math.Side;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.event.ReceiveEvent;
+import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
+import org.terasology.engine.entitySystem.systems.RegisterMode;
+import org.terasology.engine.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.math.Region3i;
+import org.terasology.engine.math.Side;
+import org.terasology.engine.registry.In;
+import org.terasology.engine.world.BlockEntityRegistry;
+import org.terasology.engine.world.WorldProvider;
+import org.terasology.engine.world.block.Block;
+import org.terasology.engine.world.block.BlockComponent;
+import org.terasology.engine.world.block.family.BlockFamily;
+import org.terasology.engine.world.block.family.SideDefinedBlockFamily;
 import org.terasology.math.geom.Vector3i;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 import org.terasology.multiBlock2.component.MultiBlockCandidateComponent;
@@ -32,13 +26,6 @@ import org.terasology.multiBlock2.event.BeforeMultiBlockUnloaded;
 import org.terasology.multiBlock2.event.MultiBlockFormed;
 import org.terasology.multiBlock2.event.MultiBlockLoaded;
 import org.terasology.multiBlock2.recipe.UniformBaseMultiBlockRecipe;
-import org.terasology.registry.In;
-import org.terasology.world.BlockEntityRegistry;
-import org.terasology.world.WorldProvider;
-import org.terasology.world.block.Block;
-import org.terasology.world.block.BlockComponent;
-import org.terasology.world.block.family.BlockFamily;
-import org.terasology.world.block.family.SideDefinedBlockFamily;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -63,7 +50,8 @@ public class DisplayServerSystem extends BaseComponentSystem {
         Predicate<EntityRef> baseBlockPredicate = new Predicate<EntityRef>() {
             @Override
             public boolean apply(@Nullable EntityRef input) {
-                MultiBlockCandidateComponent multiBlockCandidateComponent = input.getComponent(MultiBlockCandidateComponent.class);
+                MultiBlockCandidateComponent multiBlockCandidateComponent =
+                        input.getComponent(MultiBlockCandidateComponent.class);
                 return multiBlockCandidateComponent != null
                         && multiBlockCandidateComponent.getType().contains(MONITOR_MULTI_BLOCK_CANDIDATE_KEY);
             }
@@ -104,7 +92,8 @@ public class DisplayServerSystem extends BaseComponentSystem {
                             }
                         }
 
-                        return new Region3iMultiBlockDefinition(MONITOR_MULTI_BLOCK_TYPE, mainBlock, memberLocations, multiBlockRegion, frontSide);
+                        return new Region3iMultiBlockDefinition(MONITOR_MULTI_BLOCK_TYPE, mainBlock, memberLocations,
+                                multiBlockRegion, frontSide);
                     }
                 });
     }
@@ -118,7 +107,8 @@ public class DisplayServerSystem extends BaseComponentSystem {
     }
 
     @ReceiveEvent
-    public void computerMonitorMultiBlockCreated(MultiBlockFormed<Region3iMultiBlockDefinition> event, EntityRef multiBlockEntity) {
+    public void computerMonitorMultiBlockCreated(MultiBlockFormed<Region3iMultiBlockDefinition> event,
+                                                 EntityRef multiBlockEntity) {
         if (event.getType().equals(MONITOR_MULTI_BLOCK_TYPE)) {
             Region3i region = event.getMultiBlockDefinition().getRegion();
 

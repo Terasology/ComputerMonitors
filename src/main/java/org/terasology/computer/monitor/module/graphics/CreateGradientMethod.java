@@ -1,18 +1,5 @@
-/*
- * Copyright 2015 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.computer.monitor.module.graphics;
 
 import com.gempukku.lang.CustomObject;
@@ -42,9 +29,12 @@ public class CreateGradientMethod extends AbstractModuleMethodExecutable<Object>
         addParameter("y2", "Number", "Y coordinate of the second color.");
         addParameter("cyclic", "Boolean", "If the gradient should be cyclic or not.");
 
-        addExample("This example draws a filled rectangle in the middle of the display with half of its width and height. " +
-                        "The fill of the rectangle is an acyclic gradient spanning between top-left and bottom-right corners of the " +
-                        "display, going from red to green color. Please note, that neither red, nor green colors will be " +
+        addExample("This example draws a filled rectangle in the middle of the display with half of its width and " +
+                        "height. " +
+                        "The fill of the rectangle is an acyclic gradient spanning between top-left and bottom-right " +
+                        "corners of the " +
+                        "display, going from red to green color. Please note, that neither red, nor green colors will" +
+                        " be " +
                         "displayed, because the bounds of the gradient are outside of the drawn shape. " +
                         "Please make sure this computer has a module of Graphics Card type in any of its slots.",
                 "var graphicsMod = computer.bindModuleOfType(\"" + GraphicsCardModuleCommonSystem.GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
@@ -52,7 +42,8 @@ public class CreateGradientMethod extends AbstractModuleMethodExecutable<Object>
                         "var width = maxRes[\"width\"];\n" +
                         "var height = maxRes[\"height\"];\n" +
                         "var display = graphicsMod.getRenderBinding(\"down\", width, height);\n" +
-                        "var gradient = graphicsMod.createGradient(\"ff0000\", 0, 0, \"00ff00\", width, height, false);\n" +
+                        "var gradient = graphicsMod.createGradient(\"ff0000\", 0, 0, \"00ff00\", width, height, " +
+                        "false);\n" +
                         "graphicsMod.drawRectangle(display, width/4, height/4, width/2, height/2, gradient, true);"
         );
     }
@@ -63,7 +54,8 @@ public class CreateGradientMethod extends AbstractModuleMethodExecutable<Object>
     }
 
     @Override
-    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
+    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters,
+                                Object onFunctionStartResult) throws ExecutionException {
         String hex1 = FunctionParamValidationUtil.validateStringParameter(line, parameters, "hex1", methodName);
         String hex2 = FunctionParamValidationUtil.validateStringParameter(line, parameters, "hex2", methodName);
 

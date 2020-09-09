@@ -1,18 +1,5 @@
-/*
- * Copyright 2015 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.computer.monitor.module.graphics;
 
 import com.gempukku.lang.CustomObject;
@@ -37,7 +24,8 @@ public class CreateColorMethod extends AbstractModuleMethodExecutable<Object> {
 
         addParameter("hex", "String", "Hexadecimal value of the color in the RRGGBBAA or RRGGBB format.");
 
-        addExample("This example draws a red rectangle in the middle of the display with half of its width and height. " +
+        addExample("This example draws a red rectangle in the middle of the display with half of its width and height" +
+                        ". " +
                         "Please make sure this computer has a module of Graphics Card type in any of its slots.",
                 "var graphicsMod = computer.bindModuleOfType(\"" + GraphicsCardModuleCommonSystem.GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
                         "var maxRes = graphicsMod.getMaximumResolution(\"down\");\n" +
@@ -55,7 +43,8 @@ public class CreateColorMethod extends AbstractModuleMethodExecutable<Object> {
     }
 
     @Override
-    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
+    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters,
+                                Object onFunctionStartResult) throws ExecutionException {
         String hex = FunctionParamValidationUtil.validateStringParameter(line, parameters, "hex", methodName);
 
         int[] c = ColorUtils.parseColor(line, hex);
@@ -64,10 +53,10 @@ public class CreateColorMethod extends AbstractModuleMethodExecutable<Object> {
     }
 
     private static class ColorCustomObject implements CustomObject, PaintCustomObject {
-        private int r;
-        private int g;
-        private int b;
-        private int a;
+        private final int r;
+        private final int g;
+        private final int b;
+        private final int a;
 
         private ColorCustomObject(int r, int g, int b, int a) {
             this.r = r;

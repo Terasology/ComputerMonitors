@@ -1,18 +1,5 @@
-/*
- * Copyright 2015 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.computer.monitor.module.graphics;
 
 import com.gempukku.lang.ExecutionException;
@@ -43,7 +30,8 @@ public class DrawRoundedRectangleMethod extends AbstractModuleMethodExecutable<O
         addParameter("paint", "Paint", "Paint to use to draw the rounded rectangle.");
         addParameter("fill", "Boolean", "If the rounded rectangle should also be filled with the paint.");
 
-        addExample("This example draws a red rounded rectangle in the middle of the display with half of its width and height. The " +
+        addExample("This example draws a red rounded rectangle in the middle of the display with half of its width " +
+                        "and height. The " +
                         "arc of the rounding is 1/8 of the width and height respectively. " +
                         "Please make sure this computer has a module of Graphics Card type in any of its slots.",
                 "var graphicsMod = computer.bindModuleOfType(\"" + GraphicsCardModuleCommonSystem.GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
@@ -52,7 +40,8 @@ public class DrawRoundedRectangleMethod extends AbstractModuleMethodExecutable<O
                         "var height = maxRes[\"height\"];\n" +
                         "var display = graphicsMod.getRenderBinding(\"down\", width, height);\n" +
                         "var red = graphicsMod.createColor(\"ff0000\");\n" +
-                        "graphicsMod.drawRoundedRectangle(display, width/4, height/4, width/2, height/2, width/8, height/8, red, false);"
+                        "graphicsMod.drawRoundedRectangle(display, width/4, height/4, width/2, height/2, width/8, " +
+                        "height/8, red, false);"
         );
     }
 
@@ -63,13 +52,18 @@ public class DrawRoundedRectangleMethod extends AbstractModuleMethodExecutable<O
 
     @Override
     public int getMinimumExecutionTime(int line, ComputerCallback computer, Map<String, Variable> parameters) throws ExecutionException {
-        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", methodName);
+        GraphicsRenderCommandSink renderCommandSink =
+                GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, 
+                        "renderBinding", methodName);
         return renderCommandSink.isInstantRendering() ? 0 : 100;
     }
 
     @Override
-    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
-        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", methodName);
+    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters,
+                                Object onFunctionStartResult) throws ExecutionException {
+        GraphicsRenderCommandSink renderCommandSink =
+                GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, 
+                        "renderBinding", methodName);
         int x = FunctionParamValidationUtil.validateIntParameter(line, parameters, "x", methodName);
         int y = FunctionParamValidationUtil.validateIntParameter(line, parameters, "y", methodName);
         int width = FunctionParamValidationUtil.validateIntParameter(line, parameters, "width", methodName);
@@ -82,7 +76,8 @@ public class DrawRoundedRectangleMethod extends AbstractModuleMethodExecutable<O
         List<String> existingData = renderCommandSink.getExistingData(line);
 
         List<String> newData = new ArrayList<>(existingData);
-        newData.add("drawRoundRect:" + x + ":" + y + ":" + width + ":" + height + ":" + arcWidth + ":" + arcHeight + ":" + paint + ":" + fill);
+        newData.add("drawRoundRect:" + x + ":" + y + ":" + width + ":" + height + ":" + arcWidth + ":" + arcHeight + 
+                ":" + paint + ":" + fill);
 
         renderCommandSink.setData(line, newData);
 
