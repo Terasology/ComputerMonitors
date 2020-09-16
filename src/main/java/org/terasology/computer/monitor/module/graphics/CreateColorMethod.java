@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.computer.monitor.module.graphics;
 
-import com.gempukku.lang.CustomObject;
-import com.gempukku.lang.ExecutionException;
-import com.gempukku.lang.Variable;
-import org.terasology.computer.FunctionParamValidationUtil;
-import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.monitor.module.ColorUtils;
-import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
+import org.terasology.modularcomputers.FunctionParamValidationUtil;
+import org.terasology.modularcomputers.context.ComputerCallback;
+import org.terasology.modularcomputers.shadedlibs.com.gempukku.lang.CustomObject;
+import org.terasology.modularcomputers.shadedlibs.com.gempukku.lang.ExecutionException;
+import org.terasology.modularcomputers.shadedlibs.com.gempukku.lang.Variable;
+import org.terasology.modularcomputers.system.server.lang.AbstractModuleMethodExecutable;
 
 import java.util.Collection;
 import java.util.Collections;

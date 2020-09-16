@@ -2,9 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.computer.monitor.module.text;
 
-import com.gempukku.lang.CustomObject;
-import com.gempukku.lang.ExecutionException;
-import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.display.component.DisplayComponent;
 import org.terasology.computer.display.system.server.DisplayServerSystem;
 import org.terasology.computer.monitor.module.EntityRenderCommandSink;
@@ -13,6 +10,9 @@ import org.terasology.engine.math.Direction;
 import org.terasology.math.geom.Vector2i;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.math.geom.Vector3i;
+import org.terasology.modularcomputers.context.ComputerCallback;
+import org.terasology.modularcomputers.shadedlibs.com.gempukku.lang.CustomObject;
+import org.terasology.modularcomputers.shadedlibs.com.gempukku.lang.ExecutionException;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 
 import java.util.Collection;

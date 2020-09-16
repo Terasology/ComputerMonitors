@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.computer.monitor.module.graphics;
 
-import com.gempukku.lang.CustomObject;
-import com.gempukku.lang.ExecutionException;
-import org.terasology.computer.context.ComputerCallback;
 import org.terasology.math.geom.Vector2i;
+import org.terasology.modularcomputers.context.ComputerCallback;
+import org.terasology.modularcomputers.shadedlibs.com.gempukku.lang.CustomObject;
+import org.terasology.modularcomputers.shadedlibs.com.gempukku.lang.ExecutionException;
 
 import java.util.ArrayList;
 import java.util.Arrays;

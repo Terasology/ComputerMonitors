@@ -3,9 +3,6 @@
 package org.terasology.computer.monitor.module.graphics;
 
 import org.terasology.computer.display.system.client.DisplayRenderModeRegistry;
-import org.terasology.computer.system.common.ComputerLanguageRegistry;
-import org.terasology.computer.system.common.ComputerModuleRegistry;
-import org.terasology.computer.ui.documentation.DocumentationBuilder;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterMode;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
@@ -13,6 +10,9 @@ import org.terasology.engine.logic.config.ModuleConfigManager;
 import org.terasology.engine.registry.In;
 import org.terasology.engine.rendering.nui.widgets.browser.data.basic.HTMLLikeParser;
 import org.terasology.engine.world.BlockEntityRegistry;
+import org.terasology.modularcomputers.system.common.ComputerLanguageRegistry;
+import org.terasology.modularcomputers.system.common.ComputerModuleRegistry;
+import org.terasology.modularcomputers.ui.documentation.DocumentationBuilder;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 
 import java.util.Collections;

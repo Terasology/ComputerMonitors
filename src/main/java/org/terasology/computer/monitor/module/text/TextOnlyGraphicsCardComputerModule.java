@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.computer.monitor.module.text;
 
-import org.terasology.computer.module.DefaultComputerModule;
+import org.terasology.modularcomputers.module.DefaultComputerModule;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 
 public class TextOnlyGraphicsCardComputerModule extends DefaultComputerModule {

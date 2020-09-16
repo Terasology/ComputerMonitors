@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.computer.monitor.module;
 
-import com.gempukku.lang.ExecutionException;
 import org.terasology.computer.display.component.DisplayComponent;
 import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.modularcomputers.shadedlibs.com.gempukku.lang.ExecutionException;
 
 import java.util.ArrayList;
 import java.util.List;
