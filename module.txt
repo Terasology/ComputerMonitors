@@ -1,17 +1,14 @@
 {
-    "id" : "ComputerMonitors",
-    "version" : "0.1.1-SNAPSHOT",
-    "author" : "Marcin Sciesinski <marcins78@gmail.com>",
-    "displayName" : "Computer Monitors",
-    "description" : "Adds computer monitors that can display any information using computers.",
-    "dependencies" : [
-        {
-            "id" : "MultiBlock",
-            "minVersion" : "1.0.0"
-        },
-        {
-            "id" : "ModularComputers",
-            "minVersion" : "0.1.0"
-        }],
-    "isServerSideOnly" : false
+    "id": "ComputerMonitors",
+    "version": "1.0.1",
+    "author": "Marcin Sciesinski <marcins78@gmail.com>",
+    "displayName": "Computer Monitors",
+    "description": "Adds computer monitors that can display any information using computers.",
+    "dependencies": [
+        { "id": "MultiBlock", "minVersion": "1.1.0" },
+        { "id": "ModularComputers", "minVersion": "1.0.0" }
+    ],
+    "isServerSideOnly": false,
+    "isAsset": true,
+    "isLibrary": true
 }
