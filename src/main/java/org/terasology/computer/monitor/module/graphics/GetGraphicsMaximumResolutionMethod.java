@@ -17,6 +17,10 @@ package org.terasology.computer.monitor.module.graphics;
 
 import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
+import org.joml.RoundingMode;
+import org.joml.Vector3f;
+import org.joml.Vector3i;
+import org.joml.Vector3ic;
 import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.display.component.DisplayComponent;
@@ -24,8 +28,7 @@ import org.terasology.computer.display.system.server.DisplayServerSystem;
 import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.math.Direction;
-import org.terasology.math.geom.Vector3f;
-import org.terasology.math.geom.Vector3i;
+import org.terasology.math.JomlUtil;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 
 import java.util.HashMap;
@@ -67,12 +70,12 @@ public class GetGraphicsMaximumResolutionMethod extends AbstractModuleMethodExec
                 "direction", methodName);
 
         Vector3f computerLocation = computer.getComputerLocation();
-        Vector3i directionVector = direction.getVector3i();
-        Vector3i monitorLocation = new Vector3i(
-                computerLocation.x + directionVector.x,
-                computerLocation.y + directionVector.y,
-                computerLocation.z + directionVector.z);
-        EntityRef monitorEntity = multiBlockRegistry.getMultiBlockAtLocation(monitorLocation, DisplayServerSystem.MONITOR_MULTI_BLOCK_TYPE);
+        Vector3ic directionVector = direction.asVector3i();
+        Vector3i monitorLocation = new Vector3i(new Vector3f(
+                computerLocation.x + directionVector.x(),
+                computerLocation.y + directionVector.y(),
+                computerLocation.z + directionVector.z()), RoundingMode.FLOOR);
+        EntityRef monitorEntity = multiBlockRegistry.getMultiBlockAtLocation(JomlUtil.from(monitorLocation), DisplayServerSystem.MONITOR_MULTI_BLOCK_TYPE);
 
         if (monitorEntity == null) {
             throw new ExecutionException(line, "Unable to locate device that could be rendered on");
