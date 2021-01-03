@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.computer.display.system.client;
 
+import org.joml.Vector3f;
+import org.joml.Vector3i;
 import org.terasology.math.JomlUtil;
 import org.terasology.utilities.Assets;
 import org.terasology.computer.display.component.DisplayComponent;
@@ -18,8 +20,6 @@ import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.Side;
-import org.terasology.math.geom.Vector3f;
-import org.terasology.math.geom.Vector3i;
 import org.terasology.registry.In;
 import org.terasology.registry.Share;
 import org.terasology.rendering.assets.material.Material;
@@ -53,7 +53,7 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
     public void onMonitorAdded(OnAddedComponent event, EntityRef monitorEntity, DisplayComponent monitor) {
         Vector3i monitorSize = monitor.getMonitorSize();
         Side front = monitor.getFront();
-        Vector3f worldPosition = monitorEntity.getComponent(LocationComponent.class).getWorldPosition();
+        Vector3f worldPosition = monitorEntity.getComponent(LocationComponent.class).getWorldPosition(new Vector3f());
 
         DisplayRenderComponent computerRenderComponent = new DisplayRenderComponent();
 
@@ -128,7 +128,7 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
         meshComponent.material = Assets.getMaterial("ComputerMonitors:ComputerMonitor").get();
         meshComponent.translucent = false;
         meshComponent.hideFromOwner = false;
-        meshComponent.color = Color.GREY;
+        meshComponent.color = new Color(Color.grey);
 
         LocationComponent locationComponent = new LocationComponent(location);
 
@@ -204,19 +204,19 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
     }
 
     private Vector3f getBottomLeft(Vector3i monitorSize, BlockMeshPart meshPart) {
-        return applySizeToSideVector(monitorSize, JomlUtil.from(meshPart.getVertex(1)));
+        return applySizeToSideVector(monitorSize, meshPart.getVertex(1));
     }
 
     private Vector3f getBottomRight(Vector3i monitorSize, BlockMeshPart meshPart) {
-        return applySizeToSideVector(monitorSize, JomlUtil.from(meshPart.getVertex(2)));
+        return applySizeToSideVector(monitorSize, meshPart.getVertex(2));
     }
 
     private Vector3f getTopRight(Vector3i monitorSize, BlockMeshPart meshPart) {
-        return applySizeToSideVector(monitorSize, JomlUtil.from(meshPart.getVertex(3)));
+        return applySizeToSideVector(monitorSize, meshPart.getVertex(3));
     }
 
     private Vector3f getTopLeft(Vector3i monitorSize, BlockMeshPart meshPart) {
-        return applySizeToSideVector(monitorSize, JomlUtil.from(meshPart.getVertex(0)));
+        return applySizeToSideVector(monitorSize, meshPart.getVertex(0));
     }
 
     private Vector3f applySizeToSideVector(Vector3i monitorSize, Vector3f v2) {

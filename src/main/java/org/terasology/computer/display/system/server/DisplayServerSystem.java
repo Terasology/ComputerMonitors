@@ -16,6 +16,8 @@
 package org.terasology.computer.display.system.server;
 
 import com.google.common.base.Predicate;
+import org.joml.Vector3i;
+import org.joml.Vector3ic;
 import org.terasology.computer.display.component.DisplayComponent;
 import org.terasology.computer.display.component.DisplayDataHolderComponent;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -25,7 +27,6 @@ import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.math.Region3i;
 import org.terasology.math.Side;
-import org.terasology.math.geom.Vector3i;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 import org.terasology.multiBlock2.component.MultiBlockCandidateComponent;
 import org.terasology.multiBlock2.event.BeforeMultiBlockUnloaded;
@@ -37,6 +38,8 @@ import org.terasology.world.BlockEntityRegistry;
 import org.terasology.world.WorldProvider;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockComponent;
+import org.terasology.world.block.BlockRegion;
+import org.terasology.world.block.BlockRegionc;
 import org.terasology.world.block.family.BlockFamily;
 import org.terasology.world.block.family.SideDefinedBlockFamily;
 
@@ -92,19 +95,19 @@ public class DisplayServerSystem extends BaseComponentSystem {
                             }
                         }) {
                     @Override
-                    protected Region3iMultiBlockDefinition createMultiBlockDefinition(Region3i multiBlockRegion) {
-                        Vector3i mainBlock = multiBlockRegion.min();
+                    protected Region3iMultiBlockDefinition createMultiBlockDefinition(BlockRegionc multiBlockRegion) {
+                        Vector3i mainBlock = multiBlockRegion.getMin(new Vector3i());
                         Block block = worldProvider.getBlock(mainBlock);
                         Side frontSide = getBlockSide(block);
 
                         List<Vector3i> memberLocations = new LinkedList<Vector3i>();
-                        for (Vector3i vector3i : multiBlockRegion) {
+                        for (Vector3ic vector3i : multiBlockRegion) {
                             if (!vector3i.equals(mainBlock)) {
-                                memberLocations.add(vector3i);
+                                memberLocations.add(new Vector3i(vector3i));
                             }
                         }
 
-                        return new Region3iMultiBlockDefinition(MONITOR_MULTI_BLOCK_TYPE, mainBlock, memberLocations, multiBlockRegion, frontSide);
+                        return new Region3iMultiBlockDefinition(MONITOR_MULTI_BLOCK_TYPE, mainBlock, memberLocations, new BlockRegion(multiBlockRegion), frontSide);
                     }
                 });
     }
@@ -120,11 +123,11 @@ public class DisplayServerSystem extends BaseComponentSystem {
     @ReceiveEvent
     public void computerMonitorMultiBlockCreated(MultiBlockFormed<Region3iMultiBlockDefinition> event, EntityRef multiBlockEntity) {
         if (event.getType().equals(MONITOR_MULTI_BLOCK_TYPE)) {
-            Region3i region = event.getMultiBlockDefinition().getRegion();
+            BlockRegionc region = event.getMultiBlockDefinition().getRegion();
 
-            int height = region.sizeY();
-            int x = region.sizeX();
-            int z = region.sizeZ();
+            int height = region.getSizeY();
+            int x = region.getSizeX();
+            int z = region.getSizeZ();
 
             Vector3i size = new Vector3i(x, height, z);
 

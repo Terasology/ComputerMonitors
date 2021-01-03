@@ -15,8 +15,8 @@
  */
 package org.terasology.computer.monitor.module.graphics;
 
+import org.joml.Vector2i;
 import org.terasology.computer.monitor.module.RenderCommandSink;
-import org.terasology.math.geom.Vector2i;
 
 public interface GraphicsRenderCommandSink extends RenderCommandSink {
     Vector2i getResolution();

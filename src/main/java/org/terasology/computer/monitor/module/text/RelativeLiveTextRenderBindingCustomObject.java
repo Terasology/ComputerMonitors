@@ -17,15 +17,18 @@ package org.terasology.computer.monitor.module.text;
 
 import com.gempukku.lang.CustomObject;
 import com.gempukku.lang.ExecutionException;
+import org.joml.RoundingMode;
+import org.joml.Vector2i;
+import org.joml.Vector2ic;
+import org.joml.Vector3f;
+import org.joml.Vector3i;
+import org.joml.Vector3ic;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.display.component.DisplayComponent;
 import org.terasology.computer.display.system.server.DisplayServerSystem;
 import org.terasology.computer.monitor.module.EntityRenderCommandSink;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.math.Direction;
-import org.terasology.math.geom.Vector2i;
-import org.terasology.math.geom.Vector3f;
-import org.terasology.math.geom.Vector3i;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 
 import java.util.Collection;
@@ -55,15 +58,16 @@ public class RelativeLiveTextRenderBindingCustomObject implements CustomObject, 
     @Override
     public TextRenderCommandSink getTextRenderCommandSink(int line, ComputerCallback computerCallback) throws ExecutionException {
         Vector3f computerLocation = computerCallback.getComputerLocation();
-        Vector3i directionVector = direction.getVector3i();
-        Vector3i monitorLocation = new Vector3i(
-                computerLocation.x + directionVector.x,
-                computerLocation.y + directionVector.y,
-                computerLocation.z + directionVector.z);
+        Vector3ic directionVector = direction.asVector3i();
+        Vector3i monitorLocation = new Vector3i(new Vector3f(
+                computerLocation.x + directionVector.x(),
+                computerLocation.y + directionVector.y(),
+                computerLocation.z + directionVector.z()), RoundingMode.FLOOR);
         EntityRef monitorEntity = multiBlockRegistry.getMultiBlockAtLocation(monitorLocation, DisplayServerSystem.MONITOR_MULTI_BLOCK_TYPE);
 
-        if (monitorEntity == null)
+        if (monitorEntity == null) {
             throw new ExecutionException(line, "Unable to locate device that could be rendered on");
+        }
 
         return new EntityTextRenderCommandSink(monitorEntity, mode);
     }
@@ -85,12 +89,12 @@ public class RelativeLiveTextRenderBindingCustomObject implements CustomObject, 
 
         @Override
         protected String getRequiredMode(int line) throws ExecutionException {
-            Vector2i maxCharacters = getMaxCharacters();
-            return modePrefix + maxCharacters.x + "," + maxCharacters.y;
+            Vector2ic maxCharacters = getMaxCharacters();
+            return modePrefix + maxCharacters.x() + "," + maxCharacters.y();
         }
 
         @Override
-        public Vector2i getMaxCharacters() {
+        public Vector2ic getMaxCharacters() {
             DisplayComponent monitor = entityRef.getComponent(DisplayComponent.class);
 
             Vector3i monitorSize = monitor.getMonitorSize();

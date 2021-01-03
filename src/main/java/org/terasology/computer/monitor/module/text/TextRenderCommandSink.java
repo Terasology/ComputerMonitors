@@ -15,9 +15,9 @@
  */
 package org.terasology.computer.monitor.module.text;
 
+import org.joml.Vector2ic;
 import org.terasology.computer.monitor.module.RenderCommandSink;
-import org.terasology.math.geom.Vector2i;
 
 public interface TextRenderCommandSink extends RenderCommandSink {
-    Vector2i getMaxCharacters();
+    Vector2ic getMaxCharacters();
 }

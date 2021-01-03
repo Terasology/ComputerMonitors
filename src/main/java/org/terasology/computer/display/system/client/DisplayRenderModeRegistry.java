@@ -16,5 +16,5 @@
 package org.terasology.computer.display.system.client;
 
 public interface DisplayRenderModeRegistry {
-    public void registerComputerMonitorRenderer(String modePrefix, DisplayRenderer displayRenderer);
+    void registerComputerMonitorRenderer(String modePrefix, DisplayRenderer displayRenderer);
 }
