@@ -17,11 +17,11 @@ package org.terasology.computer.monitor.module.text;
 
 import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
+import org.joml.Vector2i;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.monitor.module.graphics.GraphicsRenderBindingValidator;
 import org.terasology.computer.monitor.module.graphics.GraphicsRenderCommandSink;
 import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
-import org.terasology.math.geom.Vector2i;
 
 import java.util.Map;
 
@@ -72,7 +72,7 @@ public class TextRenderBufferMethod extends AbstractModuleMethodExecutable<Objec
         TextBuffer textBuffer = TextRenderBindingValidator.validateTextBuffer(line, parameters, "offScreenBuffer", methodName);
 
         Vector2i size = textBuffer.getSize();
-        Vector2i maxCharacters = renderCommandSink.getMaxCharacters();
+        Vector2i maxCharacters = new Vector2i(renderCommandSink.getMaxCharacters());
 
         if (size.x > maxCharacters.x || size.y > maxCharacters.y)
             throw new ExecutionException(line, "OffScreenBuffer does not fit on the screen");

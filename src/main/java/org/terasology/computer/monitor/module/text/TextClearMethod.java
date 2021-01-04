@@ -17,11 +17,11 @@ package org.terasology.computer.monitor.module.text;
 
 import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
+import org.joml.Vector2i;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.monitor.module.graphics.GraphicsRenderBindingValidator;
 import org.terasology.computer.monitor.module.graphics.GraphicsRenderCommandSink;
 import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
-import org.terasology.math.geom.Vector2i;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +61,7 @@ public class TextClearMethod extends AbstractModuleMethodExecutable<Object> {
     public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
         TextRenderCommandSink renderCommandSink = TextRenderBindingValidator.validateTextRenderBinding(line, computer, parameters, "renderBinding", methodName);
 
-        Vector2i maxCharacters = renderCommandSink.getMaxCharacters();
+        Vector2i maxCharacters = new Vector2i(renderCommandSink.getMaxCharacters());
 
         int lineCount = maxCharacters.y;
 
