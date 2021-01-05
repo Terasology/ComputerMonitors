@@ -17,12 +17,12 @@ package org.terasology.computer.monitor.module.text;
 
 import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
+import org.joml.Vector2i;
 import org.terasology.computer.FunctionParamValidationUtil;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.monitor.module.graphics.GraphicsRenderBindingValidator;
 import org.terasology.computer.monitor.module.graphics.GraphicsRenderCommandSink;
 import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
-import org.terasology.math.geom.Vector2i;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,14 +69,16 @@ public class TextSetCharactersMethod extends AbstractModuleMethodExecutable<Obje
 
         String text = FunctionParamValidationUtil.validateStringParameter(line, parameters, "text", methodName);
 
-        Vector2i maxCharacters = renderCommandSink.getMaxCharacters();
+        Vector2i maxCharacters = new Vector2i(renderCommandSink.getMaxCharacters());
 
-        if (x + text.length() >= maxCharacters.x)
+        if (x + text.length() >= maxCharacters.x) {
             throw new ExecutionException(line, "Text will not fit in the display horizontally");
+        }
 
         int lineCount = maxCharacters.y;
-        if (y >= lineCount)
+        if (y >= lineCount) {
             throw new ExecutionException(line, "Line index out of bounds " + y + ">=" + lineCount);
+        }
 
         List<String> oldLines = renderCommandSink.getExistingData(line);
 
@@ -119,8 +121,9 @@ public class TextSetCharactersMethod extends AbstractModuleMethodExecutable<Obje
     private String getLine(List<String> lines, int y) {
         if (y < lines.size()) {
             String line = lines.get(y);
-            if (line == null)
+            if (line == null) {
                 return "";
+            }
             return line;
         }
         return "";

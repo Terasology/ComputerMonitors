@@ -17,9 +17,9 @@ package org.terasology.computer.monitor.module.graphics;
 
 import com.gempukku.lang.ExecutionException;
 import com.gempukku.lang.Variable;
+import org.joml.Vector2i;
 import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.system.server.lang.AbstractModuleMethodExecutable;
-import org.terasology.math.geom.Vector2i;
 
 import java.util.Map;
 
@@ -71,10 +71,11 @@ public class GraphicsRenderBufferMethod extends AbstractModuleMethodExecutable<O
         GraphicsBuffer graphicsBuffer = GraphicsRenderBindingValidator.validateGraphicsBuffer(line, parameters, "offScreenBuffer", methodName);
 
         Vector2i size = graphicsBuffer.getResolution();
-        Vector2i maxCharacters = renderCommandSink.getResolution();
+        Vector2i maxCharacters = new Vector2i(renderCommandSink.getResolution());
 
-        if (size.x > maxCharacters.x || size.y > maxCharacters.y)
+        if (size.x > maxCharacters.x || size.y > maxCharacters.y) {
             throw new ExecutionException(line, "OffScreenBuffer does not fit on the screen");
+        }
 
         renderCommandSink.setData(line, graphicsBuffer.getData());
 

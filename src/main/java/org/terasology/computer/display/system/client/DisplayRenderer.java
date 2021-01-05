@@ -20,5 +20,5 @@ import org.terasology.rendering.assets.material.Material;
 import java.util.List;
 
 public interface DisplayRenderer {
-    public Material renderMaterial(String mode, List<String> data);
+    Material renderMaterial(String mode, List<String> data);
 }

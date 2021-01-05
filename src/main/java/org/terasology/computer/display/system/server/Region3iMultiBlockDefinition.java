@@ -15,24 +15,24 @@
  */
 package org.terasology.computer.display.system.server;
 
-import org.terasology.math.Region3i;
+import org.joml.Vector3i;
 import org.terasology.math.Side;
-import org.terasology.math.geom.Vector3i;
 import org.terasology.multiBlock2.DefaultMultiBlockDefinition;
+import org.terasology.world.block.BlockRegion;
 
 import java.util.Collection;
 
 public class Region3iMultiBlockDefinition extends DefaultMultiBlockDefinition {
-    private Region3i region;
+    private BlockRegion region;
     private Side side;
 
-    public Region3iMultiBlockDefinition(String multiBlockType, Vector3i mainBlock, Collection<Vector3i> memberBlocks, Region3i region, Side side) {
+    public Region3iMultiBlockDefinition(String multiBlockType, Vector3i mainBlock, Collection<Vector3i> memberBlocks, BlockRegion region, Side side) {
         super(multiBlockType, mainBlock, memberBlocks);
         this.region = region;
         this.side = side;
     }
 
-    public Region3i getRegion() {
+    public BlockRegion getRegion() {
         return region;
     }
 

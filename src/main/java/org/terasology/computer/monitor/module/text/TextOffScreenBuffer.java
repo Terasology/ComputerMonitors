@@ -17,8 +17,8 @@ package org.terasology.computer.monitor.module.text;
 
 import com.gempukku.lang.CustomObject;
 import com.gempukku.lang.ExecutionException;
+import org.joml.Vector2i;
 import org.terasology.computer.context.ComputerCallback;
-import org.terasology.math.geom.Vector2i;
 
 import java.util.ArrayList;
 import java.util.Arrays;
