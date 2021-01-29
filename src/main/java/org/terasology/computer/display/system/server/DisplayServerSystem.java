@@ -25,7 +25,6 @@ import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.math.Region3i;
 import org.terasology.math.Side;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 import org.terasology.multiBlock2.component.MultiBlockCandidateComponent;
