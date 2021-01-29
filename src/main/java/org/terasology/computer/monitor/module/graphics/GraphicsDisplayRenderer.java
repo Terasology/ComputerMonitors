@@ -15,15 +15,21 @@
  */
 package org.terasology.computer.monitor.module.graphics;
 
-import org.terasology.utilities.Assets;
 import org.terasology.computer.display.system.client.DisplayRenderer;
 import org.terasology.rendering.assets.material.Material;
 import org.terasology.rendering.assets.material.MaterialData;
 import org.terasology.rendering.assets.texture.Texture;
 import org.terasology.rendering.assets.texture.TextureData;
 import org.terasology.rendering.assets.texture.TextureUtil;
+import org.terasology.utilities.Assets;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.util.List;

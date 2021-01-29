@@ -16,10 +16,7 @@
 package org.terasology.computer.monitor.module.graphics;
 
 import org.terasology.computer.module.DefaultComputerModule;
-import org.terasology.computer.system.server.lang.ComputerModule;
 import org.terasology.multiBlock2.MultiBlockRegistry;
-
-import java.util.Collection;
 
 public class GraphicsCardComputerModule extends DefaultComputerModule {
 

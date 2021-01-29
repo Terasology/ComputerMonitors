@@ -15,7 +15,6 @@
  */
 package org.terasology.computer.monitor.module.graphics;
 
-import org.terasology.rendering.nui.widgets.browser.data.basic.HTMLLikeParser;
 import org.terasology.computer.display.system.client.DisplayRenderModeRegistry;
 import org.terasology.computer.system.common.ComputerLanguageRegistry;
 import org.terasology.computer.system.common.ComputerModuleRegistry;
@@ -26,6 +25,7 @@ import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.config.ModuleConfigManager;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 import org.terasology.registry.In;
+import org.terasology.rendering.nui.widgets.browser.data.basic.HTMLLikeParser;
 import org.terasology.world.BlockEntityRegistry;
 
 import java.util.Collections;

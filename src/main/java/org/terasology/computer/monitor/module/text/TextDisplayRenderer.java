@@ -15,7 +15,6 @@
  */
 package org.terasology.computer.monitor.module.text;
 
-import org.terasology.utilities.Assets;
 import org.terasology.computer.display.system.client.DisplayRenderer;
 import org.terasology.rendering.assets.font.Font;
 import org.terasology.rendering.assets.font.FontCharacter;
@@ -24,8 +23,10 @@ import org.terasology.rendering.assets.material.MaterialData;
 import org.terasology.rendering.assets.texture.Texture;
 import org.terasology.rendering.assets.texture.TextureData;
 import org.terasology.rendering.assets.texture.TextureUtil;
+import org.terasology.utilities.Assets;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.util.List;
