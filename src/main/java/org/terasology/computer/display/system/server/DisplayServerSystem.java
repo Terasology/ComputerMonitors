@@ -58,7 +58,7 @@ public class DisplayServerSystem extends BaseComponentSystem {
             }
         };
         multiBlockRegistry.registerMultiBlockType(MONITOR_MULTI_BLOCK_CANDIDATE_KEY,
-                new UniformBaseMultiBlockRecipe<Region3iMultiBlockDefinition>(blockEntityRegistry,
+                new UniformBaseMultiBlockRecipe<RegionMultiBlockDefinition>(blockEntityRegistry,
                         baseBlockPredicate,
                         new BiPredicate<EntityRef, EntityRef>() {
                             @Override
@@ -81,7 +81,7 @@ public class DisplayServerSystem extends BaseComponentSystem {
                             }
                         }) {
                     @Override
-                    protected Region3iMultiBlockDefinition createMultiBlockDefinition(BlockRegionc multiBlockRegion) {
+                    protected RegionMultiBlockDefinition createMultiBlockDefinition(BlockRegionc multiBlockRegion) {
                         Vector3i mainBlock = multiBlockRegion.getMin(new Vector3i());
                         Block block = worldProvider.getBlock(mainBlock);
                         Side frontSide = getBlockSide(block);
@@ -93,7 +93,7 @@ public class DisplayServerSystem extends BaseComponentSystem {
                             }
                         }
 
-                        return new Region3iMultiBlockDefinition(MONITOR_MULTI_BLOCK_TYPE, mainBlock, memberLocations, new BlockRegion(multiBlockRegion), frontSide);
+                        return new RegionMultiBlockDefinition(MONITOR_MULTI_BLOCK_TYPE, mainBlock, memberLocations, new BlockRegion(multiBlockRegion), frontSide);
                     }
                 });
     }
@@ -107,7 +107,7 @@ public class DisplayServerSystem extends BaseComponentSystem {
     }
 
     @ReceiveEvent
-    public void computerMonitorMultiBlockCreated(MultiBlockFormed<Region3iMultiBlockDefinition> event, EntityRef multiBlockEntity) {
+    public void computerMonitorMultiBlockCreated(MultiBlockFormed<RegionMultiBlockDefinition> event, EntityRef multiBlockEntity) {
         if (event.getType().equals(MONITOR_MULTI_BLOCK_TYPE)) {
             BlockRegionc region = event.getMultiBlockDefinition().getRegion();
 
