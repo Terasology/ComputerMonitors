@@ -66,8 +66,8 @@ public class DisplayServerSystem extends BaseComponentSystem {
                                 if (!baseBlockPredicate.apply(otherBlockEntity)) {
                                     return false;
                                 }
-                                Block baseBlock = baseBlockEntity.getComponent(BlockComponent.class).block;
-                                Block otherBlock = otherBlockEntity.getComponent(BlockComponent.class).block;
+                                Block baseBlock = baseBlockEntity.getComponent(BlockComponent.class).getBlock();
+                                Block otherBlock = otherBlockEntity.getComponent(BlockComponent.class).getBlock();
 
                                 return getBlockSide(baseBlock) == getBlockSide(otherBlock);
                             }
