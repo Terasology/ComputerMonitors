@@ -16,14 +16,14 @@
 package org.terasology.computer.monitor.module.text;
 
 import org.terasology.computer.display.system.client.DisplayRenderer;
-import org.terasology.rendering.assets.font.Font;
-import org.terasology.rendering.assets.font.FontCharacter;
-import org.terasology.rendering.assets.material.Material;
-import org.terasology.rendering.assets.material.MaterialData;
-import org.terasology.rendering.assets.texture.Texture;
-import org.terasology.rendering.assets.texture.TextureData;
-import org.terasology.rendering.assets.texture.TextureUtil;
-import org.terasology.utilities.Assets;
+import org.terasology.engine.rendering.assets.font.Font;
+import org.terasology.engine.rendering.assets.font.FontCharacter;
+import org.terasology.engine.rendering.assets.material.Material;
+import org.terasology.engine.rendering.assets.material.MaterialData;
+import org.terasology.engine.rendering.assets.texture.Texture;
+import org.terasology.engine.rendering.assets.texture.TextureData;
+import org.terasology.engine.rendering.assets.texture.TextureUtil;
+import org.terasology.engine.utilities.Assets;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

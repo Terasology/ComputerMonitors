@@ -3,9 +3,9 @@
 package org.terasology.computer.display.system.server;
 
 import org.joml.Vector3i;
-import org.terasology.math.Side;
+import org.terasology.engine.math.Side;
+import org.terasology.engine.world.block.BlockRegion;
 import org.terasology.multiBlock2.DefaultMultiBlockDefinition;
-import org.terasology.world.block.BlockRegion;
 
 import java.util.Collection;
 

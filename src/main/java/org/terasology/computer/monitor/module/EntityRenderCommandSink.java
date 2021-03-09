@@ -17,7 +17,7 @@ package org.terasology.computer.monitor.module;
 
 import com.gempukku.lang.ExecutionException;
 import org.terasology.computer.display.component.DisplayComponent;
-import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.entity.EntityRef;
 
 import java.util.ArrayList;
 import java.util.List;

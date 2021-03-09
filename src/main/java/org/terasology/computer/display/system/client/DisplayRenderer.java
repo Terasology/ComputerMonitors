@@ -15,7 +15,7 @@
  */
 package org.terasology.computer.display.system.client;
 
-import org.terasology.rendering.assets.material.Material;
+import org.terasology.engine.rendering.assets.material.Material;
 
 import java.util.List;
 

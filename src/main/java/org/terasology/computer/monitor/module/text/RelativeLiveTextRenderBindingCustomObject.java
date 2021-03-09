@@ -27,8 +27,8 @@ import org.terasology.computer.context.ComputerCallback;
 import org.terasology.computer.display.component.DisplayComponent;
 import org.terasology.computer.display.system.server.DisplayServerSystem;
 import org.terasology.computer.monitor.module.EntityRenderCommandSink;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.math.Direction;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.math.Direction;
 import org.terasology.multiBlock2.MultiBlockRegistry;
 
 import java.util.Collection;
