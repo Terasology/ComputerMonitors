@@ -8,4 +8,10 @@ import org.terasology.gestalt.entitysystem.component.Component;
 public class DisplayRenderComponent implements Component<DisplayRenderComponent> {
     public EntityRef monitorChassis;
     public EntityRef screen;
+
+    @Override
+    public void copy(DisplayRenderComponent other) {
+        this.monitorChassis = other.monitorChassis;
+        this.screen = other.screen;
+    }
 }
