@@ -10,7 +10,7 @@ public class DisplayRenderComponent implements Component<DisplayRenderComponent>
     public EntityRef screen;
 
     @Override
-    public void copy(DisplayRenderComponent other) {
+    public void copyFrom(DisplayRenderComponent other) {
         this.monitorChassis = other.monitorChassis;
         this.screen = other.screen;
     }

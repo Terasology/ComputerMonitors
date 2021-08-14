@@ -43,7 +43,7 @@ public class DisplayDataHolderComponent implements Component<DisplayDataHolderCo
     }
 
     @Override
-    public void copy(DisplayDataHolderComponent other) {
+    public void copyFrom(DisplayDataHolderComponent other) {
         this.monitorSize.set(other.monitorSize);
         this.front = other.front;
         this.mode = other.mode;
