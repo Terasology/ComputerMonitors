@@ -57,6 +57,7 @@ public class DisplayComponent implements Component<DisplayComponent> {
         this.monitorSize = other.monitorSize;
         this.front = other.front;
         this.mode = other.mode;
-        this.data = Lists.newArrayList(data);
+        this.data.clear();
+        this.data.addAll(other.data);
     }
 }
