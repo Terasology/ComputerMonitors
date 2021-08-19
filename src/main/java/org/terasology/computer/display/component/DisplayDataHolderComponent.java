@@ -47,6 +47,7 @@ public class DisplayDataHolderComponent implements Component<DisplayDataHolderCo
         this.monitorSize.set(other.monitorSize);
         this.front = other.front;
         this.mode = other.mode;
-        this.data = Lists.newArrayList(other.data);
+        this.data.clear();
+        this.data.addAll(other.data);
     }
 }
