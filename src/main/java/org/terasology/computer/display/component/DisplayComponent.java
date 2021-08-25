@@ -54,7 +54,7 @@ public class DisplayComponent implements Component<DisplayComponent> {
 
     @Override
     public void copyFrom(DisplayComponent other) {
-        this.monitorSize = other.monitorSize;
+        this.monitorSize.set(other.monitorSize);
         this.front = other.front;
         this.mode = other.mode;
         this.data.clear();
