@@ -1,18 +1,5 @@
-/*
- * Copyright 2015 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.computer.monitor.module.graphics;
 
 import org.terasology.computer.display.system.client.DisplayRenderModeRegistry;
@@ -57,19 +44,22 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
 
             computerLanguageRegistry.registerObjectType(
                     "GraphicsRenderBinding",
-                    Collections.singleton(HTMLLikeParser.parseHTMLLikeParagraph(null, "Binding that tells method where to render graphics to. Usually passed as " +
-                            "a parameter to methods of Graphics Card computer module.")));
+                    Collections.singleton(HTMLLikeParser.parseHTMLLikeParagraph(null,
+                            "Binding that tells method where to render graphics to. Usually passed as " +
+                                    "a parameter to methods of Graphics Card computer module.")));
 
             computerLanguageRegistry.registerObjectType(
                     "Paint",
-                    Collections.singleton(HTMLLikeParser.parseHTMLLikeParagraph(null, "Object that tells the rendering engine how to paint the specified elements (color, gradient, etc).")));
+                    Collections.singleton(HTMLLikeParser.parseHTMLLikeParagraph(null,
+                            "Object that tells the rendering engine how to paint the specified elements (color, gradient, etc).")));
 
             computerLanguageRegistry.registerObjectType(
                     "GraphicsOffScreenBuffer",
-                    Collections.singleton(HTMLLikeParser.parseHTMLLikeParagraph(null, "In memory buffer for graphics, please note this object takes considerable amount " +
-                            "of computer memory so should be used wisely. This object can also be passed wherever " +
-                            "<h navigate:" + DocumentationBuilder.getObjectTypePageId("GraphicsRenderBinding") + ">GraphicsRenderBinding</h> " +
-                            "is expected, as it can also have graphics drawn on.")));
+                    Collections.singleton(HTMLLikeParser.parseHTMLLikeParagraph(null,
+                            "In memory buffer for graphics, please note this object takes considerable amount " +
+                                    "of computer memory so should be used wisely. This object can also be passed wherever " +
+                                    "<h navigate:" + DocumentationBuilder.getObjectTypePageId("GraphicsRenderBinding") + ">GraphicsRenderBinding</h> " +
+                                    "is expected, as it can also have graphics drawn on.")));
 
             computerModuleRegistry.registerComputerModule(
                     GRAPHICS_CARD_MODULE_TYPE,
@@ -78,5 +68,4 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
                     null);
         }
     }
-
 }
