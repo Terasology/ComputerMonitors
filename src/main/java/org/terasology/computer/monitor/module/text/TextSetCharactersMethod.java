@@ -30,7 +30,8 @@ public class TextSetCharactersMethod extends AbstractModuleMethodExecutable<Obje
 
         addExample("This example prints \"Hello World!\" in the first line of the display below the computer. " +
                         "Please make sure this computer has a module of Text Graphics Card type in any of its slots.",
-                "var textMod = computer.bindModuleOfType(\"" + TextOnlyGraphicsCardModuleCommonSystem.TEXT_GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                "var textMod = computer.bindModuleOfType(\"" + TextOnlyGraphicsCardModuleCommonSystem.TEXT_GRAPHICS_CARD_MODULE_TYPE +
+                        "\");\n" +
                         "var renderBinding = textMod.getRenderBinding(\"down\");\n" +
                         "textMod.setCharacters(renderBinding, 0, 0, \"Hello World!\");"
         );
@@ -43,13 +44,16 @@ public class TextSetCharactersMethod extends AbstractModuleMethodExecutable<Obje
 
     @Override
     public int getMinimumExecutionTime(int line, ComputerCallback computer, Map<String, Variable> parameters) throws ExecutionException {
-        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer, parameters, "renderBinding", methodName);
+        GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(
+                line, computer, parameters, "renderBinding", methodName);
         return renderCommandSink.isInstantRendering() ? 0 : 30;
     }
 
     @Override
-    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
-        TextRenderCommandSink renderCommandSink = TextRenderBindingValidator.validateTextRenderBinding(line, computer, parameters, "renderBinding", methodName);
+    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult)
+            throws ExecutionException {
+        TextRenderCommandSink renderCommandSink = TextRenderBindingValidator.validateTextRenderBinding(
+                line, computer, parameters, "renderBinding", methodName);
 
         int x = FunctionParamValidationUtil.validateIntParameter(line, parameters, "x", methodName);
         int y = FunctionParamValidationUtil.validateIntParameter(line, parameters, "y", methodName);

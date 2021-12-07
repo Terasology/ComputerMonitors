@@ -26,7 +26,8 @@ public class GetTextRenderSizeMethod extends AbstractModuleMethodExecutable<Obje
         addExample("This example gets render binding for the display below the computer and prints the display's " +
                         "width and height available in characters. Please make sure " +
                         "this computer has a module of Text Graphics Card type in any of its slots.",
-                "var textMod = computer.bindModuleOfType(\"" + TextOnlyGraphicsCardModuleCommonSystem.TEXT_GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                "var textMod = computer.bindModuleOfType(\"" + TextOnlyGraphicsCardModuleCommonSystem.TEXT_GRAPHICS_CARD_MODULE_TYPE +
+                        "\");\n" +
                         "var renderBinding = textMod.getRenderBinding(\"down\");\n" +
                         "var renderSize = textMod.getRenderSize(renderBinding);\n" +
                         "console.append(\"The render size is \"+renderSize[\"width\"]+\n" +
@@ -40,8 +41,10 @@ public class GetTextRenderSizeMethod extends AbstractModuleMethodExecutable<Obje
     }
 
     @Override
-    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
-        TextRenderCommandSink renderCommandSink = TextRenderBindingValidator.validateTextRenderBinding(line, computer, parameters, "renderBinding", methodName);
+    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult)
+            throws ExecutionException {
+        TextRenderCommandSink renderCommandSink = TextRenderBindingValidator.validateTextRenderBinding(
+                line, computer, parameters, "renderBinding", methodName);
 
         Vector2i maxCharacters = new Vector2i(renderCommandSink.getMaxCharacters());
 

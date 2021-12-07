@@ -31,7 +31,8 @@ public class TextCreateOffScreenBufferMethod extends AbstractModuleMethodExecuta
                         "on the display (buffering), and also that this process is much faster than displaying " +
                         "one line at the time on the display without the buffer. " +
                         "Please make sure this computer has a module of Text Graphics Card type in any of its slots.",
-                "var textMod = computer.bindModuleOfType(\"" + TextOnlyGraphicsCardModuleCommonSystem.TEXT_GRAPHICS_CARD_MODULE_TYPE + "\");\n" +
+                "var textMod = computer.bindModuleOfType(\"" + TextOnlyGraphicsCardModuleCommonSystem.TEXT_GRAPHICS_CARD_MODULE_TYPE +
+                        "\");\n" +
                         "var renderBinding = textMod.getRenderBinding(\"down\");\n" +
                         "var renderSize = textMod.getRenderSize(renderBinding);\n" +
                         "var width = renderSize[\"width\"];\n" +
@@ -50,7 +51,8 @@ public class TextCreateOffScreenBufferMethod extends AbstractModuleMethodExecuta
     }
 
     @Override
-    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
+    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult)
+            throws ExecutionException {
         int width = FunctionParamValidationUtil.validateIntParameter(line, parameters, "width", methodName);
         int height = FunctionParamValidationUtil.validateIntParameter(line, parameters, "height", methodName);
 

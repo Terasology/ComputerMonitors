@@ -50,7 +50,8 @@ public class CreateGradientMethod extends AbstractModuleMethodExecutable<Object>
     }
 
     @Override
-    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
+    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult)
+            throws ExecutionException {
         String hex1 = FunctionParamValidationUtil.validateStringParameter(line, parameters, "hex1", methodName);
         String hex2 = FunctionParamValidationUtil.validateStringParameter(line, parameters, "hex2", methodName);
 
@@ -68,7 +69,7 @@ public class CreateGradientMethod extends AbstractModuleMethodExecutable<Object>
         return new GradientCustomObject(c1, x1, y1, c2, x2, y2, cyclic);
     }
 
-    private static class GradientCustomObject implements CustomObject, PaintCustomObject {
+    private static final class GradientCustomObject implements CustomObject, PaintCustomObject {
         private final int[] c1;
         private final int x1;
         private final int y1;

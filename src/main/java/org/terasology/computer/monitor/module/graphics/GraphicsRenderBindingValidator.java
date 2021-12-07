@@ -10,17 +10,19 @@ import org.terasology.computer.context.ComputerCallback;
 
 import java.util.Map;
 
-public class GraphicsRenderBindingValidator {
+public final class GraphicsRenderBindingValidator {
     private GraphicsRenderBindingValidator() {
     }
 
     public static GraphicsRenderCommandSink validateGraphicsRenderBinding(
             int line, ComputerCallback computer, Map<String, Variable> parameters,
             String parameterName, String functionName) throws ExecutionException {
-        Variable inventoryBinding = FunctionParamValidationUtil.validateParameter(line, parameters, parameterName, functionName, Variable.Type.CUSTOM_OBJECT);
+        Variable inventoryBinding = FunctionParamValidationUtil.validateParameter(
+                line, parameters, parameterName, functionName, Variable.Type.CUSTOM_OBJECT);
         CustomObject customObject = (CustomObject) inventoryBinding.getValue();
-        if (!customObject.getType().contains("GRAPHICS_RENDER_BINDING"))
+        if (!customObject.getType().contains("GRAPHICS_RENDER_BINDING")) {
             throw new ExecutionException(line, "Invalid " + parameterName + " in " + functionName + "()");
+        }
 
         GraphicsRenderBinding binding = (GraphicsRenderBinding) inventoryBinding.getValue();
         return binding.getGraphicsRenderCommandSink(line, computer);
@@ -28,20 +30,24 @@ public class GraphicsRenderBindingValidator {
 
     public static GraphicsBuffer validateGraphicsBuffer(int line, Map<String, Variable> parameters,
                                                         String parameterName, String functionName) throws ExecutionException {
-        Variable inventoryBinding = FunctionParamValidationUtil.validateParameter(line, parameters, parameterName, functionName, Variable.Type.CUSTOM_OBJECT);
+        Variable inventoryBinding = FunctionParamValidationUtil.validateParameter(
+                line, parameters, parameterName, functionName, Variable.Type.CUSTOM_OBJECT);
         CustomObject customObject = (CustomObject) inventoryBinding.getValue();
-        if (!customObject.getType().contains("GRAPHICS_BUFFER"))
+        if (!customObject.getType().contains("GRAPHICS_BUFFER")) {
             throw new ExecutionException(line, "Invalid " + parameterName + " in " + functionName + "()");
+        }
 
         return (GraphicsBuffer) inventoryBinding.getValue();
     }
 
     public static String validatePaint(int line, Map<String, Variable> parameters,
                                        String parameterName, String functionName) throws ExecutionException {
-        Variable inventoryBinding = FunctionParamValidationUtil.validateParameter(line, parameters, parameterName, functionName, Variable.Type.CUSTOM_OBJECT);
+        Variable inventoryBinding = FunctionParamValidationUtil.validateParameter(
+                line, parameters, parameterName, functionName, Variable.Type.CUSTOM_OBJECT);
         CustomObject customObject = (CustomObject) inventoryBinding.getValue();
-        if (!customObject.getType().contains("PAINT"))
+        if (!customObject.getType().contains("PAINT")) {
             throw new ExecutionException(line, "Invalid " + parameterName + " in " + functionName + "()");
+        }
 
         PaintCustomObject paint = (PaintCustomObject) inventoryBinding.getValue();
         return paint.getPaintDescription();

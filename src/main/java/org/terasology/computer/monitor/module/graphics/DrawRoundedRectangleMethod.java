@@ -56,7 +56,8 @@ public class DrawRoundedRectangleMethod extends AbstractModuleMethodExecutable<O
     }
 
     @Override
-    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
+    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult)
+            throws ExecutionException {
         GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer,
                 parameters, "renderBinding", methodName);
         int x = FunctionParamValidationUtil.validateIntParameter(line, parameters, "x", methodName);

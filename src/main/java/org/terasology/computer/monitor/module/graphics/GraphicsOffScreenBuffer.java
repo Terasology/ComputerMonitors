@@ -56,7 +56,7 @@ public class GraphicsOffScreenBuffer implements CustomObject, GraphicsRenderBind
     }
 
     @Override
-    public void setData(int line, List<String> data) {
-        this.data = data;
+    public void setData(int line, List<String> dataList) {
+        this.data = dataList;
     }
 }

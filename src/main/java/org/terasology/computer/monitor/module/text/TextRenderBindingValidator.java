@@ -10,7 +10,7 @@ import org.terasology.computer.context.ComputerCallback;
 
 import java.util.Map;
 
-public class TextRenderBindingValidator {
+public final class TextRenderBindingValidator {
     private TextRenderBindingValidator() {
     }
 

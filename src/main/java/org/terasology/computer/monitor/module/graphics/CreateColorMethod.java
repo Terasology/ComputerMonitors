@@ -42,7 +42,8 @@ public class CreateColorMethod extends AbstractModuleMethodExecutable<Object> {
     }
 
     @Override
-    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
+    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult)
+            throws ExecutionException {
         String hex = FunctionParamValidationUtil.validateStringParameter(line, parameters, "hex", methodName);
 
         int[] c = ColorUtils.parseColor(line, hex);
@@ -50,7 +51,7 @@ public class CreateColorMethod extends AbstractModuleMethodExecutable<Object> {
         return new ColorCustomObject(c[0], c[1], c[2], c[3]);
     }
 
-    private static class ColorCustomObject implements CustomObject, PaintCustomObject {
+    private static final class ColorCustomObject implements CustomObject, PaintCustomObject {
         private int r;
         private int g;
         private int b;

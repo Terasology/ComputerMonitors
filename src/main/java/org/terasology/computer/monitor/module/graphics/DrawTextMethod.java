@@ -55,7 +55,8 @@ public class DrawTextMethod extends AbstractModuleMethodExecutable<Object> {
     }
 
     @Override
-    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
+    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult)
+            throws ExecutionException {
         GraphicsRenderCommandSink renderCommandSink = GraphicsRenderBindingValidator.validateGraphicsRenderBinding(line, computer,
                 parameters, "renderBinding", methodName);
         String text = FunctionParamValidationUtil.validateStringParameter(line, parameters, "text", methodName);

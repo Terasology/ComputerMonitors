@@ -42,12 +42,14 @@ public class TextOnlyGraphicsCardModuleCommonSystem extends BaseComponentSystem 
 
             computerLanguageRegistry.registerObjectType(
                     "TextRenderBinding",
-                    Collections.singleton(HTMLLikeParser.parseHTMLLikeParagraph(null, "Binding that tells method where to render text to. Usually passed as " +
+                    Collections.singleton(HTMLLikeParser.parseHTMLLikeParagraph(null,
+                            "Binding that tells method where to render text to. Usually passed as " +
                             "a parameter to methods of Text Graphics Card computer module.")));
 
             computerLanguageRegistry.registerObjectType(
                     "TextOffScreenBuffer",
-                    Collections.singleton(HTMLLikeParser.parseHTMLLikeParagraph(null, "In memory buffer for text, please note this object takes considerable amount " +
+                    Collections.singleton(HTMLLikeParser.parseHTMLLikeParagraph(null,
+                            "In memory buffer for text, please note this object takes considerable amount " +
                             "of computer memory so should be used wisely. This object can also be passed wherever " +
                             "<h navigate:" + DocumentationBuilder.getObjectTypePageId("TextRenderBinding") + ">TextRenderBinding</h> " +
                             "is expected, as it can also be drawn text on.")));

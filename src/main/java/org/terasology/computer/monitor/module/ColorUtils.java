@@ -4,7 +4,7 @@ package org.terasology.computer.monitor.module;
 
 import com.gempukku.lang.ExecutionException;
 
-public class ColorUtils {
+public final class ColorUtils {
     private ColorUtils() {
     }
 

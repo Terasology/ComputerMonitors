@@ -59,7 +59,7 @@ public class RelativeLiveTextRenderBindingCustomObject implements CustomObject, 
         return new EntityTextRenderCommandSink(monitorEntity, mode);
     }
 
-    private static class EntityTextRenderCommandSink extends EntityRenderCommandSink implements TextRenderCommandSink {
+    private static final class EntityTextRenderCommandSink extends EntityRenderCommandSink implements TextRenderCommandSink {
         private EntityRef entityRef;
         private String modePrefix;
 

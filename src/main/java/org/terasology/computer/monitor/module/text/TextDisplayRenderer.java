@@ -74,7 +74,8 @@ public class TextDisplayRenderer implements DisplayRenderer {
 
         ByteBuffer resultBuffer = TextureUtil.convertToByteBuffer(image);
 
-        Texture texture = Assets.generateAsset(new TextureData(pixelWidth, pixelHeight, new ByteBuffer[]{resultBuffer}, Texture.WrapMode.REPEAT, Texture.FilterMode.NEAREST), Texture.class);
+        Texture texture = Assets.generateAsset(new TextureData(pixelWidth, pixelHeight, new ByteBuffer[]{resultBuffer},
+                Texture.WrapMode.REPEAT, Texture.FilterMode.NEAREST), Texture.class);
 
         MaterialData terrainMatData = new MaterialData(Assets.getShader("engine:genericMeshMaterial").get());
         terrainMatData.setParam("diffuse", texture);

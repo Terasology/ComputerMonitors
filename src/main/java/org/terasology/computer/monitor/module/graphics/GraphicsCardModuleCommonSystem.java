@@ -58,8 +58,8 @@ public class GraphicsCardModuleCommonSystem extends BaseComponentSystem {
                     Collections.singleton(HTMLLikeParser.parseHTMLLikeParagraph(null,
                             "In memory buffer for graphics, please note this object takes considerable amount " +
                                     "of computer memory so should be used wisely. This object can also be passed wherever " +
-                                    "<h navigate:" + DocumentationBuilder.getObjectTypePageId("GraphicsRenderBinding") + ">GraphicsRenderBinding</h> " +
-                                    "is expected, as it can also have graphics drawn on.")));
+                                    "<h navigate:" + DocumentationBuilder.getObjectTypePageId("GraphicsRenderBinding") + ">" +
+                                    "GraphicsRenderBinding</h> is expected, as it can also have graphics drawn on.")));
 
             computerModuleRegistry.registerComputerModule(
                     GRAPHICS_CARD_MODULE_TYPE,

@@ -50,7 +50,8 @@ public class GraphicsCreateOffScreenBufferMethod extends AbstractModuleMethodExe
     }
 
     @Override
-    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult) throws ExecutionException {
+    public Object onFunctionEnd(int line, ComputerCallback computer, Map<String, Variable> parameters, Object onFunctionStartResult)
+            throws ExecutionException {
         int width = FunctionParamValidationUtil.validateIntParameter(line, parameters, "width", methodName);
         int height = FunctionParamValidationUtil.validateIntParameter(line, parameters, "height", methodName);
 
