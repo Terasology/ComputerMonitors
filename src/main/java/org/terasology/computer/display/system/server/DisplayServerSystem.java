@@ -93,7 +93,8 @@ public class DisplayServerSystem extends BaseComponentSystem {
                             }
                         }
 
-                        return new RegionMultiBlockDefinition(MONITOR_MULTI_BLOCK_TYPE, mainBlock, memberLocations, new BlockRegion(multiBlockRegion), frontSide);
+                        return new RegionMultiBlockDefinition(MONITOR_MULTI_BLOCK_TYPE, mainBlock, memberLocations,
+                                new BlockRegion(multiBlockRegion), frontSide);
                     }
                 });
     }
