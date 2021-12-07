@@ -1,18 +1,5 @@
-/*
- * Copyright 2015 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.computer.monitor.module.graphics;
 
 import com.gempukku.lang.CustomObject;
@@ -67,13 +54,14 @@ public class RelativeLiveGraphicsRenderBindingCustomObject implements CustomObje
                 computerLocation.z + directionVector.z()), RoundingMode.FLOOR);
         EntityRef monitorEntity = multiBlockRegistry.getMultiBlockAtLocation(monitorLocation, DisplayServerSystem.MONITOR_MULTI_BLOCK_TYPE);
 
-        if (monitorEntity == null)
+        if (monitorEntity == null) {
             throw new ExecutionException(line, "Unable to locate device that could be rendered on");
+        }
 
         return new EntityGraphicsRenderCommandSink(monitorEntity, mode);
     }
 
-    private class EntityGraphicsRenderCommandSink extends EntityRenderCommandSink implements GraphicsRenderCommandSink {
+    private final class EntityGraphicsRenderCommandSink extends EntityRenderCommandSink implements GraphicsRenderCommandSink {
         private EntityRef entityRef;
         private String modePrefix;
 
@@ -93,16 +81,17 @@ public class RelativeLiveGraphicsRenderBindingCustomObject implements CustomObje
             DisplayComponent monitor = entityRef.getComponent(DisplayComponent.class);
             Vector3i monitorSize = monitor.getMonitorSize();
 
-            Vector2i resolution = getResolution();
+            Vector2i res = getResolution();
 
             int width = Math.max(monitorSize.x, monitorSize.z);
             int height = monitorSize.y;
 
-            if (width * GraphicsCardModuleCommonSystem.MAXIMUM_WIDTH_PIXEL_DENSITY_PER_BLOCK < resolution.x
-                    || height * GraphicsCardModuleCommonSystem.MAXIMUM_HEIGHT_PIXEL_DENSITY_PER_BLOCK < resolution.y)
+            if (width * GraphicsCardModuleCommonSystem.MAXIMUM_WIDTH_PIXEL_DENSITY_PER_BLOCK < res.x
+                    || height * GraphicsCardModuleCommonSystem.MAXIMUM_HEIGHT_PIXEL_DENSITY_PER_BLOCK < res.y) {
                 throw new ExecutionException(line, "Graphics mode exceeds the maximum display resolution");
+            }
 
-            return modePrefix + resolution.x + "," + resolution.y;
+            return modePrefix + res.x + "," + res.y;
         }
 
         @Override

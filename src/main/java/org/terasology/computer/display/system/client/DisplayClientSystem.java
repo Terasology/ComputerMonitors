@@ -57,7 +57,8 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
         DisplayRenderComponent computerRenderComponent = new DisplayRenderComponent();
 
         computerRenderComponent.monitorChassis = createChassisRenderingEntity(worldPosition, monitorSize, front);
-        computerRenderComponent.screen = createScreenRenderingEntity(worldPosition, monitorSize, front, monitor.getMode(), monitor.getData());
+        computerRenderComponent.screen = createScreenRenderingEntity(worldPosition, monitorSize, front, monitor.getMode(),
+                monitor.getData());
         monitorEntity.addComponent(computerRenderComponent);
     }
 
@@ -148,7 +149,7 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
                 getTopRight(monitorSize, meshPart),
                 getBottomRight(monitorSize, meshPart),
                 getBottomLeft(monitorSize, meshPart));
-        meshBuilder.addColor(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK);
+        meshBuilder.addColor(Color.black, Color.black, Color.black, Color.black);
         meshBuilder.addTexCoord((float) 0, (float) 0);
         meshBuilder.addTexCoord((float) 0, 0.0625f);
         meshBuilder.addTexCoord(0.0625f, 0.0625f);
@@ -159,19 +160,19 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
         BlockShape blockShape = Assets.get("engine:cube", BlockShape.class).get();
         BlockMeshPart meshPart = blockShape.getMeshPart(BlockPart.fromSide(side));
 
-        Vector3f[] sideVectors =new Vector3f[] {
+        Vector3f[] sideVectors = new Vector3f[]{
                 getTopLeft(monitorSize, meshPart),
                 getTopRight(monitorSize, meshPart),
                 getBottomRight(monitorSize, meshPart),
-                getBottomLeft(monitorSize, meshPart) };
+                getBottomLeft(monitorSize, meshPart)};
 
         int startIndex = findIndexOfTopLeft(sideVectors);
 
         meshBuilder.addPoly(
                 sideVectors[startIndex],
-                sideVectors[(startIndex+1)%4],
-                sideVectors[(startIndex+2)%4],
-                sideVectors[(startIndex+3)%4]);
+                sideVectors[(startIndex + 1) % 4],
+                sideVectors[(startIndex + 2) % 4],
+                sideVectors[(startIndex + 3) % 4]);
         meshBuilder.addColor(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK);
         meshBuilder.addTexCoord(0, 0);
         meshBuilder.addTexCoord(1, 0);
@@ -186,7 +187,7 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
         }
 
         boolean[] indicesWithValue = new boolean[4];
-        for (int i=0; i<sideVectors.length; i++) {
+        for (int i = 0; i < sideVectors.length; i++) {
             indicesWithValue[i] = (sideVectors[i].y == maxY);
         }
 
@@ -194,7 +195,7 @@ public class DisplayClientSystem extends BaseComponentSystem implements DisplayR
             return 3;
         }
 
-        for (int i=0; i<3; i++) {
+        for (int i = 0; i < 3; i++) {
             if (indicesWithValue[i]) {
                 return i;
             }
