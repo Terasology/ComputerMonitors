@@ -13,10 +13,10 @@ import java.util.List;
 
 @Replicate
 public class DisplayComponent implements Component<DisplayComponent> {
-    private Vector3i monitorSize = new Vector3i();
-    private Side front;
-    private String mode;
-    private List<String> data = Lists.newArrayList();
+    public Vector3i monitorSize = new Vector3i();
+    public Side front;
+    public String mode;
+    public List<String> data = Lists.newArrayList();
 
     public DisplayComponent() {
     }
